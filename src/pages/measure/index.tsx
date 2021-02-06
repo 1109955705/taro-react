@@ -4,6 +4,9 @@ import { useDidShow } from "@tarojs/taro";
 import { View, Button } from "@tarojs/components";
 import { useDispatch } from "react-redux";
 import { set_tabbar_index } from "@/store/actions/tabbar";
+import { login } from "@/api/user";
+import { wxPromise } from "@/utils/wxPromise";
+
 import "./index.scss";
 
 const Measure: FC = () => {
@@ -17,11 +20,20 @@ const Measure: FC = () => {
   });
   const handClickLogin = (e: any) => {
     console.log("handClickLogin", e);
+    const { iv, encryptedData } = e.detail;
     Taro.getSetting({
       success: function (res) {
         console.log(res.authSetting);
         if (res.authSetting["scope.userInfo"]) {
-          console.log("已授权");
+          // wxPromise(Taro.login)().then((res1) => {
+          //   const { code } = res1;
+          //   let parmas = {
+          //     iv,
+          //     encryptedData,
+          //     code,
+          //   };
+          //   login(parmas);
+          // });
         }
       },
     });
