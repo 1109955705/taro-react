@@ -29,7 +29,7 @@ export default {
         cookie: Taro.getStorageSync("cookies"),
       },
       success(res) {
-        // console.log('res', res)
+        console.log('success', res)
         if (res.statusCode === HTTP_STATUS.NOT_FOUND) {
           return logError("api", "请求资源不存在");
         } else if (res.statusCode === HTTP_STATUS.BAD_GATEWAY) {
@@ -50,8 +50,21 @@ export default {
         logError("api", "请求接口出现问题", e);
       },
     };
-    // eslint-disable-next-line
-    return Taro.request(option);
+    // return Taro.request(option);
+    return new Promise(( resolve, reject ) => {
+      Taro.request({
+        ...option,
+        success: res => {
+          resolve(res.data)
+        },
+        fail: err => {
+          reject(err)
+        },
+        complete: ()=> {
+          console.log('请求完成')
+        }
+      });
+    })
   },
   get(url, data?: object) {
     let option = { url, data };

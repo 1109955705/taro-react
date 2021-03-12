@@ -4,9 +4,9 @@
   "description": "taro-react",
   "appid": "wx5a0ab9c88eab843e",
   "setting": {
-    "urlCheck": true,
-    "es6": false,
-    "enhance": false,
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
     "postcss": false,
     "preloadBackgroundData": false,
     "minified": false,

@@ -28,7 +28,6 @@ const Tabbar: FC = () => {
   const [selectedColor, useSelectedColor] = useState<string>('#9ACD32')
   const selected = useSelector(state => state.tabbar.index)
  
-
   useEffect(() => {
     console.log("selected",selected)
   }, [])
