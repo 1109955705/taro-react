@@ -95,28 +95,37 @@ const Measure: FC = () => {
     <View className="template_container">
       Measure
       <Button
-        className="login_btn"
+        className="btn"
         plain
         openType="getUserInfo"
         onGetUserInfo={handClickLogin}
-      >
-        login
-      </Button>
+      >login</Button>
       <Button
-        className="login_btn"
+        className="btn"
         plain
         openType="getPhoneNumber"
         onGetPhoneNumber={handGetPhone}
-      >
-        phone
-      </Button>
+      >phone</Button>
       <Button
-        className="login_btn"
+        className="btn"
         plain
         onClick={()=>handleStore()}
-      >
-        store
-      </Button>
+      >store</Button>
+      <Button
+        className="btn"
+        plain
+        onClick={()=>Taro.navigateTo({url: '/pages/webview/index'})}
+      >webview</Button>
+      <Button
+        className="btn"
+        plain
+        onClick={()=>Taro.navigateTo({url: '/pages/webview/canvas'})}
+      >canvas</Button>
+      <Button
+        className="btn"
+        plain
+        onClick={()=>Taro.navigateTo({url: '/pages/webview/ble'})}
+      >ble</Button>
     </View>
   );
 };

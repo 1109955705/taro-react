@@ -20,6 +20,7 @@
       "@/store/*": ["./src/store/*"], 
       "@/api/*": ["./src/api/*"], 
       "@/utils/*": ["./src/utils/*"], 
+      "@/static/*": ["./src/static/*"],
     },
     "rootDir": ".",
     "jsx": "react",

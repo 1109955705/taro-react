@@ -2,7 +2,10 @@ export default {
   pages: [
     'pages/measure/index',
     'pages/mine/index',
-    'pages/chart/index'
+    'pages/chart/index',
+    'pages/webview/index',
+    'pages/canvas/index',
+    'pages/ble/index'
   ],
   window: {
     backgroundTextStyle: 'light',
