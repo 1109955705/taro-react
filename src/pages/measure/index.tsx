@@ -8,6 +8,8 @@ import { set_tabbar_index } from "@/store/actions/tabbar";
 import { set_session_key, set_userinfo } from "@/store/actions/userinfo";
 import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
+import { sendHttpRequest } from "@/static/sys/http";
+import { ApiLogin } from "@/static/biz/apis/users";
 
 import "./index.scss";
 
@@ -39,6 +41,7 @@ const Measure: FC = () => {
   useDidShow(() => {
     console.log("useDidShow");
     dispatch(set_tabbar_index(0));
+    sendHttpRequest(ApiLogin)
   });
   const handClickLogin = async (e: any) => {
     console.log("handClickLogin", e);
@@ -48,7 +51,6 @@ const Measure: FC = () => {
 
     await wxPromise(Taro.getSetting)().then( async (res: any)=>{
       console.log('getSetting', res.authSetting);
-      if (res.authSetting["scope.userInfo"]) {
         await wxPromise(Taro.login)().then((res1: loginCallBackResultType) => {
           params.code = res1.code;
           return wxPromise(Taro.getUserInfo)()
@@ -57,7 +59,6 @@ const Measure: FC = () => {
           params.iv = iv;
           params.encryptedData = encryptedData;
         })
-      }
     })
     setparams(params)
     console.log('res3-params', params);
@@ -119,12 +120,12 @@ const Measure: FC = () => {
       <Button
         className="btn"
         plain
-        onClick={()=>Taro.navigateTo({url: '/pages/webview/canvas'})}
+        onClick={()=>Taro.navigateTo({url: '/pages/canvas/index'})}
       >canvas</Button>
       <Button
         className="btn"
         plain
-        onClick={()=>Taro.navigateTo({url: '/pages/webview/ble'})}
+        onClick={()=>Taro.navigateTo({url: '/pages/ble/index'})}
       >ble</Button>
     </View>
   );

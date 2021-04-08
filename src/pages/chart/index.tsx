@@ -7,9 +7,10 @@ import './index.scss'
 const Chart: FC = () => {
   const [src, setSrc] = useState<string>('')
   const dispatch = useDispatch()
+  const selected = useSelector(state => state)
   const userinfo = useSelector(state => state.userinfo)
   useEffect(() => {
-    console.log("userinfo", userinfo)
+    console.log("userinfo", userinfo, selected)
     const params = {
       user_id: userinfo.detail.id,
       key: userinfo.session_key,
@@ -17,7 +18,6 @@ const Chart: FC = () => {
       themeColor: '#01ca9e',
       hostName: 'http://sit.third-api.yolanda.hk',
     }
-  
     let webViewSrc = `http://xcx-h5-preview.glb.qnniu.com/xcxChartViewThird.html?${objToStr(params, true)}&enviornment=test`
     console.log('webViewSrc', webViewSrc)
     setSrc(webViewSrc)
@@ -38,10 +38,8 @@ const Chart: FC = () => {
   }
 
   useDidShow(() => {
-    console.log('useDidShow')
     dispatch(set_tabbar_index(1))
   })
-
 
   return (
     <WebView src={src}></WebView>
