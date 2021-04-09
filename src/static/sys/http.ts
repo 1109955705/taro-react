@@ -3,8 +3,14 @@ import Taro from "@tarojs/taro";
 import cloneDeep from 'lodash/cloneDeep';
 import modelcheck from 'modelcheck';
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
+import configStore from '../../store'
+import { systemInfo } from '@/static/sys/system'
+import theme from '@/static/biz/theme'
+const store = configStore()
+const { appid } = theme
+const baseUrl = 'http://sit.third-api.yolanda.hk/open_api';
 
-function transformUrl(url: string, params: Record<string, unknown>) {
+const transformUrl = (url: string, params: Record<string, unknown>) => {
   let transformedUrl = url;
   const matchReg = /(:\w+)/g;
 
@@ -18,7 +24,6 @@ function transformUrl(url: string, params: Record<string, unknown>) {
       }
     });
   }
-
   return transformedUrl;
 }
 
@@ -27,9 +32,11 @@ const httpInstance = (option) => {
     Taro.request({
       ...option,
       success: res => {
+        console.log('success', res)
         resolve(res.data)
       },
-      fail: err => {
+      error: err => {
+        console.log('error', err)
         reject(err)
       },
       complete: ()=> {
@@ -49,21 +56,29 @@ const requestInterceptor = (
 ) => {
   const { api } = payload
   let { data } = payload;
+  const timestamps = Math.floor(Date.now() / 1000) 
   const commonBodyData = {
-    test: 'test',
+    ...systemInfo,
+    timestamps,
   };
-  const { url, requestRules} = api;
+  let { url, requestRules } = api;
 
-  // 校验request数据
-  if (requestRules) {
-    try {
-      data = modelcheck(data, requestRules, { cloneData: false });
-    } catch (error) {
-      error.request = api;
-      throw error;
-    }
+  const session_key = store.getState().userinfo.session_key
+  if ( session_key ) {
+    data.terminal_user_session_key = session_key
   }
-  api.url = transformUrl(<string>url, data).replace(/\/+/g, '/');
+  data.appid = appid
+
+  // 校验request数据 
+  // if (requestRules) {  
+  //   try {
+  //     data = modelcheck(data, requestRules, { cloneData: false });
+  //   } catch (error) {
+  //     error.request = api;
+  //     throw error;
+  //   }
+  // }
+  api.url = baseUrl + transformUrl(<string>url, data).replace(/\/+/g, '/');
   return Promise.resolve({ api, data: { ...commonBodyData, ...data } });
 }
 
@@ -76,14 +91,14 @@ const responseInterceptor = ({
 })=> {
   console.log('responseInterceptor', response, api)
 }
+
 export const sendHttpRequest = (
   api: TypedApiScheme,
   data: object = {},
 ) => {
   const cloneApi = cloneDeep(api);
   const cloneData = cloneDeep(data);
-  console.log('xxx', api, data)
-
+  console.log('sendHttpRequest', cloneApi, cloneData);
   return requestInterceptor({
     api: cloneApi,
     data: cloneData || {},
@@ -92,9 +107,6 @@ export const sendHttpRequest = (
       const headers: Record<string, string> = {
         'Content-Type': request.api.contentType || 'application/json',
       };
-
-      // session_key
-
       return httpInstance({
         method: request.api.method,
         url: request.api.url,
@@ -108,7 +120,7 @@ export const sendHttpRequest = (
       api: cloneApi,
     }))
     .catch((err) => {
-
+      console.log('http:err', err)
     })
     .finally(() => {
     });

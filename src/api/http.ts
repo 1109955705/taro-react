@@ -1,6 +1,8 @@
 import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "@/utils/constants/status";
 import { logError } from "@/utils/error";
+import theme from '@/static/biz/theme'
+const { appid } = theme
 const baseUrl = "http://sit.third-api.yolanda.hk/open_api";
 
 export default {
@@ -19,7 +21,7 @@ export default {
       success: any;
       error: any;
     };
-
+    data.appid = appid
     const option: OptionType = {
       url: url.indexOf("http") !== -1 ? url : baseUrl + url,
       data: data,
@@ -50,6 +52,7 @@ export default {
         logError("api", "请求接口出现问题", e);
       },
     };
+    console.log('request', option)
     // return Taro.request(option);
     return new Promise(( resolve, reject ) => {
       Taro.request({

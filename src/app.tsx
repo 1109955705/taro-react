@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-
 import configStore from './store'
-
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import './app.scss'
 
-const store = configStore()
-
+const { store, persistor} = configStore()
 class App extends Component {
   componentDidMount () {}
 
@@ -20,8 +18,10 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Provider store={store}>
-        {this.props.children}
+      <Provider store={store} test="test">
+        <PersistGate loading={null} persistor={persistor}>
+          {this.props.children}
+        </PersistGate>      
       </Provider>
     )
   }

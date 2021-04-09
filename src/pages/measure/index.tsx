@@ -10,7 +10,7 @@ import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
 import { sendHttpRequest } from "@/static/sys/http";
 import { ApiLogin } from "@/static/biz/apis/users";
-
+import theme from '@/static/biz/theme'
 import "./index.scss";
 
 interface loginCallBackResultType {
@@ -22,7 +22,6 @@ interface LoginTypeOne {
   code: string,
   iv: string,
   encryptedData: string,
-  appid: string,
 }
 interface LoginTypeTwo {
   iv: string,
@@ -30,27 +29,23 @@ interface LoginTypeTwo {
   random_code: string,
 }
 type LoginType = LoginTypeOne | LoginTypeTwo
-const Measure: FC = () => {
+
+const Measure: FC = (props, context) => {
   const dispatch = useDispatch();
-  const [defaultParams, setparams] = useState<any>({})
   const [randomCode, setRandomCode] = useState<string>('')
   const selected = useSelector(state => state)
+
   useEffect(() => {
     // console.log("userId",userId)
   });
-  useDidShow(() => {
-    console.log("useDidShow");
-    dispatch(set_tabbar_index(0));
-    sendHttpRequest(ApiLogin)
-  });
-  const handClickLogin = async (e: any) => {
-    console.log("handClickLogin", e);
-    const params: any = {
-      appid: 'wx5a0ab9c88eab843e'
-    }
 
+  useDidShow(() => {
+    dispatch(set_tabbar_index(0));
+  });
+
+  const handClickLogin = async (e: any) => {
+    const params: any = {}
     await wxPromise(Taro.getSetting)().then( async (res: any)=>{
-      console.log('getSetting', res.authSetting);
         await wxPromise(Taro.login)().then((res1: loginCallBackResultType) => {
           params.code = res1.code;
           return wxPromise(Taro.getUserInfo)()
@@ -60,14 +55,9 @@ const Measure: FC = () => {
           params.encryptedData = encryptedData;
         })
     })
-    setparams(params)
-    console.log('res3-params', params);
     const res3 = await login(params)
-    console.log('res3', res3);
     const random_code = res3.random_code
     setRandomCode(random_code)
-    // const res4 = await login(params1)
-    // console.log('xxxx,', res4);
   };
   const handGetPhone = async (e: any) => {
     const { encryptedData, iv } = e.detail
@@ -78,20 +68,15 @@ const Measure: FC = () => {
     }
     const res = await login(params)
     const { terminal_user_session, user_info } = res
-    // flushSync(() => {
-    //   console.log('xxxx')
-    // })
     dispatch(set_session_key(terminal_user_session));
     dispatch(set_userinfo(user_info));
     console.log('res', res);
-    // const detail = useSelector(state => state)
-    // const session_key = useSelector(state => state.userinfo.session_key)
-    // console.log('session_key', session_key);
   };
 
   const handleStore = ()=> {
     console.log('detail', selected);
   }
+
   return (
     <View className="template_container">
       Measure

@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from '@/static/sys/storage'
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -22,7 +24,15 @@ const enhancer = composeEnhancers(
   // other store enhancers if any
 )
 
+const persistConfig = {
+  key: 'xcx',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export default function configStore () {
-  const store = createStore(rootReducer, enhancer)
-  return store
+  const store = createStore(persistedReducer, enhancer)
+  let persistor = persistStore(store)
+  return { store, persistor }
 }
