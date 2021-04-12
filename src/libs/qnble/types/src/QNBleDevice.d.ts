@@ -1,0 +1,32 @@
+import QNBleProtocol from './QNBleProtocol';
+import QNBleNativeDevice from './QNBleNativeDevice';
+import { QNBleTransferType, QNBleDeviceType } from './consts';
+export default class QNBleDevice {
+    deviceId: string;
+    name: string;
+    mac: string;
+    appMac?: string;
+    sn: string;
+    transferType: QNBleTransferType;
+    modelId: string;
+    type: QNBleDeviceType;
+    isScreenOn: boolean;
+    isSupportWifi: boolean;
+    rssi: number;
+    manufacturer: number[];
+    services: string[];
+    nativeDevice: QNBleNativeDevice;
+    isWspScale: boolean;
+    totalUserCount: number;
+    registerUserCount: number;
+    offlineDataCount: number;
+    firmwareVersion: number;
+    scaleVersion: number;
+    wifiVersion: number;
+    scaleInfoByte: number;
+    hardVersion: number;
+    spStandardType: number;
+    spDeviceType: 'single' | 'dual';
+    Protocol: typeof QNBleProtocol;
+    constructor(nativeDevice: QNBleNativeDevice, protocol: typeof QNBleProtocol);
+}

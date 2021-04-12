@@ -27,6 +27,7 @@ const config = {
     '@/api': path.resolve(__dirname, '..', 'src/api'),
     '@/utils': path.resolve(__dirname, '..', 'src/utils'),
     '@/static': path.resolve(__dirname, '..', 'src/static'),
+    '@/libs': path.resolve(__dirname, '..', 'src/libs'),
   },
   mini: {
     postcss: {
@@ -49,6 +50,11 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
+    },
+    compile: {
+      exclude: [
+        path.resolve(__dirname, '..', 'src/libs/index.js')
+      ]
     }
   },
   h5: {

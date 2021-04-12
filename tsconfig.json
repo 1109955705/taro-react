@@ -21,6 +21,7 @@
       "@/api/*": ["./src/api/*"], 
       "@/utils/*": ["./src/utils/*"], 
       "@/static/*": ["./src/static/*"],
+      "@/libs/*": ["./src/libs/*"],
     },
     "rootDir": ".",
     "jsx": "react",
