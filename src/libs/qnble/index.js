@@ -1,7 +1,7 @@
 /*! ********************************************************
   * QNBle
   * @author huyongkang<huyongkang@yolanda.hk>
-  * @date 2021-03-30T05:37:02.982Z
+  * @date 2021-04-14T07:46:00.450Z
   * @version 0.1.0
   *********************************************************/
 
@@ -9847,7 +9847,8 @@ function (_super) {
 
             if (!this.bleScannerState) return [3
             /*break*/
-            , 4]; // 已经启动了蓝牙扫描，则尝试停止扫描后，再启动扫描
+            , 4];
+            console.log('停止后再启动扫描', this.bleScannerState); // 已经启动了蓝牙扫描，则尝试停止扫描后，再启动扫描
 
             this.log('已经启动了蓝牙扫描，则尝试停止扫描后，再启动扫描');
             return [4
@@ -9857,6 +9858,7 @@ function (_super) {
           case 2:
             _a.sent();
 
+            console.log('停止了扫描');
             return [4
             /*yield*/
             , timeoutPromise(200)];
@@ -11083,15 +11085,19 @@ function (_super) {
 
   QNBleNativeMP.prototype.onBluetoothAdapterStateChange = function (newBleState) {
     // 蓝牙状态已变化
-    this.listener.onNativeBluetoothEnableChange(newBleState.available); // NOTE 没有必要的回调，这里由startDiscovery和stopDiscovery去维护状态
-    // if (this.bleState.discovering !== newBleState.discovering) {
-    //   // 扫描状态变化，回调开始扫描和停止扫描
-    //   if (newBleState.discovering) {
-    //     this.listener.onNativeStartDiscoveryDevice();
-    //   } else {
-    //     this.listener.onNativeStopDiscoveryDevice();
-    //   }
-    // }
+    if (this.bleState.available !== newBleState.available) {
+      this.listener.onNativeBluetoothEnableChange(newBleState.available);
+    } // NOTE 没有必要的回调，这里由startDiscovery和stopDiscovery去维护状态
+
+
+    if (this.bleState.discovering !== newBleState.discovering) {
+      // 扫描状态变化，回调开始扫描和停止扫描
+      if (newBleState.discovering) {
+        this.listener.onNativeStartDiscoveryDevice();
+      } else {
+        this.listener.onNativeStopDiscoveryDevice();
+      }
+    }
 
     this.bleState = newBleState;
   };

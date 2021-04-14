@@ -18,7 +18,7 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Provider store={store} test="test">
+      <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {this.props.children}
         </PersistGate>      

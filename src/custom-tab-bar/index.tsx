@@ -1,5 +1,7 @@
-import Taro, {switchTab} from '@tarojs/taro'
-import React, { FC, useState, useEffect } from 'react'
+import Taro, { switchTab } from '@tarojs/taro'
+import React, { FC, useState, useEffect, Component } from 'react'
+import { connect } from 'react-redux'
+import { set_tabbar_index } from "@/store/actions/tabbar";
 import { CoverView, CoverImage } from '@tarojs/components'
 import { useSelector } from 'react-redux'
 import './index.scss'
@@ -53,5 +55,60 @@ const Tabbar: FC = () => {
     </CoverView>
   )
 }
+
+// 使用Taro.Component<any, any> 或声明StateType和propType， 否则在jsx中使用 this.state.xxx会报错不存在改变量
+// type StateType = {
+//   name: string;
+//   number: number;
+// };
+// type propType = {
+//     name: string;
+//     number: number;
+// };
+
+// 不使用redux保存index的话也可以用globalData保存
+// @connect(({ tabbar }) => ({
+//   tabbar
+// }), (dispatch) => ({
+//   set_tabbar_index () {
+//     dispatch(set_tabbar_index())
+//   }
+// }))
+// class Tabbar extends Component<any, any> {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       selectedColor: '#01ca9e',
+//     };
+//   }
+//   componentWillReceiveProps (nextProps) {
+//     console.log(this.props, nextProps)
+//   }
+  
+//   handleSwitchTab = (path: string) => {
+//     switchTab({
+//       url: path
+//     })
+//   }
+//   render() {
+//     const { selected, selectedColor } = this.state
+//     return (
+//       <CoverView className="tab-bar">
+//         <CoverView className="tab-bar-border"></CoverView>
+//         {   
+//           data.list.map((item, index)=>(
+//             <CoverView className="tab-bar-item" key={index}  onClick={this.handleSwitchTab.bind(this, item.pagePath)}>
+//               <CoverView className="itme-img_bg" style={{background: index === this.props.tabbar.index ? selectedColor : data.color}}>
+//                 <CoverImage className="itme_icon" src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}></CoverImage>
+//               </CoverView>
+//               <CoverView className="item_text" style={{color: index === this.props.tabbar.index ? selectedColor : data.color}}>{item.text}</CoverView>
+//             </CoverView>
+//           ))
+//         }
+//       </CoverView>
+//     );
+//   }
+// }
+
 
 export default Tabbar
