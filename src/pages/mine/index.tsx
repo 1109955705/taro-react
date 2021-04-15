@@ -32,7 +32,7 @@ const Mine: FC = () => {
       {/* <Image src={require('../../assets/images/tabbar/home_default.png')}></Image> */}
       <view>{userInfo.account_name || '未登录'}</view>
       <Button
-        className="btn"
+        className='btn'
         plain
         onClick={handClick}
       >login</Button>

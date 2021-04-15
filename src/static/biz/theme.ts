@@ -1,6 +1,6 @@
 const themeColor = '#01ca9e'
 const xcxName = 'taro-xcx'
-const appid = 'wx65d484ec3309ed79'
+const appid = 'wx5a0ab9c88eab843e'
 
 export default {
   themeColor,

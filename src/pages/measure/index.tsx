@@ -41,24 +41,19 @@ const Measure: FC = (props, context) => {
     dispatch(set_tabbar_index(0));
   });
 
-  const handClickLogin = async (e: any) => {
-    const params: any = {}
-    await wxPromise(Taro.getSetting)().then( async (res: any)=>{
-        await wxPromise(Taro.login)().then((res1: loginCallBackResultType) => {
-          params.code = res1.code;
-          return wxPromise(Taro.getUserInfo)()
-        }).then((res2: Taro.getUserInfo.SuccessCallbackResult)=>{
-          const { iv, encryptedData} = res2;
-          params.iv = iv;
-          params.encryptedData = encryptedData;
-        })
-    })
-    const res3 = await login(params)
-    const random_code = res3.random_code
+  const handClickLogin = async () => {
+    const { iv, encryptedData } = await wxPromise(Taro.getUserProfile)({desc:'xxxx'})
+    console.log('getUserProfile', iv, encryptedData)
+    const { code } = await wxPromise(Taro.login)()
+    const params = { iv, encryptedData, code }
+    const res = await login(params)
+    const { random_code } = res
     setRandomCode(random_code)
   };
+
   const handGetPhone = async (e: any) => {
     const { encryptedData, iv } = e.detail
+    console.log('xxxx', e.detail)
     const params: LoginTypeTwo = {
       encryptedData,
       iv,
@@ -81,8 +76,7 @@ const Measure: FC = (props, context) => {
       <Button
         className='btn'
         plain
-        openType='getUserInfo'
-        onGetUserInfo={handClickLogin}
+        onClick={()=>handClickLogin()}
       >login</Button>
       <Button
         className='btn'

@@ -20,9 +20,12 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        {/* <PersistGate loading={null} persistor={persistor}>
           {this.props.children}
-        </PersistGate>      
+        </PersistGate>      */}
+        <PersistGate loading={this.props.children} persistor={persistor}>
+          {this.props.children}
+        </PersistGate> 
       </Provider>
     )
   }
