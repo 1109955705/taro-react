@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import configStore from './store'
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import configStore from './store'
+
 import './app.scss'
 
 const { store, persistor} = configStore()

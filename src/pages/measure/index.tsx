@@ -1,7 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { flushSync } from 'react-dom';
-import Taro from "@tarojs/taro";
-import { useDidShow } from "@tarojs/taro";
+import Taro, { useDidShow } from "@tarojs/taro";
 import { View, Button } from "@tarojs/components";
 import { useDispatch, useSelector } from "react-redux";
 import { set_tabbar_index } from "@/store/actions/tabbar";
@@ -78,37 +76,37 @@ const Measure: FC = (props, context) => {
   }
 
   return (
-    <View className="template_container">
+    <View className='template_container'>
       Measure
       <Button
-        className="btn"
+        className='btn'
         plain
-        openType="getUserInfo"
+        openType='getUserInfo'
         onGetUserInfo={handClickLogin}
       >login</Button>
       <Button
-        className="btn"
+        className='btn'
         plain
-        openType="getPhoneNumber"
+        openType='getPhoneNumber'
         onGetPhoneNumber={handGetPhone}
       >phone</Button>
       <Button
-        className="btn"
+        className='btn'
         plain
         onClick={()=>handleStore()}
       >store</Button>
       <Button
-        className="btn"
+        className='btn'
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/webview/index'})}
       >webview</Button>
       <Button
-        className="btn"
+        className='btn'
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/canvas/index'})}
       >canvas</Button>
       <Button
-        className="btn"
+        className='btn'
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/ble/index'})}
       >ble</Button>
