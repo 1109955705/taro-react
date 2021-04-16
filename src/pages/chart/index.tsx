@@ -3,7 +3,9 @@ import { View, WebView} from '@tarojs/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { set_tabbar_index } from '@/store/actions/tabbar'
 import { useDidShow } from '@tarojs/taro'
+import eventBus from "@/static/biz/eventBus";
 import './index.scss'
+
 const Chart: FC = () => {
   const [src, setSrc] = useState<string>('')
   const dispatch = useDispatch()

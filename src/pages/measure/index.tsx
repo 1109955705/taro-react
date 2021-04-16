@@ -6,9 +6,10 @@ import { set_tabbar_index } from "@/store/actions/tabbar";
 import { set_session_key, set_userinfo } from "@/store/actions/userinfo";
 import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
-import { sendHttpRequest } from "@/static/sys/http";
-import { ApiLogin } from "@/static/biz/apis/users";
-import theme from '@/static/biz/theme'
+import eventBus from "@/static/biz/eventBus";
+// import { sendHttpRequest } from "@/static/sys/http";
+// import { ApiLogin } from "@/static/biz/apis/users";
+// import theme from '@/static/biz/theme'
 import "./index.scss";
 
 interface loginCallBackResultType {
@@ -35,7 +36,10 @@ const Measure: FC = (props, context) => {
 
   useEffect(() => {
     // console.log("userId",userId)
-  });
+    eventBus.on('userinfo', res =>{
+      console.log('用户信息发生了改变', res)
+    })
+  }, []);
 
   useDidShow(() => {
     dispatch(set_tabbar_index(0));

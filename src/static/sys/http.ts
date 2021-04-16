@@ -2,10 +2,11 @@
 import Taro from "@tarojs/taro";
 import cloneDeep from 'lodash/cloneDeep';
 import modelcheck from 'modelcheck';
-import { TypedApiScheme } from '@/static/biz/apis/types.d';
-import configStore from '../../store'
 import { systemInfo } from '@/static/sys/system'
 import theme from '@/static/biz/theme'
+import { TypedApiScheme } from '@/static/biz/apis/types.d';
+import configStore from '../../store'
+
 const store = configStore()
 const { appid } = theme
 const baseUrl = 'http://sit.third-api.yolanda.hk/open_api';

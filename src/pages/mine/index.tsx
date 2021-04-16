@@ -3,7 +3,7 @@ import { View as view, Image, Button } from '@tarojs/components'
 import { set_tabbar_index } from '@/store/actions/tabbar'
 import { useDidShow } from '@tarojs/taro'
 import { useDispatch, useSelector } from "react-redux";
-import eventBus from "@/static/sys/eventBus";
+import eventBus from "@/static/biz/eventBus";
 import './index.scss'
 
 const Mine: FC = () => {
@@ -14,18 +14,11 @@ const Mine: FC = () => {
   })
   useDidShow(() => {
     console.log('useDidShow')
-    eventBus.addListener('test', (res)=> {
-      console.log('test1', res)
-    })
-    eventBus.addListener('test', (res)=> {
-      console.log('test2', res)
-    })
     dispatch(set_tabbar_index(2))
   })
 
   const handClick = () => {
-    console.log('xxxxx')
-    eventBus.emit('test', 'test3')
+    eventBus.emit('userinfo', 'xxxxx')
   }  
   return (
     <view className='template_container'>
@@ -35,7 +28,7 @@ const Mine: FC = () => {
         className='btn'
         plain
         onClick={handClick}
-      >login</Button>
+      >触发事件</Button>
     </view>
   )
 }
