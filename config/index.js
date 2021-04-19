@@ -30,6 +30,7 @@ const config = {
     '@/libs': path.resolve(__dirname, '..', 'src/libs'),
   },
   mini: {
+    esnextModules: ['taro-ui'],
     postcss: {
       pxtransform: {
         enable: true,
@@ -60,6 +61,7 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    esnextModules: ['taro-ui'],
     postcss: {
       autoprefixer: {
         enable: true,

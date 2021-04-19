@@ -3,9 +3,10 @@ export default {
     'pages/measure/index',
     'pages/mine/index',
     'pages/chart/index',
-    'pages/webview/index',
+    'pages/echarts/index',
     'pages/canvas/index',
-    'pages/ble/index'
+    'pages/ble/index',
+    'pages/shop/index'
   ],
   window: {
     backgroundTextStyle: 'light',

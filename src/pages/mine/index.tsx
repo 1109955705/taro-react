@@ -18,7 +18,7 @@ const Mine: FC = () => {
   })
 
   const handClick = () => {
-    eventBus.emit('userinfo', 'xxxxx')
+    eventBus.emit('test', 'testxxxx')
   }  
   return (
     <view className='template_container'>

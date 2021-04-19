@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { View, Button } from "@tarojs/components";
+import { AtButton, AtToast } from 'taro-ui'
 import { useDispatch, useSelector } from "react-redux";
 import { set_tabbar_index } from "@/store/actions/tabbar";
 import { set_session_key, set_userinfo } from "@/store/actions/userinfo";
@@ -32,12 +33,15 @@ type LoginType = LoginTypeOne | LoginTypeTwo
 const Measure: FC = (props, context) => {
   const dispatch = useDispatch();
   const [randomCode, setRandomCode] = useState<string>('')
+  const [test, setTest] = useState<any>('test')
+  const [isOpened, showToast] = useState<boolean>(false)
   const selected = useSelector(state => state)
 
   useEffect(() => {
     // console.log("userId",userId)
-    eventBus.on('userinfo', res =>{
-      console.log('用户信息发生了改变', res)
+    eventBus.on('test', res =>{
+      setTest(res)
+      console.log('measure页面测试回调')
     })
   }, []);
 
@@ -57,7 +61,6 @@ const Measure: FC = (props, context) => {
 
   const handGetPhone = async (e: any) => {
     const { encryptedData, iv } = e.detail
-    console.log('xxxx', e.detail)
     const params: LoginTypeTwo = {
       encryptedData,
       iv,
@@ -73,7 +76,19 @@ const Measure: FC = (props, context) => {
   const handleStore = ()=> {
     console.log('detail', selected);
   }
-
+  
+  const myView = function (){
+    // 只能用map， 无法使用foreach
+    return (
+    <View>
+      <View>111</View>
+      <View>2222</View>
+      {[1,2,3,4].map(item=>{
+        return <view>{item}</view>
+      })}
+    </View>
+    )
+  } 
   return (
     <View className='template_container'>
       Measure
@@ -96,8 +111,8 @@ const Measure: FC = (props, context) => {
       <Button
         className='btn'
         plain
-        onClick={()=>Taro.navigateTo({url: '/pages/webview/index'})}
-      >webview</Button>
+        onClick={()=>Taro.navigateTo({url: '/pages/echarts/index'})}
+      >echarts</Button>
       <Button
         className='btn'
         plain
@@ -108,6 +123,15 @@ const Measure: FC = (props, context) => {
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/ble/index'})}
       >ble</Button>
+      <Button
+        className='btn'
+        plain
+        onClick={()=>Taro.navigateTo({url: '/pages/shop/index'})}
+      >shop</Button>
+      <AtButton className='normol-btn' onClick={()=>showToast(!isOpened)}>toast</AtButton>
+      <AtToast isOpened={isOpened} text='xxxx' ></AtToast>
+      <View className='btn'>eventbus:{test}</View>
+      {myView()}
     </View>
   );
 };

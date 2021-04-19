@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, Fragment } from 'react'
 import { View, WebView} from '@tarojs/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { set_tabbar_index } from '@/store/actions/tabbar'
@@ -11,6 +11,7 @@ const Chart: FC = () => {
   const dispatch = useDispatch()
   const selected = useSelector(state => state)
   const userinfo = useSelector(state => state.userinfo)
+  const [test, setTest] = useState<any>('test')
   useEffect(() => {
     console.log("userinfo", userinfo, selected)
     const params = {
@@ -24,6 +25,14 @@ const Chart: FC = () => {
     console.log('webViewSrc', webViewSrc)
     setSrc(webViewSrc)
   }, [])
+
+  useEffect(() => {
+    // console.log("userId",userId)
+    eventBus.on('test', res =>{
+      setTest(res)
+      console.log('chart页面测试回调')
+    })
+  }, []);
 
   const objToStr = (obj, encode = false) => {
     let str = ""
@@ -44,7 +53,10 @@ const Chart: FC = () => {
   })
 
   return (
-    <WebView src={src}></WebView>
+    <Fragment>
+      <WebView src={src}></WebView>
+      <View>{test}</View>
+    </Fragment>
   )
 }
 
