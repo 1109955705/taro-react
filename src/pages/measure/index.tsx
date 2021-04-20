@@ -128,6 +128,11 @@ const Measure: FC = (props, context) => {
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/shop/index'})}
       >shop</Button>
+      <Button
+        className='btn'
+        plain
+        onClick={()=>Taro.navigateTo({url: '/pages/shop1/index'})}
+      >shop1</Button>
       <AtButton className='normol-btn' onClick={()=>showToast(!isOpened)}>toast</AtButton>
       <AtToast isOpened={isOpened} text='xxxx' ></AtToast>
       <View className='btn'>eventbus:{test}</View>

@@ -6,7 +6,8 @@ export default {
     'pages/echarts/index',
     'pages/canvas/index',
     'pages/ble/index',
-    'pages/shop/index'
+    'pages/shop/index',
+    'pages/shop1/index'
   ],
   window: {
     backgroundTextStyle: 'light',
