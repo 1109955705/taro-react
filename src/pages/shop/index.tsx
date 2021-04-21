@@ -70,6 +70,7 @@ const Shop: FC = () => {
 
   const total = sumPrice(filterChecked())
 
+  // 全部勾选
   const selectAll = () => {
     setAll(!all)
     const newCheckedMap: CheckedMap = {}

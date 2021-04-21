@@ -1,5 +1,5 @@
-import { useReducer, useState, useEffect, useCallback } from "react"
-
+import { useReducer, useState, useRef, useEffect, useCallback } from "react"
+import useSyncCallback from '@/static/biz/useSyncCallback'
 interface Option {
   /** 用来在map中记录勾选状态的key 一般取id */
   key?: string
@@ -25,6 +25,9 @@ type CheckedChange<T> = {
 
 type CheckedAllChange = {
   type: typeof CHECKED_ALL_CHANGE
+  payload: {
+    all: boolean
+  }
 }
 
 type SetCheckedMap = {
@@ -44,8 +47,10 @@ export const useChecked = <T extends Record<string, any>>(
   dataSource: T[],
   { key = "id" }: Option = {},
 ) => {
-  const [all , setAll] = useState<boolean>(false)
-
+  // const [all , setAll] = useState<boolean>(false)
+  const syncFunc = useSyncCallback(() => {
+    console.log('syncFunc');
+  });
   const memoizedReducer = useCallback(
     (checkedMapParam: CheckedMap, action: Action<T>) => {
       console.log('action', action.type)
@@ -56,13 +61,15 @@ export const useChecked = <T extends Record<string, any>>(
           const { [key]: id } = dataItem
           return {
             ...checkedMapParam,
-            [id]: checked,
+            [id]: !Boolean(checked),
           }
         }
         case CHECKED_ALL_CHANGE: {
           const newCheckedMap: CheckedMap = {}
-          setAll(!all)
-          // 全选
+          const { payload } = action
+          const { all } = payload
+
+          // 全选     
           if (!all) {
             dataSource.forEach(dataItem => {
               newCheckedMap[dataItem.id] = true
@@ -79,7 +86,6 @@ export const useChecked = <T extends Record<string, any>>(
     },
     []
   )
-
   const reducer = (checkedMapParam: CheckedMap, action: Action<T>) => {
     console.log('action', action.type)
     switch (action.type) {
@@ -94,8 +100,9 @@ export const useChecked = <T extends Record<string, any>>(
       }
       case CHECKED_ALL_CHANGE: {
         const newCheckedMap: CheckedMap = {}
+        const { payload } = action
+        const { all } = payload
         console.log('CHECKED_ALL_CHANGE', all)
-        setAll(!all)
         // 全选
         if (!all) {
           dataSource.forEach(dataItem => {
@@ -111,7 +118,7 @@ export const useChecked = <T extends Record<string, any>>(
         return checkedMapParam
     }
   }
-  const [checkedMap, dispatch] = useReducer(reducer, {})
+  const [checkedMap, dispatch] = useReducer(memoizedReducer, {})
   // const [checkedMap, dispatch] = useReducer(
   //   (checkedMapParam: CheckedMap, action: Action<T>) => {
   //     console.log('xxxxxxxxx', action.type)
@@ -181,15 +188,18 @@ export const useChecked = <T extends Record<string, any>>(
     },
     [checkedMap, dataSource, key],
   )
+ 
   /** 是否全选状态 */
   const checkedAll =
     dataSource.length !== 0 && filterChecked().length === dataSource.length
 
   /** 全选反选函数 */
-  const onCheckedAllChange = () => {
-    console.log('xxxxx')
+  const onCheckedAllChange = (all: boolean) => {
     dispatch({
       type: CHECKED_ALL_CHANGE,
+      payload: {
+        all
+      }
     })
   }
 

@@ -45,25 +45,20 @@ const Shop1: FC = () => {
     onCheckedChange,
     filterChecked,
   } = useChecked(list)
-  console.log('render')
+
   // 商品总价
   const sumPrice = (cartItems: CartItem[]) => {
     return cartItems.reduce((sum, cur) => sum + cur.price, 0)
   }
 
-
   const total = sumPrice(filterChecked())
 
-  // const selectAll = () => {
-  //   setAll(!all)
-  //   const newCheckedMap: CheckedMap = {}
-  //   if (!all) {
-  //     list.forEach(cartItem => {
-  //       newCheckedMap[cartItem.id] = true
-  //     })
-  //   }
-  //   setCheckedMap(newCheckedMap)
-  // }
+  const selectAll = () => {
+    console.log('xxxx', all)
+    setAll(!all)
+    onCheckedAllChange(all)
+  }
+
   const cardList = () => {
     return (list.map(item =>{
       const checked = checkedMap[item.id]
@@ -83,8 +78,8 @@ const Shop1: FC = () => {
     <View className='main'>
       <View>{ list ? cardList() : ''}</View>
       <View className='footer'>
-        <CheckboxGroup onChange={()=>onCheckedAllChange()}>
-          <Checkbox  value='all' checked={all}  />
+        <CheckboxGroup onChange={()=>selectAll()}>
+          <Checkbox  value='all' checked={checkedAll}  />
         </CheckboxGroup>
         <View>总计: {total}元</View>
       </View>
