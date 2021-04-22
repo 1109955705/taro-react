@@ -3321,13 +3321,6 @@
   "resolved" "https://registry.npm.taobao.org/binary-extensions/download/binary-extensions-2.2.0.tgz?cache=0&sync_timestamp=1610299308660&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbinary-extensions%2Fdownload%2Fbinary-extensions-2.2.0.tgz"
   "version" "2.2.0"
 
-"bindings@^1.5.0":
-  "integrity" "sha1-EDU8npRTNLwFEabZCzj7x8nFBN8="
-  "resolved" "https://registry.npm.taobao.org/bindings/download/bindings-1.5.0.tgz"
-  "version" "1.5.0"
-  dependencies:
-    "file-uri-to-path" "1.0.0"
-
 "block-stream@*":
   "integrity" "sha1-E+v+d4oDIFz+A3UUgeu0szAMEmo="
   "resolved" "https://registry.npm.taobao.org/block-stream/download/block-stream-0.0.9.tgz"
@@ -6220,24 +6213,6 @@
   "resolved" "https://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^1.2.7":
-  "integrity" "sha1-8yXLBFVZJCi88Rs4M3DvcOO/zDg="
-  "resolved" "https://registry.npm.taobao.org/fsevents/download/fsevents-1.2.13.tgz"
-  "version" "1.2.13"
-  dependencies:
-    "bindings" "^1.5.0"
-    "nan" "^2.12.1"
-
-"fsevents@~2.1.2":
-  "integrity" "sha1-+3OHA66NL5/pAMM4Nt3r7ouX8j4="
-  "resolved" "https://registry.npm.taobao.org/fsevents/download/fsevents-2.1.3.tgz"
-  "version" "2.1.3"
-
-"fsevents@~2.3.1":
-  "integrity" "sha1-ilJveLj99GI7cJ4Ll1xSwkwC/Ro="
-  "resolved" "https://registry.npm.taobao.org/fsevents/download/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "fstream@^1.0.0", "fstream@^1.0.12":
   "integrity" "sha1-Touo7i1Ivk99DeUFRVVI6uWTIEU="
   "resolved" "https://registry.npm.taobao.org/fstream/download/fstream-1.0.12.tgz"
@@ -7027,7 +7002,7 @@
   "resolved" "https://registry.npm.taobao.org/inherits/download/inherits-2.0.3.tgz"
   "version" "2.0.3"
 
-"inquirer@^7.0.0", "inquirer@^7.0.4":
+"inquirer@^7.0.0", "inquirer@^7.0.4", "inquirer@^7.3.3":
   "integrity" "sha1-BNF2sq8Er8FXqD/XwQDpjuCq0AM="
   "resolved" "https://registry.npm.taobao.org/inquirer/download/inquirer-7.3.3.tgz?cache=0&sync_timestamp=1614296916461&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Finquirer%2Fdownload%2Finquirer-7.3.3.tgz"
   "version" "7.3.3"
@@ -8692,7 +8667,7 @@
   "resolved" "https://registry.npm.taobao.org/mute-stream/download/mute-stream-0.0.8.tgz"
   "version" "0.0.8"
 
-"nan@^2.12.1", "nan@^2.13.2":
+"nan@^2.13.2":
   "integrity" "sha1-9TdkAGlRaPTMaUrJOT0MlYXu6hk="
   "resolved" "https://registry.npm.taobao.org/nan/download/nan-2.14.2.tgz?cache=0&sync_timestamp=1602591684976&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnan%2Fdownload%2Fnan-2.14.2.tgz"
   "version" "2.14.2"

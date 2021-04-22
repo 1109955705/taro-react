@@ -26,7 +26,8 @@
 		"dev:rn": "npm run build:rn -- --watch",
 		"dev:qq": "npm run build:qq -- --watch",
 		"dev:jd": "npm run build:jd -- --watch",
-		"dev:quickapp": "npm run build:quickapp -- --watch"
+		"dev:quickapp": "npm run build:quickapp -- --watch",
+		"create:template": "node build/genTemplate.js"
 	},
 	"browserslist": [
 		"last 3 versions",
@@ -42,6 +43,7 @@
 		"@tarojs/runtime": "3.2.0",
 		"@tarojs/taro": "3.2.0",
 		"dayjs": "^1.10.4",
+		"inquirer": "^7.3.3",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.0",
 		"react-redux": "^7.2.0",

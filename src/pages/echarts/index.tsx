@@ -1,7 +1,7 @@
 // import Taro from "@tarojs/taro";
 import React, { Component } from "react";
 import { View } from "@tarojs/components";
-import { EChart } from "../../components/echarts-taro3-react";
+import { EChart } from "../../components/biz/echarts-taro3-react";
 import "./index.scss";
 
 export default class Webview extends Component {
