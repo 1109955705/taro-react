@@ -1,9 +1,7 @@
-import Taro, { switchTab } from '@tarojs/taro'
-import React, { FC, useState, useEffect, Component } from 'react'
-import { connect } from 'react-redux'
-import { set_tabbar_index } from "@/store/actions/tabbar";
-import { CoverView, CoverImage } from '@tarojs/components'
+import { switchTab } from '@tarojs/taro'
+import React, { FC, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { CoverView, CoverImage } from '@tarojs/components'
 import './index.scss'
 
 const data =  {
@@ -26,9 +24,9 @@ const data =  {
     }
   ]
 }
+const selectedColor = '#9ACD32'
 const Tabbar: FC = () => {
-  const [selectedColor, useSelectedColor] = useState<string>('#9ACD32')
-  const selected = useSelector(state => state.tabbar.index)
+  const selected = useSelector((state: any) => state.tabbar.index)
  
   useEffect(() => {
     console.log("selected",selected)
@@ -40,15 +38,15 @@ const Tabbar: FC = () => {
     })
   }
   return (
-    <CoverView className="tab-bar">
-      <CoverView className="tab-bar-border"></CoverView>
+    <CoverView className='tab-bar'>
+      <CoverView className='tab-bar-border'></CoverView>
       {   
         data.list.map((item, index)=>(
-          <CoverView className="tab-bar-item" key={index}  onClick={()=>handleSwitchTab(item.pagePath)}>
-            <CoverView className="itme-img_bg" style={{background: index === selected ? selectedColor : data.color}}>
-              <CoverImage className="itme_icon" src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}></CoverImage>
+          <CoverView className='tab-bar-item' key={index}  onClick={()=>handleSwitchTab(item.pagePath)}>
+            <CoverView className='itme-img_bg' style={{background: index === selected ? selectedColor : data.color}}>
+              <CoverImage className='itme_icon' src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}></CoverImage>
             </CoverView>
-            <CoverView className="item_text" style={{color: index === selected ? selectedColor : data.color}}>{item.text}</CoverView>
+            <CoverView className='item_text' style={{color: index === selected ? selectedColor : data.color}}>{item.text}</CoverView>
           </CoverView>
         ))
       }

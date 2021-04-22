@@ -1,4 +1,5 @@
 const path = require('path')
+
 const config = {
   projectName: 'taro-react',
   date: '2021-2-3',

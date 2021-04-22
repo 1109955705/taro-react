@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-
+// 异步更新下获取最新状态
 const useSyncCallback = callback => {
     const [proxyState, setProxyState] = useState({ current: false })
 

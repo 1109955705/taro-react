@@ -9,14 +9,16 @@ import './index.scss'
 const Chart: FC = () => {
   const [src, setSrc] = useState<string>('')
   const dispatch = useDispatch()
-  const selected = useSelector(state => state)
-  const userinfo = useSelector(state => state.userinfo)
+  const selected = useSelector((state: ReduxRootState) => state)
+  // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
+  // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
+  const { userinfo, sessionKey} = useSelector((state: ReduxRootState) => state)
   const [test, setTest] = useState<any>('test')
   useEffect(() => {
-    console.log("userinfo", userinfo, selected)
+    console.log("userinfo", sessionKey)
     const params = {
-      user_id: userinfo.detail.id,
-      key: userinfo.session_key,
+      user_id: userinfo.id,
+      key: sessionKey,
       is_main_user: 1,
       themeColor: '#01ca9e',
       hostName: 'http://sit.third-api.yolanda.hk',

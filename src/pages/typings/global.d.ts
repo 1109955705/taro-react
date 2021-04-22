@@ -1,3 +1,5 @@
+import { RootState } from '@/store/index'
+
 declare module "*.png";
 declare module "*.gif";
 declare module "*.jpg";
@@ -16,3 +18,13 @@ declare const process: {
     [key: string]: any;
   }
 }
+
+declare global {
+  interface test {
+    text: string
+  }
+  type ReduxRootState = RootState
+}
+
+
+export {}

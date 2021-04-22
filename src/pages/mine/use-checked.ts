@@ -1,4 +1,4 @@
-import { useReducer, useState, useEffect, useCallback } from "react"
+import { useReducer, useState, useEffect, useCallback, useRef } from "react"
 
 interface Option {
   /** 用来在map中记录勾选状态的key 一般取id */
@@ -41,13 +41,15 @@ export type OnCheckedChange<T> = (item: T, checked: boolean) => any
  * 在数据更新的时候自动剔除陈旧项
  */
 export const useChecked = () => {
-  const [all, setAll] = useState(false)
-  console.log('setAll', all)
+  // const [all, setAll] = useState(false)
+  const all = useRef(false)
+  // const all = 1
   const reducer = (state, action) => {
-    console.log('reducer', action, all)
-    switch (action.type) {
+    console.log('action', action, all, state)
+    switch (action) {
       case 'increment': {
         setAll(!all)
+        console.log('over')
         return state + 1
       };
       case 'decrement': return state - 1;
@@ -60,10 +62,10 @@ export const useChecked = () => {
   }
   const initialState = 999;
   const memoizedReducer = useCallback((state, action) => {
-    console.log('reducer', action, all)
-    switch (action.type) {
+    console.log('reducer', action, all.current, state)
+    switch (action) {
       case 'increment': {
-        setAll(true)
+        all.current = !all.current
         return state + 1
       };
       case 'decrement': return state - 1;
@@ -71,12 +73,13 @@ export const useChecked = () => {
       default: throw new Error('Unexpected action');
     }
   }, [])
-  const [count, dispatch] = useReducer(memoizedReducer, initialState, init);
 
+  const [count, dispatchONE] = useReducer(memoizedReducer, 999);
 
   const increment = ()=> {
     console.log('increment')
-    dispatch({
+    // setAll(!all)
+    dispatchONE({
       type: 'increment',
     })
   }
@@ -84,23 +87,24 @@ export const useChecked = () => {
   
   const decrement = ()=> {
     console.log('decrement')
-    dispatch({
+    dispatchONE({
       type: 'decrement',
     })
   }
 
   const reset = ()=> {
     console.log('reset')
-    dispatch({
+    dispatchONE({
       type: 'reset',
     })
   }
 
-
   return {
     count,
+    all,
     reset,
     increment,
     decrement,
+    dispatchONE,
   }
 }

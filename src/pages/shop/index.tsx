@@ -81,6 +81,7 @@ const Shop: FC = () => {
     }
     setCheckedMap(newCheckedMap)
   }
+  
   const cardList = () => {
     return (list.map(item =>{
       const checked = checkedMap[item.id]

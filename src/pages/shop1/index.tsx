@@ -37,8 +37,10 @@ interface CartItem {
 
 const Shop1: FC = () => {
   // const [checkedMap, setCheckedMap] = useState<CheckedMap>({})
-  const [all, setAll] = useState<boolean>(false)
+  // const [all, setAll] = useState<boolean>(false)
+  console.log('render')
   const {
+    all,
     checkedAll,
     checkedMap,
     onCheckedAllChange,
@@ -53,11 +55,11 @@ const Shop1: FC = () => {
 
   const total = sumPrice(filterChecked())
 
-  const selectAll = () => {
-    console.log('xxxx', all)
-    setAll(!all)
-    onCheckedAllChange(all)
-  }
+  // const selectAll = () => {
+  //   console.log('xxxx', all)
+  //   setAll(!all)
+  //   onCheckedAllChange(all)
+  // }
 
   const cardList = () => {
     return (list.map(item =>{
@@ -78,7 +80,7 @@ const Shop1: FC = () => {
     <View className='main'>
       <View>{ list ? cardList() : ''}</View>
       <View className='footer'>
-        <CheckboxGroup onChange={()=>selectAll()}>
+        <CheckboxGroup onChange={()=>onCheckedAllChange()}>
           <Checkbox  value='all' checked={checkedAll}  />
         </CheckboxGroup>
         <View>总计: {total}元</View>

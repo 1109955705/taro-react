@@ -1,5 +1,6 @@
 import { useReducer, useState, useRef, useEffect, useCallback } from "react"
 import useSyncCallback from '@/static/biz/useSyncCallback'
+
 interface Option {
   /** 用来在map中记录勾选状态的key 一般取id */
   key?: string
@@ -25,11 +26,7 @@ type CheckedChange<T> = {
 
 type CheckedAllChange = {
   type: typeof CHECKED_ALL_CHANGE
-  payload: {
-    all: boolean
-  }
 }
-
 type SetCheckedMap = {
   type: typeof SET_CHECKED_MAP
   payload: CheckedMap
@@ -47,13 +44,12 @@ export const useChecked = <T extends Record<string, any>>(
   dataSource: T[],
   { key = "id" }: Option = {},
 ) => {
-  // const [all , setAll] = useState<boolean>(false)
-  const syncFunc = useSyncCallback(() => {
-    console.log('syncFunc');
-  });
+  const all = useRef(false)
+  // const syncFunc = useSyncCallback(() => {
+  //   console.log('syncFunc', all.current);
+  // });
   const memoizedReducer = useCallback(
     (checkedMapParam: CheckedMap, action: Action<T>) => {
-      console.log('action', action.type)
       switch (action.type) {
         case CHECKED_CHANGE: {
           const { payload } = action
@@ -66,15 +62,12 @@ export const useChecked = <T extends Record<string, any>>(
         }
         case CHECKED_ALL_CHANGE: {
           const newCheckedMap: CheckedMap = {}
-          const { payload } = action
-          const { all } = payload
-
-          // 全选     
-          if (!all) {
+          if (!all.current) {
             dataSource.forEach(dataItem => {
               newCheckedMap[dataItem.id] = true
             })
           }
+          all.current = !all.current
           return newCheckedMap
         }
         case SET_CHECKED_MAP: {
@@ -84,81 +77,15 @@ export const useChecked = <T extends Record<string, any>>(
           return checkedMapParam
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-  const reducer = (checkedMapParam: CheckedMap, action: Action<T>) => {
-    console.log('action', action.type)
-    switch (action.type) {
-      case CHECKED_CHANGE: {
-        const { payload } = action
-        const { dataItem, checked } = payload
-        const { [key]: id } = dataItem
-        return {
-          ...checkedMapParam,
-          [id]: checked,
-        }
-      }
-      case CHECKED_ALL_CHANGE: {
-        const newCheckedMap: CheckedMap = {}
-        const { payload } = action
-        const { all } = payload
-        console.log('CHECKED_ALL_CHANGE', all)
-        // 全选
-        if (!all) {
-          dataSource.forEach(dataItem => {
-            newCheckedMap[dataItem.id] = true
-          })
-        }
-        return newCheckedMap
-      }
-      case SET_CHECKED_MAP: {
-        return action.payload
-      }
-      default:
-        return checkedMapParam
-    }
-  }
+
   const [checkedMap, dispatch] = useReducer(memoizedReducer, {})
-  // const [checkedMap, dispatch] = useReducer(
-  //   (checkedMapParam: CheckedMap, action: Action<T>) => {
-  //     console.log('xxxxxxxxx', action.type)
-  //     switch (action.type) {
-  //       case CHECKED_CHANGE: {
-  //         const { payload } = action
-  //         const { dataItem, checked } = payload
-  //         const { [key]: id } = dataItem
-  //         return {
-  //           ...checkedMapParam,
-  //           [id]: checked,
-  //         }
-  //       }
-  //       case CHECKED_ALL_CHANGE: {
-  //         const newCheckedMap: CheckedMap = {}
-  //         console.log('1111', all)
-  //         setAll(!all)
-  //         // 全选
-  //         if (!all) {
-  //           dataSource.forEach(dataItem => {
-  //             newCheckedMap[dataItem.id] = true
-  //           })
-  //         }
-  //         console.log('2222', newCheckedMap)
-  //         return newCheckedMap
-  //       }
-  //       case SET_CHECKED_MAP: {
-  //         return action.payload
-  //       }
-  //       default:
-  //         return checkedMapParam
-  //     }
-  //   },
-  //   {},
-  // )
-   
+
   /** 勾选状态变更 */
   const onCheckedChange: OnCheckedChange<T> = useCallback(
     (dataItem, checked) => {
-      console.log('onCheckedChange')
       dispatch({
         type: CHECKED_CHANGE,
         payload: {
@@ -192,17 +119,15 @@ export const useChecked = <T extends Record<string, any>>(
   /** 是否全选状态 */
   const checkedAll =
     dataSource.length !== 0 && filterChecked().length === dataSource.length
+  all.current = checkedAll
 
   /** 全选反选函数 */
-  const onCheckedAllChange = (all: boolean) => {
+  const onCheckedAllChange = () => {
     dispatch({
-      type: CHECKED_ALL_CHANGE,
-      payload: {
-        all
-      }
+      type: CHECKED_ALL_CHANGE
     })
   }
-
+  
   // 数据更新的时候 如果勾选中的数据已经不在数据内了 就删除掉
   useEffect(() => {
     filterChecked().forEach((checkedItem) => {
@@ -222,6 +147,7 @@ export const useChecked = <T extends Record<string, any>>(
   }, [dataSource])
 
   return {
+    all,
     checkedMap,
     dispatch,
     onCheckedChange,

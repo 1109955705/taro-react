@@ -2,9 +2,10 @@ import React, { FC, useState, useEffect } from "react";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { View, Button } from "@tarojs/components";
 import { AtButton, AtToast } from 'taro-ui'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
 import { set_tabbar_index } from "@/store/actions/tabbar";
-import { set_session_key, set_userinfo } from "@/store/actions/userinfo";
+import { set_userinfo, change_userName} from '@/store/actions/userinfo'
+import { set_session_key } from "@/store/actions/sessionKey";
 import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
 import eventBus from "@/static/biz/eventBus";
@@ -36,11 +37,13 @@ const Measure: FC = (props, context) => {
   const [test, setTest] = useState<any>('test')
   const [isOpened, showToast] = useState<boolean>(false)
   const selected = useSelector(state => state)
+  const { account_name } = useSelector((state: ReduxRootState) => state.userinfo)
+  const index = useSelector((state: ReduxRootState) => state.tabbar.index)
 
   useEffect(() => {
     // console.log("userId",userId)
     eventBus.on('test', res =>{
-      setTest(res)
+      setTest(res)  
       console.log('measure页面测试回调')
     })
   }, []);
@@ -75,6 +78,17 @@ const Measure: FC = (props, context) => {
 
   const handleStore = ()=> {
     console.log('detail', selected);
+  }
+
+  const changeName = ()=> {
+
+    dispatch(change_userName('xxxxx'))
+  }
+
+  const changeIndex = ()=> {
+    // console.log('detail', userInfo.account_name);
+    // dispatch(change_userName('222222'))
+    dispatch(set_tabbar_index(2));
   }
   
   const myView = function (){
@@ -136,6 +150,17 @@ const Measure: FC = (props, context) => {
       <AtButton className='normol-btn' onClick={()=>showToast(!isOpened)}>toast</AtButton>
       <AtToast isOpened={isOpened} text='xxxx' ></AtToast>
       <View className='btn'>eventbus:{test}</View>
+      <Button
+        className='btn'
+        plain
+        onClick={()=>changeName()}
+      >change</Button>
+      <View>{account_name}</View>
+      <Button
+        className='btn'
+        plain
+        onClick={()=>changeIndex()}
+      >change{index}</Button>
       {myView()}
     </View>
   );

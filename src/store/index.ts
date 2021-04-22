@@ -30,7 +30,7 @@ const persistConfig = {
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
-
+export type RootState = ReturnType<typeof persistedReducer>
 export default function configStore () {
   const store = createStore(persistedReducer, enhancer)
   let persistor = persistStore(store)
