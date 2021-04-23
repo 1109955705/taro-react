@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'shop'
+  navigationBarTitleText: 'page'
 }

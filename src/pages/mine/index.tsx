@@ -17,7 +17,8 @@ import './index.scss'
 //     default: throw new Error('Unexpected action');
 //   }
 // };
-const ChildButton = React.memo(({ handleClick }) => {
+
+const ChildButton = React.memo(({ handleClick }: any) => {
   const refCount = useRef(0);
   return (
     <Button

@@ -1,0 +1,5 @@
+build/**
+src/assets/iconfont/**
+publish/**
+src/libs/qnble/**
+public/**

@@ -6,6 +6,7 @@ const inquirer = require('inquirer');
 const path = require('path');
 const dayjs = require('dayjs');
 const execSync = require('child_process').execSync;
+const { pascalCase, camelCase } = require('./util');
 
 async function run() {
   const answers = await inquirer
@@ -47,9 +48,9 @@ async function run() {
   }
 
   const names = name.split('/').map((n) => {
-    const pascal = helper.pascalCase(n);
-    const kebab = helper.kebabCase(pascal, { trimHeadKebab: true });
-    const camel = helper.camelCase(kebab);
+    const pascal = pascalCase(n);
+    const kebab = n
+    const camel = camelCase(n);
 
     return {
       pascal,
@@ -57,8 +58,7 @@ async function run() {
       camel,
     };
   });
-  console.log('xxx', names)
-  return
+
   // 取最后一个作为页面模块名
   const { [names.length - 1]: {
     pascal: pascalName,
@@ -66,7 +66,7 @@ async function run() {
     camel: camelName,
    } } = names;
 
-  const templateFiles = glob.sync(`./build/templates/${(srcType || distType)}/**/*.{ts,vue,css,less,sass}`);
+  const templateFiles = glob.sync(`./build/templates/${(srcType || distType)}/**/*.{ts,tsx,css,less,sass}`);
 
   let gitName = '';
   let gitEmail = '';
@@ -82,7 +82,8 @@ async function run() {
   } catch (error) {
     //
   }
-
+  console.log('xxx', templateFiles, gitName, gitEmail)
+  return
   templateFiles.forEach((file) => {
     const fileRelativePath = file
       .replace(
