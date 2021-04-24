@@ -1,7 +1,8 @@
 import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "@/utils/constants/status";
 import { logError } from "@/utils/error";
-import theme from '@/static/biz/theme'
+import theme from '@/static/biz/themeMock'
+
 const { appid } = theme
 const baseUrl = "http://sit.third-api.yolanda.hk/open_api";
 

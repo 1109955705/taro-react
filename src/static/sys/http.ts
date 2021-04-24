@@ -1,9 +1,8 @@
 // http请求封装
 import Taro from "@tarojs/taro";
 import cloneDeep from 'lodash/cloneDeep';
-import modelcheck from 'modelcheck';
 import { systemInfo } from '@/static/sys/system'
-import theme from '@/static/biz/theme'
+import theme from '@/static/biz/themeMock'
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
 import configStore from '../../store'
 
@@ -64,7 +63,7 @@ const requestInterceptor = (
   };
   let { url, requestRules } = api;
 
-  const session_key = store.getState().userinfo.session_key
+  const session_key = store.getState().session_key
   if ( session_key ) {
     data.terminal_user_session_key = session_key
   }

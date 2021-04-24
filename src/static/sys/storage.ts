@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+
 export default {
   getItem(key) {
     return Taro.getStorage({key}).then(res => {

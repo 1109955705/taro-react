@@ -1,9 +1,12 @@
-const themeColor = '#01ca9e'
-const xcxName = 'taro-xcx'
-const appid = 'wx5a0ab9c88eab843e'
+// @ts-nocheck
+import Taro from '@tarojs/taro'
 
-export default {
-  themeColor,
-  xcxName,
-  appid,
+function getTheme() {
+  if (getTheme.instance) {
+    return getTheme.instance
+  }
+  getTheme.instace = Taro.getExtConfigSync()
+  return getTheme.instace
 }
+const theme =  getTheme()
+export default theme

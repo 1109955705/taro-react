@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import theme from '@/static/biz/theme'
 import configStore from './store'
 import './app.scss'
 
 const { store, persistor} = configStore()
 class App extends Component {
-  componentDidMount () {}
+  componentDidMount () {
+    console.log('app:didmount', theme )
+  }
 
   componentDidShow () {}
 

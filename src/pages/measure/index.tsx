@@ -9,6 +9,7 @@ import { set_session_key } from "@/store/actions/sessionKey";
 import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
 import eventBus from "@/static/biz/eventBus";
+import theme from "@/static/biz/theme";
 // import { sendHttpRequest } from "@/static/sys/http";
 // import { ApiLogin } from "@/static/biz/apis/users";
 // import theme from '@/static/biz/theme'
@@ -41,6 +42,7 @@ const Measure: FC = (props, context) => {
   const index = useSelector((state: ReduxRootState) => state.tabbar.index)
 
   useEffect(() => {
+    console.log('measure: theme', theme)
     // console.log("userId",userId)
     eventBus.on('test', res =>{
       setTest(res)  

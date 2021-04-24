@@ -1,0 +1,17 @@
+{
+  "extEnable": true,
+  "extAppid": "wx65d484ec3309ed79",
+  "ext": {
+    "appid": "wx5a0ab9c88eab843e",
+    "name": "安馨",
+    "copyright": true,
+    "qingniulink": true,
+    "attentionStatus": true,
+    "logoUrl": "https://xcx-h5.yolanda.hk/static/img/authorization.png",
+    "phone": true,
+    "activityStatus": true,
+    "qrcodeUrl": "https://xcx-h5.yolanda.hk/static/img/authorization.png",
+    "matchSupport": true,
+    "secret": "wx5a0ab9c88eab843e"
+  }
+}
