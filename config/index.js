@@ -1,4 +1,5 @@
 const path = require('path')
+const cssEnv = require('postcss-preset-env');
 
 const config = {
   projectName: 'taro-react',
@@ -33,11 +34,39 @@ const config = {
   },
   mini: {
     esnextModules: ['taro-ui'],
+    webpackChain (chain, webpack) {
+      chain.merge({
+        module: {
+          rule: {
+            myloader: {
+              test: /\.css$/i,
+              use: [
+                'style-loader',
+                'css-loader',
+                {
+                loader: 'postcss-loader',
+                options: {
+                  postcssOptions: {
+                    plugins: [
+                      [
+                        'postcss-preset-env',
+                        {
+                          // Options
+                        },
+                      ],
+                    ],
+                  },
+                }
+              }]
+            }
+          }
+        }
+      })
+    },
     postcss: {
       pxtransform: {
         enable: true,
         config: {
-
         }
       },
       url: {
@@ -47,7 +76,7 @@ const config = {
         }
       },
       cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
           namingPattern: 'module', // 转换模式，取值为 global/module
           generateScopedName: '[name]__[local]___[hash:base64:5]'
@@ -71,9 +100,9 @@ const config = {
         }
       },
       cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module
+          namingPattern: 'global', // 转换模式，取值为 global/module
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }

@@ -7,10 +7,14 @@ declare module "*.jpeg";
 declare module "*.svg";
 declare module "*.css";
 declare module "*.less";
-declare module "*.scss";
 declare module "*.sass";
 declare module "*.styl";
 
+// 引入css module 需要按以下声明
+declare module '*.scss' {
+  const content: {[className: string]: string};
+  export default content;
+}
 // @ts-ignore
 declare const process: {
   env: {

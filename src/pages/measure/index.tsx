@@ -73,6 +73,8 @@ const Measure: FC = (props, context) => {
     }
     const res = await login(params)
     const { terminal_user_session, user_info } = res
+    console.log('xxxxx', res)
+    return
     dispatch(set_session_key(terminal_user_session));
     dispatch(set_userinfo(user_info));
     console.log('res', res);
@@ -83,7 +85,6 @@ const Measure: FC = (props, context) => {
   }
 
   const changeName = ()=> {
-
     dispatch(change_userName('xxxxx'))
   }
 
@@ -163,7 +164,12 @@ const Measure: FC = (props, context) => {
         plain
         onClick={()=>changeIndex()}
       >change{index}</Button>
-      {myView()}
+      {/* {myView()} */}
+      <Button
+        className='btn'
+        plain
+        onClick={()=>Taro.navigateTo({url: '/pages/test/index'})}
+      >test</Button>
     </View>
   );
 };

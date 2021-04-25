@@ -1,14 +1,15 @@
 import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "@/utils/constants/status";
 import { logError } from "@/utils/error";
-import theme from '@/static/biz/themeMock'
+import theme from '@/static/biz/theme';
+import configStore from '@/store/index';
 
-const { appid } = theme
+const { store } = configStore()
 const baseUrl = "http://sit.third-api.yolanda.hk/open_api";
-
+const { appid } = theme
 export default {
   baseOptions(params, method = "GET") {
-    let { url, data } = params;
+    let { url, data = {} } = params;
     let contentType =
       method === "GET"
         ? "application/json"
@@ -22,7 +23,11 @@ export default {
       success: any;
       error: any;
     };
-    data.appid = appid
+    const sessionKey = store.getState().sessionKey
+    data.app_id = theme.appid
+    if (sessionKey) {
+      data.terminal_user_session_key = sessionKey
+    }
     const option: OptionType = {
       url: url.indexOf("http") !== -1 ? url : baseUrl + url,
       data: data,
