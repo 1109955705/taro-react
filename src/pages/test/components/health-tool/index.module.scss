@@ -1,5 +1,17 @@
 .main {
   margin-top: 20px;
-  border: 1px solid grey;
-  min-height: 100px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.03);
+  border-radius: 24px;
+  padding: 20px 0 15px 16px;
 }
+
+.bannersList {
+  margin-top: 18px;
+  .imgBanner {
+    width: 240px;
+    height: 128px;
+    border-radius: 20px;
+  }
+}
+

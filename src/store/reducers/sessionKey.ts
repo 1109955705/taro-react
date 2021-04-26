@@ -1,4 +1,4 @@
-import { SET_SESSION_KEY, CLEAR_SESSION_KEY} from '../constants/userinfo'
+import { SET_SESSION_KEY, CLEAR_SESSION_KEY } from '../constants/userinfo'
 
 const INITIAL_USERINFO: string= ''
 

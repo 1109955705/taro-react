@@ -1,27 +1,31 @@
-import React, { FC, useState, useEffect } from 'react'
-import { View } from '@tarojs/components'
-import { getHealthToolList } from '@/api/user'
-// import style from './index.module.scss'
+import React, { FC } from 'react'
+import { View, Image } from '@tarojs/components'
+import useMain from './service/useMain'
 import style from './index.module.scss'
 
 const HealthTool: FC = () => {
-  const [ list, setList ] = useState([])
-  useEffect(() => {
-    const request = async () => {
-      const res = await getHealthToolList()
-      console.log('res', res.data.health_tools)
-      setList(res.data.health_tools)
-    }
-    request()
-  }, [])
+  const { list } = useMain()
   return (
-    <View className={style.main}>
+    <React.Fragment>
       {
-        list.map((item: any) => {
-        return <View>{item.tool_name}</View>
-        })
+        list.length > 0  
+          ? <View className={style.main}>
+              <View>健康工具</View>
+              {
+                list.length > 0 
+                ? <View className={style.bannersList}>
+                    {
+                      list.map((item: any) => {
+                        return <Image className={style.imgBanner} src={item.tool_banner} />
+                      })
+                    }
+                  </View>
+                : <View>还未配置</View>
+              }
+            </View>
+          : ''
       }
-    </View>
+    </React.Fragment>
   )
 }
 

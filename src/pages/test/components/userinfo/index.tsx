@@ -1,19 +1,41 @@
 import React, { FC, useState, useEffect } from 'react'
 import { View } from '@tarojs/components'
-import './index.scss'
+import { useSelector } from "react-redux";
+import { AtButton, AtAvatar } from 'taro-ui'
+import Taro from '@tarojs/taro'
+import style from './index.module.scss'
 
 interface UserinfoTypes {
-  isLogin: any,
   lastMeasure: any,
 }
-const Usernfo: FC<UserinfoTypes> = ({isLogin, lastMeasure}) => {
+const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
+  
+  const isLogin = useSelector((state: ReduxRootState) => {
+    return state.sessionKey ? true : false
+  })
+  const { userinfo } = useSelector((state: ReduxRootState) => state)
+  const jumpToMeausre = () => {
+    Taro.navigateTo({
+      url: '/pages/ble/index'
+    })
+  }
   return (
-  <View className='main'>Usernfo{isLogin}</View>
+  <View className={style.main}>
+    <AtAvatar className={style.avatar} circle image={userinfo.avatar}></AtAvatar>
+    <View className={style.center}>
+      <View className={style.weight}>{lastMeasure.weight}kg</View>
+      <View className={style.measureBtn} onClick={()=>jumpToMeausre()}>点击测量</View>
+    </View>
+    <View className={style.indexWrap}>
+      <View>{lastMeasure.score}</View>
+      <View>{lastMeasure.bodyfat}%</View>
+      <View>{lastMeasure.bmi}</View>
+    </View>
+  </View>
   )
 }
 
 Usernfo.defaultProps = {
-  isLogin: false,
   lastMeasure: {},
 }
 

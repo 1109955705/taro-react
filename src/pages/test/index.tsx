@@ -5,15 +5,15 @@ import BodyIndex from './components/body-index'
 import Features from './components/features'
 import HealthTool from './components/health-tool'
 import Userinfo from './components/userinfo'
-import './index.scss'
+import style from './index.module.scss'
 
 const Test: FC = () => {
 
   const { isLogin, lastMeasure } = useMain()
 
   return (
-    <View className='Test'>
-      <Userinfo isLogin={isLogin} lastMeasure={lastMeasure}></Userinfo>
+    <View className={style.main}>
+      <Userinfo lastMeasure={lastMeasure}></Userinfo>
       {
         isLogin 
           ? <Fragment>

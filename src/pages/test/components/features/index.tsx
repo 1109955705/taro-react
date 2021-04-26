@@ -1,18 +1,21 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC } from 'react'
 import { View } from '@tarojs/components'
-// import './index.scss'
-import style from './index.scss'
+import style from './index.module.scss'
 
 interface FeaturesTypes {
   showDeepReport: boolean,
 }
 const Features: FC<FeaturesTypes> = ({showDeepReport}) => {
-  useEffect(()=> {
-    console.log('props', showDeepReport)
-  }, [showDeepReport])
-
   return (
-    <View className={style.main}>Features</View>
+    <View className={style.main}>
+      {
+        showDeepReport 
+          ? <View >深度报告</View> 
+          : ''
+      }
+      <View>数据对比</View>
+      <View>分享数据</View>
+    </View>
   )
 }
 

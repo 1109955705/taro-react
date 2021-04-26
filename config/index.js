@@ -34,35 +34,6 @@ const config = {
   },
   mini: {
     esnextModules: ['taro-ui'],
-    webpackChain (chain, webpack) {
-      chain.merge({
-        module: {
-          rule: {
-            myloader: {
-              test: /\.css$/i,
-              use: [
-                'style-loader',
-                'css-loader',
-                {
-                loader: 'postcss-loader',
-                options: {
-                  postcssOptions: {
-                    plugins: [
-                      [
-                        'postcss-preset-env',
-                        {
-                          // Options
-                        },
-                      ],
-                    ],
-                  },
-                }
-              }]
-            }
-          }
-        }
-      })
-    },
     postcss: {
       pxtransform: {
         enable: true,
@@ -81,13 +52,59 @@ const config = {
           namingPattern: 'module', // 转换模式，取值为 global/module
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
+      },
+      postcssNesting: {
+    
       }
     },
     compile: {
       exclude: [
         path.resolve(__dirname, '..', 'src/libs/index.js')
       ]
-    }
+    },
+    webpackChain (chain) {
+      // console.log('chain', chain.module.rules.store.get('nomorlCss').oneOfs.get('0'))
+      // chain.merge({
+      //   module: {
+      //     rule: {
+      //       myloader: {
+      //         test: /\.md$/,
+      //         use: [{
+      //           loader: 'raw-loader',
+      //           options: {}
+      //         }]
+      //       }
+      //     }
+      //   }
+      // })
+
+      chain.merge({
+        module: {
+          rule: {
+            testCss: {
+              test: /\.(css|wxss|acss|ttss)(\?.*)?$/,
+              use: [{
+                loader: 'postcss-loader',
+                options: {
+                  postcssOptions: {
+                    plugins: [
+                      [
+                        'postcss-preset-env',
+                        {
+                          // Options
+                        },
+                      ],
+                    ],
+                  },
+                }
+              }]
+            }
+          }
+        }
+      })
+
+      console.log('chain', chain.module.rules.store.get('testCss'))
+    },
   },
   h5: {
     publicPath: '/',
