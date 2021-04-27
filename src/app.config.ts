@@ -3,7 +3,6 @@ export default {
     'pages/measure/index',
     'pages/mine/index',
     'pages/chart/index',
-    'pages/echarts/index',
     'pages/canvas/index',
     'pages/ble/index',
     'pages/shop/index',
@@ -41,4 +40,12 @@ export default {
       }
     ]
   },
+  subPackages:[
+    {
+      "root": "pages/echarts/",
+      "pages": [
+        "index",
+      ]
+    }
+  ]
 }

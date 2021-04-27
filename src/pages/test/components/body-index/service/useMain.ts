@@ -4,11 +4,12 @@ const useMain = (lastMeasure) => {
 
   const [ list, setList ] = useState<any>([])
   
-  const handleDate = (lastMeasure) => {
+  const handleDate = (measure) => {
     const { 
       weight, bmi, bodyfat, water, muscle, sinew, bone, fat_free_weight, 
       protein, subfat, visfat, bodyage, body_shape, bmr
-    } = lastMeasure
+    } = measure
+
     const indexList= [
       {
         name: '体重',
@@ -67,6 +68,7 @@ const useMain = (lastMeasure) => {
         value: bmr,
       },
     ]
+    
     setList(indexList)
   }
   

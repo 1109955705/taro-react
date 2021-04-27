@@ -1,13 +1,15 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC } from 'react'
 import { View } from '@tarojs/components'
 import useMain from './service/useMain'
 import style from './index.module.scss'
+// eslint-disable-next-line import/no-commonjs
+// const style = require('./index.module.scss')
 
 interface BodyIndexTypes {
   lastMeasure: any,
 }
 const BodyIndex: FC<BodyIndexTypes> = ({ lastMeasure }) => {
-  console.log('BodyIndex', lastMeasure)
+
   const { list } = useMain(lastMeasure)
 
   return (
@@ -16,7 +18,7 @@ const BodyIndex: FC<BodyIndexTypes> = ({ lastMeasure }) => {
       <View className={style.itemWrap}>
         {
           list.map((item: any) => {
-            return  <View className={style.item}>
+            return  <View className={style.item} key={item.name}>
                       <View>{item.name}</View>
                       <View>{item.value}</View>
                     </View>

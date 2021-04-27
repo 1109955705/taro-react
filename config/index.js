@@ -78,32 +78,32 @@ const config = {
       //   }
       // })
 
-      chain.merge({
-        module: {
-          rule: {
-            testCss: {
-              test: /\.(css|wxss|acss|ttss)(\?.*)?$/,
-              use: [{
-                loader: 'postcss-loader',
-                options: {
-                  postcssOptions: {
-                    plugins: [
-                      [
-                        'postcss-preset-env',
-                        {
-                          // Options
-                        },
-                      ],
-                    ],
-                  },
-                }
-              }]
-            }
-          }
-        }
-      })
+      // chain.merge({
+      //   module: {
+      //     rule: {
+      //       testCss: {
+      //         test: /\.(css|wxss|acss|ttss)(\?.*)?$/,
+      //         use: [{
+      //           loader: 'postcss-loader',
+      //           options: {
+      //             postcssOptions: {
+      //               plugins: [
+      //                 [
+      //                   'postcss-preset-env',
+      //                   {
+      //                     // Options
+      //                   },
+      //                 ],
+      //               ],
+      //             },
+      //           }
+      //         }]
+      //       }
+      //     }
+      //   }
+      // })
 
-      console.log('chain', chain.module.rules.store.get('testCss'))
+      // console.log('chain', chain.module.rules.store.get('testCss'))
     },
   },
   h5: {

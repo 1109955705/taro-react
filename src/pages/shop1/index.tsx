@@ -29,31 +29,18 @@ type CheckedMap = {
   [id: number]: boolean
 }
 
-interface CartItem {
-  id: number
-  name: string
-  price: number
-}
+
 
 const Shop1: FC = () => {
-  // const [checkedMap, setCheckedMap] = useState<CheckedMap>({})
-  // const [all, setAll] = useState<boolean>(false)
-  console.log('render')
+
   const {
     all,
     checkedAll,
     checkedMap,
     onCheckedAllChange,
     onCheckedChange,
-    filterChecked,
+    total,
   } = useChecked(list)
-
-  // 商品总价
-  const sumPrice = (cartItems: CartItem[]) => {
-    return cartItems.reduce((sum, cur) => sum + cur.price, 0)
-  }
-
-  const total = sumPrice(filterChecked())
 
   // const selectAll = () => {
   //   console.log('xxxx', all)

@@ -10,6 +10,12 @@ type CheckedMap = {
   [key: string]: boolean
 }
 
+interface CartItem {
+  id: number
+  name: string
+  price: number
+}
+
 const CHECKED_CHANGE = "CHECKED_CHANGE"
 
 const CHECKED_ALL_CHANGE = "CHECKED_ALL_CHANGE"
@@ -128,6 +134,13 @@ export const useChecked = <T extends Record<string, any>>(
     })
   }
   
+  // 商品总价
+  const sumPrice = (cartItems: CartItem[]) => {
+    return cartItems.reduce((sum, cur) => sum + cur.price, 0)
+  }
+  console.log('xxx', filterChecked())
+  const total = sumPrice(filterChecked())
+
   // 数据更新的时候 如果勾选中的数据已经不在数据内了 就删除掉
   useEffect(() => {
     filterChecked().forEach((checkedItem) => {
@@ -151,7 +164,7 @@ export const useChecked = <T extends Record<string, any>>(
     checkedMap,
     dispatch,
     onCheckedChange,
-    filterChecked,
+    total,
     onCheckedAllChange,
     checkedAll,
   }

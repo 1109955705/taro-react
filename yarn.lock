@@ -9896,7 +9896,7 @@
     "icss-utils" "^4.0.0"
     "postcss" "^7.0.6"
 
-"postcss-nesting@^7.0.0":
+"postcss-nesting@^7.0.0", "postcss-nesting@^7.0.1":
   "integrity" "sha1-tQrXt/AXPlteOIDDUBNEcD4EwFI="
   "resolved" "https://registry.npm.taobao.org/postcss-nesting/download/postcss-nesting-7.0.1.tgz"
   "version" "7.0.1"
