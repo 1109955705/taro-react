@@ -22,7 +22,7 @@ export default {
     list: [
       {
         "pagePath": "pages/measure/index",
-        "text": "测量",
+        "text": "测量xxs",
         "iconPath": "assets/images/tabbar/home_default.png",
         "selectedIconPath": "assets/images/tabbar/home_click.png"
       },
