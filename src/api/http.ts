@@ -24,7 +24,11 @@ export default {
       error: any;
     };
     const sessionKey = store.getState().sessionKey
+    
+    // 接口需要的appid参数不一致
     data.app_id = theme.appid
+    data.appid = theme.appid
+
     if (sessionKey) {
       data.terminal_user_session_key = sessionKey
     }

@@ -1,17 +1,17 @@
 import Taro from '@tarojs/taro'
 
 export default {
-  getItem(key) {
+  getItem(key: string) {
     return Taro.getStorage({key}).then(res => {
       return res.data
     })
   },
 
-  setItem(key, data) {
+  setItem(key: string, data: any) {
     return Taro.setStorage({key, data})
   },
 
-  removeItem(key) {
+  removeItem(key: string) {
     return Taro.removeStorage({ key })
   },
 

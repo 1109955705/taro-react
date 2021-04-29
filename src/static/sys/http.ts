@@ -1,12 +1,20 @@
 // http请求封装
 import Taro from "@tarojs/taro";
 import cloneDeep from 'lodash/cloneDeep';
+import modelCheck from 'modelcheck';
 import { systemInfo } from '@/static/sys/system'
 import theme from '@/static/biz/themeMock'
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
-import configStore from '../../store'
+import configStore from '@/store/index';
 
-const store = configStore()
+interface TypedHttpConfig {
+  // 是否显示加载状态
+  showLoading?: boolean;
+  // 是否使用mock。只在开发环境有效
+  useMock?: boolean,
+}
+
+const { store } = configStore()
 const { appid } = theme
 const baseUrl = 'http://sit.third-api.yolanda.hk/open_api';
 
@@ -51,6 +59,7 @@ type TypedRequestInterceptorParamteter = {
   data: Record<string, unknown>;
 };
 
+// 请求拦截器 添加公共参数，和校验参数
 const requestInterceptor = (
   payload: TypedRequestInterceptorParamteter,
 ) => {
@@ -63,25 +72,28 @@ const requestInterceptor = (
   };
   let { url, requestRules } = api;
 
-  const session_key = store.getState().session_key
-  if ( session_key ) {
-    data.terminal_user_session_key = session_key
+  const sessionKey = store.getState().sessionKey
+  if ( sessionKey ) {
+    data.terminal_user_session_key = sessionKey
   }
   data.appid = appid
 
   // 校验request数据 
-  // if (requestRules) {  
-  //   try {
-  //     data = modelcheck(data, requestRules, { cloneData: false });
-  //   } catch (error) {
-  //     error.request = api;
-  //     throw error;
-  //   }
-  // }
+  if (requestRules) {  
+    try {
+      data = modelCheck(data, requestRules, { cloneData: false });
+    } catch (error) {
+      error.request = api;
+      console.log('xxxxx', error.request)
+      throw error;
+    }
+  }
+
   api.url = baseUrl + transformUrl(<string>url, data).replace(/\/+/g, '/');
   return Promise.resolve({ api, data: { ...commonBodyData, ...data } });
 }
 
+// 回复拦截器 校验结果
 const responseInterceptor = ({
   response,
   api,
@@ -90,15 +102,21 @@ const responseInterceptor = ({
   api: TypedApiScheme,
 })=> {
   console.log('responseInterceptor', response, api)
+  return response
 }
 
 export const sendHttpRequest = (
   api: TypedApiScheme,
   data: object = {},
+  config: TypedHttpConfig = { showLoading: true },
 ) => {
+
+  if (config.showLoading) {
+    // showLoadingToast(config.loadingText);
+  }
+
   const cloneApi = cloneDeep(api);
   const cloneData = cloneDeep(data);
-  console.log('sendHttpRequest', cloneApi, cloneData);
   return requestInterceptor({
     api: cloneApi,
     data: cloneData || {},
@@ -107,6 +125,10 @@ export const sendHttpRequest = (
       const headers: Record<string, string> = {
         'Content-Type': request.api.contentType || 'application/json',
       };
+      const { useMock } = config
+      if (useMock) {
+        return Promise.resolve(api.responseMock)
+      }
       return httpInstance({
         method: request.api.method,
         url: request.api.url,

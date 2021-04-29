@@ -23,7 +23,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
       <View className={style.weight}>{lastMeasure.weight}kg</View>
       {
         isLogin &&
-          <View className={style.measureBtn} onClick={()=>Taro.navigateTo({ url: '/pages/ble/index'})}>点击测量</View> 
+          <View className={`${style.measureBtn} themeBgColor themeColor`} onClick={()=>Taro.navigateTo({ url: '/pages/ble/index'})}>点击测量</View> 
       }
     </View>
     <View className={style.indexWrap}>

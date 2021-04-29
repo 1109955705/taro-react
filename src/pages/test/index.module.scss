@@ -1,4 +1,16 @@
+$myColor: red;
 .main {
   background: #F7F7F7;
   padding: 0 32px 20px 32px;
+}
+
+.test {
+  border: 1px solid $color;
+  width: 100px;
+  height: 100px;
+}
+
+.test-one {
+  width: 200px;
+  height: 200px;
 }

@@ -8684,6 +8684,11 @@
   "resolved" "https://registry.npm.taobao.org/mobile-detect/download/mobile-detect-1.4.5.tgz?cache=0&sync_timestamp=1615628315030&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmobile-detect%2Fdownload%2Fmobile-detect-1.4.5.tgz"
   "version" "1.4.5"
 
+"modelcheck@^0.2.3":
+  "integrity" "sha1-5kGB6sx3MHKFUqANy2V0GjSJUQs="
+  "resolved" "https://registry.npm.taobao.org/modelcheck/download/modelcheck-0.2.3.tgz"
+  "version" "0.2.3"
+
 "move-concurrently@^1.0.1":
   "integrity" "sha1-viwAX9oy4LKa8fBdfEszIUxwH5I="
   "resolved" "https://registry.npm.taobao.org/move-concurrently/download/move-concurrently-1.0.1.tgz"

@@ -10,8 +10,8 @@ import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
 import eventBus from "@/static/biz/eventBus";
 import theme from "@/static/biz/theme";
-// import { sendHttpRequest } from "@/static/sys/http";
-// import { ApiLogin } from "@/static/biz/apis/users";
+import { sendHttpRequest } from "@/static/sys/http";
+import { ApiLogin } from "@/static/biz/apis/users";
 // import theme from '@/static/biz/theme'
 import "./index.scss";
 
@@ -56,10 +56,12 @@ const Measure: FC = (props, context) => {
 
   const handClickLogin = async () => {
     const { iv, encryptedData } = await wxPromise(Taro.getUserProfile)({desc:'xxxx'})
-    console.log('getUserProfile', iv, encryptedData)
+
     const { code } = await wxPromise(Taro.login)()
     const params = { iv, encryptedData, code }
-    const res = await login(params)
+    // const res = await login(params)
+    const res = await sendHttpRequest(ApiLogin,{}, {useMock: true})
+    console.log('getUserProfile', res)
     const { random_code } = res
     setRandomCode(random_code)
   };
@@ -73,11 +75,8 @@ const Measure: FC = (props, context) => {
     }
     const res = await login(params)
     const { terminal_user_session, user_info } = res
-    console.log('xxxxx', res)
-    return
     dispatch(set_session_key(terminal_user_session));
     dispatch(set_userinfo(user_info));
-    console.log('res', res);
   };
 
   const handleStore = ()=> {

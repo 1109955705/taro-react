@@ -1,6 +1,6 @@
-import modelcheck from 'modelcheck';
-
-type TypedModelParams = (Parameters<typeof modelcheck>)[1];
+type TypedModelParams = {
+  [x: string]: any
+}
 
 /**
  * 接口描述

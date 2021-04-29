@@ -1,5 +1,5 @@
 const path = require('path')
-const cssEnv = require('postcss-preset-env');
+// const cssEnv = require('postcss-preset-env');
 
 const config = {
   projectName: 'taro-react',
@@ -15,12 +15,20 @@ const config = {
   plugins: [],
   defineConstants: {
   },
+  // 把文件从源码目录直接拷贝到编译后的生产目录，不使用copy的话不会拷贝到生产目录
   copy: {
     patterns: [
       { from: 'src/ext.json', to: 'dist/ext.json' }
     ],
     options: {
     }
+  },
+  sass: {
+    resource: [
+      'src/static/style/theme.scss'
+    ],
+    projectDirectory: path.resolve(__dirname, '..'),
+    data: '$default-color: black;'
   },
   framework: 'react',
   alias: {
