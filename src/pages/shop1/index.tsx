@@ -25,6 +25,7 @@ const list = [
     price: 40
   }
 ]
+
 type CheckedMap = {
   [id: number]: boolean
 }

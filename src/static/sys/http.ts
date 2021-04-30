@@ -2,6 +2,7 @@
 import Taro from "@tarojs/taro";
 import cloneDeep from 'lodash/cloneDeep';
 import modelCheck from 'modelcheck';
+import i18n from "@/i18n/index";
 import { systemInfo } from '@/static/sys/system'
 import theme from '@/static/biz/themeMock'
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
@@ -84,7 +85,6 @@ const requestInterceptor = (
       data = modelCheck(data, requestRules, { cloneData: false });
     } catch (error) {
       error.request = api;
-      console.log('xxxxx', error.request)
       throw error;
     }
   }
@@ -110,7 +110,7 @@ export const sendHttpRequest = (
   data: object = {},
   config: TypedHttpConfig = { showLoading: true },
 ) => {
-
+  console.log('xxxxxxx', i18n.t('login'))
   if (config.showLoading) {
     // showLoadingToast(config.loadingText);
   }

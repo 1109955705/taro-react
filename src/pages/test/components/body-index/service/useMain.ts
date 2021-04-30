@@ -7,7 +7,7 @@ const useMain = (lastMeasure) => {
   const handleDate = (measure) => {
     const { 
       weight, bmi, bodyfat, water, muscle, sinew, bone, fat_free_weight, 
-      protein, subfat, visfat, bodyage, body_shape, bmr
+      protein, subfat, visfat, bodyage, body_shape, bmr,
     } = measure
 
     const indexList= [
@@ -79,7 +79,7 @@ const useMain = (lastMeasure) => {
   }, [lastMeasure])
 
   return {
-    list
+    list,
   }
 }
 

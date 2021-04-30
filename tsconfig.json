@@ -22,6 +22,7 @@
       "@/utils/*": ["./src/utils/*"], 
       "@/static/*": ["./src/static/*"],
       "@/libs/*": ["./src/libs/*"],
+      "@/i18n/*": ["./src/i18n/*"],
     },
     "rootDir": ".",
     "jsx": "react",

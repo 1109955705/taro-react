@@ -12,6 +12,7 @@ import eventBus from "@/static/biz/eventBus";
 import theme from "@/static/biz/theme";
 import { sendHttpRequest } from "@/static/sys/http";
 import { ApiLogin } from "@/static/biz/apis/users";
+import { useTranslation } from 'react-i18next';
 // import theme from '@/static/biz/theme'
 import "./index.scss";
 
@@ -40,6 +41,7 @@ const Measure: FC = (props, context) => {
   const selected = useSelector(state => state)
   const { account_name } = useSelector((state: ReduxRootState) => state.userinfo)
   const index = useSelector((state: ReduxRootState) => state.tabbar.index)
+  const { t } = useTranslation();
 
   useEffect(() => {
     console.log('measure: theme', theme)
@@ -59,9 +61,9 @@ const Measure: FC = (props, context) => {
 
     const { code } = await wxPromise(Taro.login)()
     const params = { iv, encryptedData, code }
-    // const res = await login(params)
-    const res = await sendHttpRequest(ApiLogin,{}, {useMock: true})
-    console.log('getUserProfile', res)
+    const res = await login(params)
+    // const res = await sendHttpRequest(ApiLogin,{}, {useMock: true})
+    // console.log('getUserProfile', res)
     const { random_code } = res
     setRandomCode(random_code)
   };
@@ -168,7 +170,7 @@ const Measure: FC = (props, context) => {
         className='btn'
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/test/index'})}
-      >test</Button>
+      >{t('home')}</Button>
     </View>
   );
 };

@@ -10,7 +10,7 @@ import style from './index.module.scss'
 const Test: FC = () => {
 
   const { isLogin, lastMeasure } = useMain()
-  console.log('xxxxx', style)
+
   return (
     <View className={style.main}>
       <Userinfo lastMeasure={lastMeasure}></Userinfo>
@@ -23,8 +23,6 @@ const Test: FC = () => {
             </Fragment> 
           : <View>未登录</View> 
       }
-      <View className='themeColorOne'>2222222222222222222</View>
-      <View className={style['test-one']}></View>
     </View>
   )
 }

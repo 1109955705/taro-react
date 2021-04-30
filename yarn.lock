@@ -1609,7 +1609,7 @@
     "pirates" "^4.0.0"
     "source-map-support" "^0.5.16"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.13.6", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4":
   "integrity" "sha1-R9QqV7YJX0Ro2kQDiP262L6/DX0="
   "resolved" "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.13.10.tgz?cache=0&sync_timestamp=1615243066705&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.13.10.tgz"
   "version" "7.13.10"
@@ -6791,6 +6791,13 @@
     "relateurl" "^0.2.7"
     "uglify-js" "^3.5.1"
 
+"html-parse-stringify@^3.0.1":
+  "integrity" "sha1-38EBc0fOn3fIFBpQfyMwQMWcVdI="
+  "resolved" "https://registry.nlark.com/html-parse-stringify/download/html-parse-stringify-3.0.1.tgz"
+  "version" "3.0.1"
+  dependencies:
+    "void-elements" "3.1.0"
+
 "html-tags@^2.0.0":
   "integrity" "sha1-ELMKOGCF9Dzt41PMj6fLDe7qZos="
   "resolved" "https://registry.npm.taobao.org/html-tags/download/html-tags-2.0.0.tgz"
@@ -6909,6 +6916,13 @@
   "integrity" "sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM="
   "resolved" "https://registry.npm.taobao.org/https-browserify/download/https-browserify-1.0.0.tgz"
   "version" "1.0.0"
+
+"i18next@^20.2.2", "i18next@>= 19.0.0":
+  "integrity" "sha1-F1ZEgp3PNVRrqMF0WDrP5Enk7xo="
+  "resolved" "https://registry.nlark.com/i18next/download/i18next-20.2.2.tgz?cache=0&sync_timestamp=1619466772043&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fi18next%2Fdownload%2Fi18next-20.2.2.tgz"
+  "version" "20.2.2"
+  dependencies:
+    "@babel/runtime" "^7.12.0"
 
 "iconv-lite@^0.4.24", "iconv-lite@0.4.24":
   "integrity" "sha1-ICK0sl+93CHS9SSXSkdKr+czkIs="
@@ -10486,6 +10500,14 @@
     "object-assign" "^4.1.1"
     "scheduler" "^0.20.2"
 
+"react-i18next@^11.8.15":
+  "integrity" "sha1-iUUNWFKY8Y1KjrFiiwhohj86R2c="
+  "resolved" "https://registry.nlark.com/react-i18next/download/react-i18next-11.8.15.tgz"
+  "version" "11.8.15"
+  dependencies:
+    "@babel/runtime" "^7.13.6"
+    "html-parse-stringify" "^3.0.1"
+
 "react-is@^16.13.0", "react-is@^16.13.1", "react-is@^16.7.0", "react-is@^16.8.1":
   "integrity" "sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ="
   "resolved" "https://registry.npm.taobao.org/react-is/download/react-is-16.13.1.tgz?cache=0&sync_timestamp=1618417202074&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-is%2Fdownload%2Freact-is-16.13.1.tgz"
@@ -10684,7 +10706,7 @@
     "raf" "^3.1.0"
     "tween-functions" "^1.0.1"
 
-"react@*", "react@^15.4.0 || ^16.0.0-alpha", "react@^16.0", "react@^16.11.0", "react@^16.13.1", "react@^16.8.0", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16.0 || < 17.0", "react@>=16.0", "react@>=16.13.0", "react@>16.0.0", "react@16 || 17", "react@16.x", "react@17.0.2":
+"react@*", "react@^15.4.0 || ^16.0.0-alpha", "react@^16.0", "react@^16.11.0", "react@^16.13.1", "react@^16.8.0", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16.0 || < 17.0", "react@>= 16.8.0", "react@>=16.0", "react@>=16.13.0", "react@>16.0.0", "react@16 || 17", "react@16.x", "react@17.0.2":
   "integrity" "sha1-0LXMUW0p6z7uOD91tihkz7aAADc="
   "resolved" "https://registry.npm.taobao.org/react/download/react-17.0.2.tgz?cache=0&sync_timestamp=1618417843088&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-17.0.2.tgz"
   "version" "17.0.2"
@@ -13185,6 +13207,11 @@
   "integrity" "sha1-KZF/bMCBzEOj9YDCbFtVP9PJH0A="
   "resolved" "https://registry.npm.taobao.org/vm2/download/vm2-3.9.3.tgz?cache=0&sync_timestamp=1617654047432&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvm2%2Fdownload%2Fvm2-3.9.3.tgz"
   "version" "3.9.3"
+
+"void-elements@3.1.0":
+  "integrity" "sha1-YU9/v42AHwu18GYfWy9XhXUOTwk="
+  "resolved" "https://registry.npm.taobao.org/void-elements/download/void-elements-3.1.0.tgz"
+  "version" "3.1.0"
 
 "w3c-hr-time@^1.0.1":
   "integrity" "sha1-ConN9cwVgi35w2BUNnaWPgzDCM0="

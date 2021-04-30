@@ -6,6 +6,7 @@ import configStore from './store'
 import './app.scss'
 
 const { store, persistor} = configStore()
+
 class App extends Component {
   componentDidMount () {
     console.log('app:didmount', theme )

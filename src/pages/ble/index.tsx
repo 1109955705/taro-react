@@ -56,7 +56,6 @@ const Ble: FC = () => {
   const [ steadyWeight, setSteadyWeight ] = useState<Number>(0)
   useEffect(() => {
     init().catch(onError);
-    console.log('xxxxxxxx', bleOpStatus)
     return () => {
       console.log('unmount', bleOpStatus)
     }
