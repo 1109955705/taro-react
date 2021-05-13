@@ -4,6 +4,7 @@ export declare enum QNBleTransferType {
 }
 export declare enum QNBleAction {
     NOT_SET = "not_set",
+    MEASURE = "measure",
     MEASURE_WEIGHT = "measure_weight",
     SET_WIFI = "set_wifi",
     MES_CALIBRATION = "mes_calibration",
@@ -14,7 +15,8 @@ export declare enum QNBleAction {
     MES_READ_SN = "mes_read_sn",
     MES_SLEEP = "mes_sleep",
     SP_SYNC_CURRENT_DATA = "sp_sync_current_data",
-    SP_SYNC_HISTORY_DATA = "sp_sync_history_data"
+    SP_SYNC_HISTORY_DATA = "sp_sync_history_data",
+    FG_ADJUST_SETTING = "fg_adjust_setting"
 }
 export declare enum QNBleDeviceType {
     NORMAL_BLE_SCALE = "normal_ble_scale",
@@ -23,10 +25,13 @@ export declare enum QNBleDeviceType {
     WSP_DUAL_MODE_SCALE = "wsp_dual_mode_scale",
     WSP_EIGHT_DUAL_MODE_SCALE = "wsp_eight_dual_mode_scale",
     HEIGHTWEIGHT = "heightWeight",
+    HEIGHTWEIGHT_SINGLE_BLE = "heightWeightSingleBle",
     HEIGHT_WEIGHT_SCALE = "height_weight_scale",
     SHARE_SCALE_CL = "share_scale_cl",
     SHARE_SCALE = "share_scale",
-    SP_10A = "sp_10a",
+    FASCIA_GUN = "fascia_gun",
+    SPHYGMOMANOMETER = "sphygmomanometer",
+    THERMOMETER = "thermometer",
     BLE_KITCHEN_SCALE = "ble_kitchen_scale"
 }
 export declare enum QNBleGender {
@@ -95,6 +100,7 @@ export declare enum QNBleErrorType {
     GET_BLE_DEVICE_CHARACTERISTICS_FAILED = "GET_BLE_DEVICE_CHARACTERISTICS_FAILED",
     SEND_MEASURE_DATA_FAILED = "SEND_MEASURE_DATA_FAILED",
     REGISTER_USER_FAILED = "REGISTER_USER_FAILED",
+    VISIT_USER_FAILED = "VISIT_USER_FAILED",
     CREATE_BLE_SERVER_FAILED = "CREATE_BLE_SERVER_FAILED",
     PROTOCOL_PREPARE_FAILED = "PROTOCOL_PREPARE_FAILED"
 }

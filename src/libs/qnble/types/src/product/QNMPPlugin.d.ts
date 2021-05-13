@@ -1,8 +1,5 @@
 import QNBle from '../QNBle';
-declare class QNMPPlugin {
-    private _qnble;
-    constructor();
-    init(config: any): Promise<import("../typings").default.InitFuncReturnValue>;
-    get bleApi(): QNBle;
+import QNBleTypings from '../typings';
+export default class QNMPPlugin extends QNBle {
+    constructor(config: QNBleTypings.QNBleConfig);
 }
-export default QNMPPlugin;

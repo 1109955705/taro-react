@@ -6,6 +6,7 @@ declare class QNMultiPagesPlugin {
     private nativeApi;
     constructor();
     init(config: any): Promise<QNBleTypings.InitFuncReturnValue>;
+    buildNativeDevice(deviceId: string): import("..").QNBleNativeDevice;
     mockReConnectDevice(deviceId: string, listener: QNBleTypings.QNBleNativeEventListener, operation?: Partial<QNBleTypings.QNBleOperation>): Promise<void | QNBleDevice>;
     get connectedDevices(): any;
     get connectedDeviceIds(): string[];

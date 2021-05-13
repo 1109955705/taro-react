@@ -6,7 +6,7 @@ import QNBleNativeDevice from '../QNBleNativeDevice';
 import QNBleDevice from '../QNBleDevice';
 import { QNBleDeviceType, QNBleTransferType, QNBleAction } from '../consts';
 import QNBleTypings from '../typings';
-declare class OneToOneBroadcastScaleProfle implements QNBleProtocolProfile {
+declare class OneToOneBroadcastScaleProfile implements QNBleProtocolProfile {
     defaultAction: QNBleAction;
     type: QNBleDeviceType;
     transferType: QNBleTransferType;
@@ -14,7 +14,7 @@ declare class OneToOneBroadcastScaleProfle implements QNBleProtocolProfile {
     buildTargetDevice(nativeDevice: QNBleNativeDevice): Partial<QNBleDevice>;
 }
 export default class OneToOneBroadcastScaleProtocol extends QNBleBaseScaleProtocol<QNBleTypings.QNBaseScaleMeasureEventListener> {
-    static bleProfle: OneToOneBroadcastScaleProfle;
+    static bleProfile: OneToOneBroadcastScaleProfile;
     measureCount: number;
     currentAdvertis: string;
     baseTime: number;

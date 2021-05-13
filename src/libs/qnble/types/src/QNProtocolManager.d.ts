@@ -7,7 +7,7 @@ export default class QNProtocolManager<T extends Partial<QNBleTypings.QNDeviceEv
     records: Map<string, QNBleProtocol<T>>;
     hasProtocol(deviceId: string): boolean;
     getProtocol(deviceId: string): QNBleProtocol<T> | null;
-    addProtocol(protocolImp: QNBleProtocol<T>): Map<string, QNBleProtocol<T>>;
+    setProtocol(protocolImp: QNBleProtocol<T>): Map<string, QNBleProtocol<T>>;
     removeProtocol(deviceId: string): boolean;
     clear(): void;
     values(): IterableIterator<QNBleProtocol<T>>;

@@ -5,6 +5,7 @@ import QNBleCommonExtends from './QNBleCommonExtends';
 import QNBleDevice from './QNBleDevice';
 import QNBleTypings from './typings';
 export declare class QNBleNativeCommonExtends extends QNBleCommonExtends {
+    useDefaultHttpRequest: boolean;
     listener: QNBleTypings.QNBleNativeEventListener;
     constructor(params?: {
         config?: QNBleTypings.QNBleConfig;
@@ -25,6 +26,10 @@ export default abstract class QNBleNative extends QNBleNativeCommonExtends {
      */
     abstract init(): Promise<QNBleTypings.InitFuncReturnValue>;
     /**
+     * 释放相关蓝牙资源
+     */
+    abstract release?(): Promise<any>;
+    /**
      * 获取蓝牙适配器状态
      */
     abstract getBluetoothAdapterState(): Promise<QNBleTypings.BleState>;
@@ -40,7 +45,7 @@ export default abstract class QNBleNative extends QNBleNativeCommonExtends {
      * 开始扫描
      * @returns {Promise<any>}
      */
-    abstract startScan(): Promise<any>;
+    abstract startScan(params?: any): Promise<any>;
     /**
      * 停止扫描
      * @returns {Promise<any>}

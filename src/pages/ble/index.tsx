@@ -8,8 +8,22 @@ import {
 import './index.scss'
 import { wxPromise } from '@/utils/wxPromise';
 
-const blePlugin = new QNMPPlugin();
-const qnble = blePlugin.bleApi;
+const qnble = new QNMPPlugin({
+  appId: "wx5a0ab9c88eab843e",
+  autoStopDiscovery: true,
+});
+
+qnble.onReady = ({
+  bleEnableState, //表示当前蓝牙是否为开启状态
+}) => {
+  console.log("当前蓝牙状态",bleEnableState)
+  if (bleEnableState)
+    qnble.startBleDeviceDiscovery()
+  else {
+    console.log("蓝牙状态为关闭")
+  }
+};
+
 function noop() {}
 // eslint-disable-next-line no-shadow
 enum BleOpStatusEnum {
@@ -131,18 +145,16 @@ const Ble: FC = () => {
     qnble.createBleConnection(bleDevice, deviceEventListener, operation)
       .catch(noop);
   }
-  function onError(e: QNBleError) {
-    console.log('错误监听', e)
-  }
+  function onError(e: QNBleError) {}
   qnble.setBleEventListener(bleEventListener);
   qnble.onError = onError;
 
   const init = async () => {
-    const ret = await blePlugin.init({});
+    const ret = await qnble.init()
     console.log('init', ret)
-    if (ret.available) {
-      qnble.startBleDeviceDiscovery().catch(noop);
-    }
+    // if (ret.available) {
+    //   qnble.startBleDeviceDiscovery().catch(noop);
+    // }
   }
 
   const doScan = () => {

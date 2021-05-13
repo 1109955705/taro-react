@@ -36,5 +36,11 @@ export default class QNScaleBiz extends QNBleCommonExtends {
      * @param {number} b1
      */
     decodeWeight(a1: number, b1: number): number;
+    /**
+     * 得到身高数据
+     * @param {number} a1
+     * @param {number} b1
+     */
+    decodeHeight(a1: number, b1: number): number;
     fakeRequest(weight: number): Promise<any>;
 }

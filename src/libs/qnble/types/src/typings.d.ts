@@ -66,6 +66,7 @@ declare namespace QNBleTypings {
         };
         protocols?: typeof QNBleProtocol[];
         multipleListenersEnable?: boolean;
+        mpwx?: any;
     }
     interface QNBleServer {
         addService(params: {
@@ -112,7 +113,6 @@ declare namespace QNBleTypings {
         type onStopDiscoveryDevice = (e: QNEvent<undefined>) => void;
         type onBleDeviceFound = (e: QNEvent<QNBleDevice>) => void;
         type onConnected = (e: QNEvent<QNBleDevice>) => void;
-        type onConnecting = (e: QNEvent<string>) => void;
         type onDisconnected = (e: QNEvent<QNBleDevice>) => void;
         type onConnectOverTime = (e: QNEvent<string>) => void;
     }
@@ -121,18 +121,39 @@ declare namespace QNBleTypings {
         _once_handler_?(): void;
     }
     interface QNBleEventListener {
+        /**
+         * 蓝牙开关状态变化，available 为true 蓝牙已打开，false 是蓝牙已关闭，
+         */
         onBluetoothEnableChange: (payload: {
             available: boolean;
         }) => void;
+        /**
+         * 回调启动了蓝牙扫描
+         */
         onStartDiscoveryDevice: () => void;
+        /**
+         * 回调停止了蓝牙扫描
+         */
         onStopDiscoveryDevice: () => void;
+        /**
+         * 回调扫描到的蓝牙设备
+         */
         onBleDeviceFound: (device: QNBleDevice) => void;
+        /**
+         * 设备连接成功
+         */
         onConnected: (payload: {
             deviceId: string;
         }) => void;
+        /**
+         * 设备断开连接
+         */
         onDisconnected: (payload: {
             deviceId: string;
         }) => void;
+        /**
+         * 设备连接超时
+         */
         onConnectOverTime: (payload: {
             deviceId: string;
         }) => void;
@@ -162,9 +183,14 @@ declare namespace QNBleTypings {
         onError: (err: QNBleError | Error) => void;
     }
     type TypeGetScaleDataCallbackParam = {
-        measure: TypedMeasure;
+        measure?: TypedMeasure;
         response?: QNBleTypings.TypedMeasureData;
         scaleData?: TypedScaleData;
+        sdkObj?: {
+            method: number;
+            bodyIndexFlag: number;
+            extraFlag: number;
+        };
     };
     type TypedProtocolDeviceInfo<T extends object> = {
         deviceId: string;
@@ -176,6 +202,8 @@ declare namespace QNBleTypings {
     namespace QNDeviceEventListener {
         type onGetDeviceInfo = (e: QNEvent<TypedProtocolDeviceInfo<object>>) => void;
         type onGetUnsteadyWeight = (e: QNEvent<number>) => void;
+        type onGetUnsteadyHeight = (e: QNEvent<any>) => void;
+        type onMeasureHeightEnd = (e: QNEvent<any>) => void;
         type onGetScaleData = (e: QNEvent<TypeGetScaleDataCallbackParam>) => void;
         type onStartFetchScaleData = (e: QNEvent<undefined>) => void;
         type onFetchScaleDataFail = (e: QNEvent<QNBleError>) => void;
@@ -185,20 +213,63 @@ declare namespace QNBleTypings {
         type onStartMeasureHeart = (e: QNEvent<undefined>) => void;
     }
     interface QNDeviceEventListener {
-        onGetDeviceInfo: (payload: TypedProtocolDeviceInfo<object>) => void;
+        onGetDeviceInfo: (payload: TypedProtocolDeviceInfo<any>) => void;
         onError: (err: QNBleError | Error) => void;
     }
     interface QNHeightScaleEventListener extends QNDeviceEventListener {
         onSetWifiSuccess: () => void;
-    }
-    interface QNBaseScaleMeasureEventListener extends QNDeviceEventListener {
+        /**
+      * 获取到设备信息
+      */
         onGetDeviceInfo: (payload: TypedProtocolDeviceInfo<{
             fwVersion: number;
             bleVersion: number;
         }>) => void;
+        /**
+         * 获取到非稳定重量
+         */
         onGetUnsteadyWeight: (payload: {
             weight: number;
         }) => void;
+        /**
+         * 获取到非稳定身高
+         */
+        onGetUnsteadyHeight: (payload: {
+            height: number;
+        }) => void;
+        /**
+         * 获取到稳定身高和体重
+         */
+        onMeasureHeightEnd: (payload: {
+            weight: number;
+            height: number;
+        }) => void;
+        /**
+         * 获取到秤端数据
+         */
+        onGetScaleData: (payload: TypeGetScaleDataCallbackParam) => void;
+        onStartFetchScaleData: () => void;
+        onFetchScaleDataFail: (err: Error) => void;
+        onStartMeasureFat: () => void;
+        onStartMeasureHeart: () => void;
+    }
+    interface QNBaseScaleMeasureEventListener extends QNDeviceEventListener {
+        /**
+         * 获取到设备信息
+         */
+        onGetDeviceInfo: (payload: TypedProtocolDeviceInfo<{
+            fwVersion: number;
+            bleVersion: number;
+        }>) => void;
+        /**
+         * 获取到非稳定重量
+         */
+        onGetUnsteadyWeight: (payload: {
+            weight: number;
+        }) => void;
+        /**
+         * 获取到秤端数据
+         */
         onGetScaleData: (payload: TypeGetScaleDataCallbackParam) => void;
         onStartFetchScaleData: () => void;
         onFetchScaleDataFail: (err: Error) => void;
@@ -208,12 +279,56 @@ declare namespace QNBleTypings {
     /**
      * 带wifi功能的秤的回调方法
      */
-    interface QNWifiscaleScaleMeasureEventListener extends QNBaseScaleMeasureEventListener {
-        onSetWifiSuccess: () => void;
+    interface QNWifiScaleScaleMeasureEventListener extends QNBaseScaleMeasureEventListener {
+        /**
+         * 回调配网结果
+         */
+        onGetSetWifiResult: (isSuccess: boolean) => void;
+        /**
+         * wifi扫描结束回调
+         */
+        onScanWifiFinished: () => void;
+        /**
+         * 配网查询回复
+         */
+        onGetQueryWifiConnectStatusResult: (result: number) => void;
     }
-    interface QNWspDualScaleMeasureEventListener extends QNWifiscaleScaleMeasureEventListener {
-        onRegisterUserSuccess: (payload: {
-            userIndex: number;
+    interface QNWspDualScaleMeasureEventListener extends QNWifiScaleScaleMeasureEventListener {
+        /**
+         * 回调注册用户结果
+         */
+        onGetRegisterUserResult: (payload: {
+            isSuccess: boolean;
+            userIndex?: number;
+        }) => void;
+        /**
+         * 回调访问用户结果，成功时一般不需要处理，失败时，则需要检查 用户索引 userIndex 和 访问密钥 userKey 是否正确
+         */
+        onGetVisitUserResult: (payload: {
+            isSuccess: boolean;
+        }) => void;
+        /**
+         * 获取到删除用户的结果
+         */
+        onGetDeleteUserResult: (payload: {
+            isSuccess: boolean;
+        }) => void;
+        /**
+         * 获取存储的历史数据
+         */
+        onGetStoredDatas: (records: Array<TypeGetScaleDataCallbackParam>) => void;
+        onGetWifiInfo: (info: {
+            rssi: number;
+            ssid: string;
+            /**
+             * 信号等级
+             * 0级 rssi < -100
+             * 1级 rssi [-100, -85) 1格信号
+             * 2级 rssi [-85, -70) 2格信号
+             * 3级 rssi [-70, -55) 3格信号
+             * 4级 rssi >= -55 4格信号，满格信号
+             */
+            level: number;
         }) => void;
     }
     interface TypeOriginScaleData {
@@ -374,6 +489,30 @@ declare namespace QNBleTypings {
              */
             level: number;
         }) => void;
+        onScanWifiFinished: () => void;
+        onGetQueryWifiConnectStatusResult: (ret: number) => void;
+        onGetBlePaireStatus: (status: 0 | 1 | 2) => void;
+    }
+    type TypedThermoProtocolDeviceInfo = {
+        modelId: string;
+        mac: string;
+        deviceStatus: {
+            unit: number;
+            mode: number;
+        };
+        historyCount: number;
+        softwareVersion: number;
+        bleVersion: number;
+        bleProtocolVersion: number;
+    };
+    type TypedThermoMeasureInfo = {
+        value: number;
+        mode: number;
+        unit: number;
+    };
+    interface QNThermoMeasureEventListener extends QNDeviceEventListener {
+        onGetDeviceInfo: (payload: TypedProtocolDeviceInfo<TypedThermoProtocolDeviceInfo>) => void;
+        onGetCurrentData: (payload: TypedThermoMeasureInfo) => void;
         onGetBlePaireStatus: (status: 0 | 1 | 2) => void;
     }
     interface QNKitchenEventListener extends QNDeviceEventListener {
@@ -389,13 +528,25 @@ declare namespace QNBleTypings {
      */
     namespace QNBleOperation {
         interface user {
-            height: number;
-            birthday?: string;
-            gender: 'male' | 'female' | 1 | 0;
-            age: number;
             /**
-             * 注册时选的目标
-             * 这个是根据体型选择来的
+             * 身高，单位 cm
+             */
+            height: number;
+            /**
+             * 生日按照 YYYY-MM-dd 的格式
+             */
+            birthday: string;
+            /**
+             * 性别
+             */
+            gender: 'male' | 'female' | 1 | 0;
+            /**
+             * 年龄
+             */
+            age?: number;
+            /**
+             * 注册时选的目标，通常无需使用，除非是非得做成跟我们APP一样的方式才需要使用
+             * 这个是根据体型选择来的。
              * @type {number}
              * ## 默认模式
              * 1：减脂。除去全身多余脂肪
@@ -469,6 +620,7 @@ declare namespace QNBleTypings {
     interface TypedScaleData {
         mac?: string;
         weight?: number;
+        height?: number;
         resistance50?: number;
         resistance500?: number;
         heartRate?: number;
@@ -518,9 +670,11 @@ declare namespace QNBleTypings {
         bodyfat: number;
         heartIndex: number;
         heartRate: number;
+        stature: number;
     }
     interface TypedMeasureData {
         weight: number;
+        stature?: number;
         bodyfat?: number;
         subfat?: number;
         visfat?: number;
@@ -542,6 +696,7 @@ declare namespace QNBleTypings {
         body_shape_flag?: number;
         fat_free_weight_flag?: number;
         weight_flag?: number;
+        stature_flag?: number;
         bmi_flag?: number;
         bodyfat_flag?: number;
         subfat_flag?: number;

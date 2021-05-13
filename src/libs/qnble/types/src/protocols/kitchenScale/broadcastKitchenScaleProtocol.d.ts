@@ -14,7 +14,7 @@ declare class BroadcastKitchenScaleProtocolProfile implements QNBleProtocolProfi
     buildTargetDevice(nativeDevice: QNBleNativeDevice): Partial<QNBleDevice>;
 }
 export default class BroadcastKitchenScaleProtocol extends QNBleProtocol<QNBleTypings.QNKitchenEventListener> {
-    static bleProfle: BroadcastKitchenScaleProtocolProfile;
+    static bleProfile: BroadcastKitchenScaleProtocolProfile;
     measureCount: number;
     prepare(): Promise<any>;
     /**

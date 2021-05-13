@@ -11,7 +11,7 @@ declare class SphygmomanometerProtocolProfile implements QNBleProtocolProfile {
     buildTargetDevice(nativeDevice: QNBleNativeDevice): Partial<QNBleDevice>;
 }
 export default class SphygmomanometerProtocol extends QNBleProtocol<QNBleTypings.QNSPMeasureEventListener> {
-    static bleProfle: SphygmomanometerProtocolProfile;
+    static bleProfile: SphygmomanometerProtocolProfile;
     UUID_IBT_SERVICE: string;
     UUID_IBT_READ: string;
     UUID_IBT_WRITE: string;
@@ -83,17 +83,24 @@ export default class SphygmomanometerProtocol extends QNBleProtocol<QNBleTypings
         dataServerUrl: string;
         encryptKey: string;
     }): Promise<any>;
-    doPrepareSetWifi(payload: {
-        wifiSsid: string;
-        wifiPwd: string;
-        dataServerUrl: string;
-        encryptKey: string;
+    doPrepareSetWifi(payload?: {
+        wifiSsid?: string;
+        wifiPwd?: string;
+        dataServerUrl?: string;
+        otaServerUrl?: string;
+        encryptKey?: string;
     }): Promise<any>;
     sendWifiSsid(): Promise<any>;
     sendWifiPwd(): Promise<any>;
     sendDataServerUrl(): Promise<any>;
     sendOtaServerUrl(): Promise<any>;
     sendEncryptKeyData(): Promise<any>;
+    /**
+     * 查询wifi连接状态
+     * 可使用 qnble.callProtocolMethodAsync(deviceId, 'queryWifiConnectStatus', ...args)
+     * @param {number} type 1：表示查询wifi是否连接 2：查询wifi是否连接服务器
+     */
+    queryWifiConnectStatus(type?: number): Promise<void>;
     /**
      * 准备蓝牙配对
      */
