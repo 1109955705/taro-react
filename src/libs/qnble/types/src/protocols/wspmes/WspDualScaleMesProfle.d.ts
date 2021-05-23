@@ -21,10 +21,13 @@ export default class WspDualScaleMesProfle implements QNBleProtocolProfile {
     static EIGHT_UUID_WIFI_WRITE: string;
     static HEIGHTWEIGHT_UUID_NOTIFY: string;
     static HEIGHTWEIGHT_UUID_WRITE: string;
+    static HEIGHTWEIGHT_SINGLE_BLE_UUID_NOTIFY: string;
+    static HEIGHTWEIGHT_SINGLE_BLE_UUID_WRITE: string;
     static UUID_TIME_SERVICES: string;
     static UUID_DEVICE_SERVICES: string;
     static EIGHT_UUID_DEVICE_SERVICES: string;
     static HEIGHTWEIGHT_UUID_DEVICE_SERVICES: string;
+    static HEIGHTWEIGHT_SINGLE_BLE_UUID_DEVICE_SERVICES: string;
     static UUID_SN: string;
     defaultAction: QNBleAction;
     type: QNBleDeviceType;

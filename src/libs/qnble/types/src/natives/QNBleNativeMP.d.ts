@@ -10,13 +10,17 @@ declare type QNBleNativeMPBleState = {
 };
 export default class QNBleNativeMP extends QNBleNativeCommonExtends implements QNBleNative {
     name: string;
+    useDefaultHttpRequest: boolean;
     bleState: QNBleNativeMPBleState;
+    mpwx: any;
     inited: boolean;
+    constructor(mpwx: any);
     /**
      * 初始化
      * @returns {Promise<QNBleTypings.InitFuncReturnValue>}
      */
     init(): Promise<QNBleTypings.InitFuncReturnValue>;
+    release(): Promise<void>;
     getBluetoothAdapterState(): Promise<QNBleTypings.BleState>;
     openBluetoothAdapter(): Promise<unknown>;
     closeBluetoothAdapter(): Promise<unknown>;

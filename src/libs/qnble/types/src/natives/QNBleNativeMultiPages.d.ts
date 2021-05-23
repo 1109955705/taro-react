@@ -49,7 +49,7 @@ export default class QNBleNativeMultiPages extends QNBleNativeCommonExtends impl
      * 判断当前蓝牙适配器是否可用
      */
     checkBleAvailable(): Promise<any>;
-    startScan(): Promise<any>;
+    startScan(params?: any): Promise<any>;
     stopScan(): Promise<any>;
     /**
      * 创建蓝牙连接

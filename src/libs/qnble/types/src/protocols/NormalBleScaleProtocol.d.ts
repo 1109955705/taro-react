@@ -6,7 +6,7 @@ import QNBleNativeDevice from '../QNBleNativeDevice';
 import QNBleDevice from '../QNBleDevice';
 import { QNBleDeviceType, QNBleTransferType, QNBleAction } from '../consts';
 import QNBleTypings from '../typings';
-declare class NormalBleScaleBleProfle implements QNBleProtocolProfile {
+declare class NormalBleScalebleProfile implements QNBleProtocolProfile {
     defaultAction: QNBleAction;
     type: QNBleDeviceType;
     transferType: QNBleTransferType;
@@ -14,7 +14,7 @@ declare class NormalBleScaleBleProfle implements QNBleProtocolProfile {
     buildTargetDevice(nativeDevice: QNBleNativeDevice): Partial<QNBleDevice>;
 }
 export default class NormalBleScaleProtocol extends QNBleBaseScaleProtocol<QNBleTypings.QNBaseScaleMeasureEventListener> {
-    static bleProfle: NormalBleScaleBleProfle;
+    static bleProfile: NormalBleScalebleProfile;
     UUID_IBT_SERVICE: string;
     UUID_IBT_READ: string;
     UUID_IBT_WRITE: string;

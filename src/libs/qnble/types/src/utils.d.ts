@@ -69,6 +69,10 @@ export declare function kebabCaseAndRemoveOn(str: string, symbol?: string, trimH
  * @param rssi - 信号强度，是负数
  */
 export declare function getWifiRssiLevel(rssi: number): number;
+/**
+ * 判断两个对象的值是否一致
+ */
+export declare function equal(o1: object, o2: object): boolean;
 declare const _default: {
     hasOwnProperty: typeof hasOwnProperty;
     number2hex: typeof number2hex;
@@ -91,5 +95,6 @@ declare const _default: {
     decodeInteger: typeof decodeInteger;
     sealGenderParam: typeof sealGenderParam;
     kebabCaseAndRemoveOn: typeof kebabCaseAndRemoveOn;
+    equal: typeof equal;
 };
 export default _default;

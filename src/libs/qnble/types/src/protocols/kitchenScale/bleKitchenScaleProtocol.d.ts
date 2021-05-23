@@ -15,7 +15,7 @@ declare class BleKitchenScaleProtocolProfile implements QNBleProtocolProfile {
     buildTargetDevice(nativeDevice: QNBleNativeDevice): Partial<QNBleDevice>;
 }
 export default class BleKitchenScaleProtocol extends QNBleProtocol<QNBleTypings.QNKitchenEventListener> {
-    static bleProfle: BleKitchenScaleProtocolProfile;
+    static bleProfile: BleKitchenScaleProtocolProfile;
     UUID_IBT_SERVICE: string;
     UUID_IBT_READ: string;
     UUID_IBT_WRITE: string;

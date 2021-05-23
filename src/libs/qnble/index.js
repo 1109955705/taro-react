@@ -1,10 +1,26 @@
 /*! ********************************************************
   * QNBle
   * @author huyongkang<huyongkang@yolanda.hk>
-  * @date 2021-04-15T09:29:22.364Z
-  * @version 0.1.0
+  * @date 2021-05-13T02:55:43.380Z
+  * @version 1.1.0
   *********************************************************/
 
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -132,7 +148,9 @@ var QNBleAction;
 
 (function (QNBleAction) {
   // 尚未设定状态，就是不指定默认action
-  QNBleAction["NOT_SET"] = "not_set";
+  QNBleAction["NOT_SET"] = "not_set"; // 测量
+
+  QNBleAction["MEASURE"] = "measure";
   QNBleAction["MEASURE_WEIGHT"] = "measure_weight";
   QNBleAction["SET_WIFI"] = "set_wifi"; //Mes生产相关
 
@@ -148,6 +166,10 @@ var QNBleAction;
   QNBleAction["SP_SYNC_CURRENT_DATA"] = "sp_sync_current_data"; // 同步历史数据
 
   QNBleAction["SP_SYNC_HISTORY_DATA"] = "sp_sync_history_data"; // !SECTION
+  // 筋膜枪
+  // 调整设置
+
+  QNBleAction["FG_ADJUST_SETTING"] = "fg_adjust_setting";
 })(QNBleAction || (QNBleAction = {}));
 
 var QNBleDeviceType;
@@ -157,16 +179,24 @@ var QNBleDeviceType;
   QNBleDeviceType["OTM_BROADCAST_SCALE"] = "otm_broadcast_scale";
   QNBleDeviceType["OTO_BROADCAST_SCALE"] = "oto_broadcast_scale";
   QNBleDeviceType["WSP_DUAL_MODE_SCALE"] = "wsp_dual_mode_scale";
-  QNBleDeviceType["WSP_EIGHT_DUAL_MODE_SCALE"] = "wsp_eight_dual_mode_scale";
-  QNBleDeviceType["HEIGHTWEIGHT"] = "heightWeight"; // 身高体重一体机
+  QNBleDeviceType["WSP_EIGHT_DUAL_MODE_SCALE"] = "wsp_eight_dual_mode_scale"; // CP30B
+
+  QNBleDeviceType["HEIGHTWEIGHT"] = "heightWeight"; // CP30A 单蓝牙身高体重秤
+
+  QNBleDeviceType["HEIGHTWEIGHT_SINGLE_BLE"] = "heightWeightSingleBle"; // 身高体重一体机
 
   QNBleDeviceType["HEIGHT_WEIGHT_SCALE"] = "height_weight_scale"; // 共享秤CP20A（彩屏）
 
   QNBleDeviceType["SHARE_SCALE_CL"] = "share_scale_cl"; // 共享秤CP20A
 
-  QNBleDeviceType["SHARE_SCALE"] = "share_scale"; // 血压计 SPA10A
+  QNBleDeviceType["SHARE_SCALE"] = "share_scale"; // 筋膜枪
 
-  QNBleDeviceType["SP_10A"] = "sp_10a";
+  QNBleDeviceType["FASCIA_GUN"] = "fascia_gun"; // 血压计SP10A
+
+  QNBleDeviceType["SPHYGMOMANOMETER"] = "sphygmomanometer"; // 体温计
+
+  QNBleDeviceType["THERMOMETER"] = "thermometer"; // 厨房秤
+
   QNBleDeviceType["BLE_KITCHEN_SCALE"] = "ble_kitchen_scale";
 })(QNBleDeviceType || (QNBleDeviceType = {}));
 
@@ -258,6 +288,7 @@ var QNBleErrorType;
   QNBleErrorType["GET_BLE_DEVICE_CHARACTERISTICS_FAILED"] = "GET_BLE_DEVICE_CHARACTERISTICS_FAILED";
   QNBleErrorType["SEND_MEASURE_DATA_FAILED"] = "SEND_MEASURE_DATA_FAILED";
   QNBleErrorType["REGISTER_USER_FAILED"] = "REGISTER_USER_FAILED";
+  QNBleErrorType["VISIT_USER_FAILED"] = "VISIT_USER_FAILED";
   QNBleErrorType["CREATE_BLE_SERVER_FAILED"] = "CREATE_BLE_SERVER_FAILED";
   QNBleErrorType["PROTOCOL_PREPARE_FAILED"] = "PROTOCOL_PREPARE_FAILED";
 })(QNBleErrorType || (QNBleErrorType = {}));
@@ -353,18 +384,18 @@ var QNBleEventNames = ['bluetooth_enable_change', 'start_discovery_device', 'sto
 var QNDeviceEventNames = ['get_device_info', 'get_unsteady_weight', 'get_scale_data', 'start_fetch_scale_data', 'fetch_scale_data_fail', 'set_wifi_success', 'register_user_success', 'start_measure_fat', 'start_measure_heart'];
 
 var consts = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    get QNBleTransferType () { return QNBleTransferType; },
-    get QNBleAction () { return QNBleAction; },
-    get QNBleDeviceType () { return QNBleDeviceType; },
-    get QNBleGender () { return QNBleGender; },
-    get QNBleUnit () { return QNBleUnit; },
-    get MesBehavior () { return MesBehavior; },
-    get MesCalibrationType () { return MesCalibrationType; },
-    get QNBleErrorType () { return QNBleErrorType; },
-    QNBleErrorDesc: QNBleErrorDesc,
-    QNBleEventNames: QNBleEventNames,
-    QNDeviceEventNames: QNDeviceEventNames
+  __proto__: null,
+  get QNBleTransferType () { return QNBleTransferType; },
+  get QNBleAction () { return QNBleAction; },
+  get QNBleDeviceType () { return QNBleDeviceType; },
+  get QNBleGender () { return QNBleGender; },
+  get QNBleUnit () { return QNBleUnit; },
+  get MesBehavior () { return MesBehavior; },
+  get MesCalibrationType () { return MesCalibrationType; },
+  get QNBleErrorType () { return QNBleErrorType; },
+  QNBleErrorDesc: QNBleErrorDesc,
+  QNBleEventNames: QNBleEventNames,
+  QNDeviceEventNames: QNDeviceEventNames
 });
 
 function hasOwnProperty(obj, prop) {
@@ -439,6 +470,12 @@ function extractManufactureData(arr) {
 
     return false;
   });
+
+  if (manufacture.length > 0) {
+    // 补充 0xFFFF
+    manufacture.unshift(255, 255);
+  }
+
   return manufacture;
 }
 function splitArray(arr) {
@@ -698,6 +735,38 @@ function getWifiRssiLevel(rssi) {
     return 4;
   }
 }
+/**
+ * 判断两个对象的值是否一致
+ */
+
+function equal(o1, o2) {
+  if (o1 === o2) {
+    return true;
+  }
+
+  if (_typeof(o1) !== 'object' || _typeof(o2) !== 'object') {
+    return false;
+  }
+
+  var o1Keys = Object.keys(o1);
+  var o2Keys = Object.keys(o2);
+
+  if (o1Keys.length !== o2Keys.length) {
+    return false;
+  }
+
+  return o1Keys.every(function (key) {
+    if (!o2Keys.includes(key)) {
+      return false;
+    } // @ts-ignore
+
+
+    var o1Val = o1[key]; // @ts-ignore
+
+    var o2Val = o2[key];
+    return equal(o1Val, o2Val);
+  });
+}
 var utils = {
   hasOwnProperty: hasOwnProperty,
   number2hex: number2hex,
@@ -719,7 +788,8 @@ var utils = {
   timeoutPromise: timeoutPromise,
   decodeInteger: decodeInteger,
   sealGenderParam: sealGenderParam,
-  kebabCaseAndRemoveOn: kebabCaseAndRemoveOn
+  kebabCaseAndRemoveOn: kebabCaseAndRemoveOn,
+  equal: equal
 };
 
 var QNBleCommonExtends =
@@ -790,8 +860,11 @@ function (_super) {
       params = {};
     }
 
-    var _this = _super.call(this) || this; // 事件监听
+    var _this = _super.call(this) || this; // 是否使用默认的http请求方法
+    // 例如像小程序就必需使用小程序的接口请求api，那么就需要将此值设置为false，并实现 sendHttpRequest 方法
 
+
+    _this.useDefaultHttpRequest = true; // 事件监听
 
     _this.listener = {
       onNativeBluetoothEnableChange: function onNativeBluetoothEnableChange(available) {
@@ -1074,7 +1147,8 @@ function (_super) {
 
     if (errorType instanceof QNBleError) {
       return errorType;
-    }
+    } // @ts-ignore
+
 
     var detail = QNBleErrorDesc[errorType] || QNBleErrorDesc[QNBleErrorType.UNKNOW_ERROR];
     _this.detail = detail; // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -1225,7 +1299,7 @@ function (_super) {
     var age = this.operation.user.age || calcAgeWithBirthday(getNewDateInstance(this.operation.user.birthday));
     var gender = sealGenderParam(this.operation.user.gender);
     var bodyParamsObject = {
-      Body_Height: this.operation.user.height,
+      Body_Height: scaleData.height || this.operation.user.height,
       User_Age: age,
       User_Gender: gender,
       Person_Type: 0
@@ -1300,6 +1374,10 @@ function (_super) {
       }
 
       var measureData = _this.prepareData(data.resultData);
+
+      if (scaleData.height) {
+        measureData.stature = scaleData.height;
+      }
 
       (_d = (_c = _this.listener).onGetScaleData) === null || _d === void 0 ? void 0 : _d.call(_c, {
         response: data.resultData,
@@ -1504,10 +1582,10 @@ function (_super) {
       },
       value: function value() {
         if (isWsp) {
-          return data.heartIndex;
+          return Number.parseFloat(data.heartIndex.toFixed(1)) || 0;
         }
 
-        return Number.parseInt(data.cardiac_index.toFixed(0), 10) || 0;
+        return Number.parseFloat(data.cardiac_index.toFixed(1)) || 0;
       }
     }];
     measureProps.forEach(function (item) {
@@ -1556,6 +1634,17 @@ function (_super) {
     }
 
     return weight;
+  };
+  /**
+   * 得到身高数据
+   * @param {number} a1
+   * @param {number} b1
+   */
+
+
+  QNScaleBiz.prototype.decodeHeight = function (a1, b1) {
+    var d = decodeInteger(a1, b1);
+    return d / 10;
   };
 
   QNScaleBiz.prototype.fakeRequest = function (weight) {
@@ -1761,6 +1850,18 @@ function (_super) {
 
     this.log("[\u5199\u5165] serviceId: " + _serviceId + "; characteristicId: " + _characteristicId + "; data: " + formatArrayToHex(data));
     return this.bleNative.writeData(this.bleDevice.deviceId, _serviceId, _characteristicId, data);
+  };
+
+  QNBleProtocol.prototype.writeCmd = function (_a) {
+    var header = _a.header,
+        cmd = _a.cmd,
+        serviceId = _a.serviceId,
+        characteristicId = _a.characteristicId;
+    return this.writeData({
+      serviceId: serviceId,
+      characteristicId: characteristicId,
+      cmdData: __spread([header, cmd.length + 3], cmd)
+    });
   };
   /**
    * 连接断开后，需要调用该方法，清除一些资源
@@ -1992,20 +2093,38 @@ function getDeviceTarget(nativeDevice) {
   return 0;
 }
 
-var HeightWeightScaleProfle =
+function HSSyncTime() {
+  var d = Math.floor(Date.now() / 1000);
+  return [d & 0xFF, d >> 8 & 0xFF, d >> 16 & 0xFF, d >> 24 & 0xFF];
+}
+
+function buildCmd(cmd, deviceType) {
+  var data = [];
+
+  for (var _i = 2; _i < arguments.length; _i++) {
+    data[_i - 2] = arguments[_i];
+  }
+
+  var cmdData = __spread([cmd, data.length + 4, deviceType], data); // writeData会自动添加和计算校验位
+
+
+  return cmdData;
+}
+
+var HeightWeightScaleProfile =
 /** @class */
 function () {
-  function HeightWeightScaleProfle() {
+  function HeightWeightScaleProfile() {
     this.defaultAction = QNBleAction.SET_WIFI;
     this.type = QNBleDeviceType.HEIGHT_WEIGHT_SCALE;
     this.transferType = QNBleTransferType.BLE;
   }
 
-  HeightWeightScaleProfle.prototype.isTargetDevice = function (nativeDevice) {
+  HeightWeightScaleProfile.prototype.isTargetDevice = function (nativeDevice) {
     return [1, 2].includes(getDeviceTarget(nativeDevice));
   };
 
-  HeightWeightScaleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  HeightWeightScaleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
@@ -2018,8 +2137,15 @@ function () {
     };
 
     if (deviceTarget === 1) {
-      var manufacturer = nativeDevice.manufacturer;
-      var macs = [number2hex(manufacturer[12]), number2hex(manufacturer[11]), number2hex(manufacturer[10]), number2hex(manufacturer[9]), number2hex(manufacturer[8]), number2hex(manufacturer[7])];
+      var manufacturer = nativeDevice.manufacturer; // 身高体重秤有兼容mes和不兼容mes的版本，mac地址会发生反转, 小于26位的是不兼容mes
+
+      var length_1 = manufacturer.length - 2;
+      var macs = manufacturer.slice(-7, -1);
+
+      if (length_1 > 26) {
+        macs.reverse();
+      }
+
       var sns = [number2hex(manufacturer[4]), number2hex(manufacturer[5]), number2hex(manufacturer[6])];
       Object.assign(targetDevice, {
         mac: macs.join(':'),
@@ -2037,7 +2163,7 @@ function () {
     return targetDevice;
   };
 
-  return HeightWeightScaleProfle;
+  return HeightWeightScaleProfile;
 }();
 
 var HeightWeightScaleProtocol =
@@ -2050,7 +2176,9 @@ function (_super) {
 
     _this.UUID_IBT_SERVICE = '0000ABF0-0000-1000-8000-00805F9B34FB';
     _this.UUID_IBT_READ = '0000ABF1-0000-1000-8000-00805F9B34FB';
-    _this.UUID_IBT_WRITE = '0000ABF2-0000-1000-8000-00805F9B34FB'; // 当前执行命令的包的序号
+    _this.UUID_IBT_WRITE = '0000ABF2-0000-1000-8000-00805F9B34FB'; // 最后收到数据的时间
+
+    _this.lastWeightTime = 0; // 当前执行命令的包的序号
 
     _this.currentCmdNo = 0; // wifi账号指令数据
 
@@ -2065,6 +2193,62 @@ function (_super) {
     _this.encryptKeyCmdData = [];
     return _this;
   }
+
+  Object.defineProperty(HeightWeightScaleProtocol.prototype, "serviceId", {
+    get: function get() {
+      return this.UUID_IBT_SERVICE;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(HeightWeightScaleProtocol.prototype, "characteristicReadId", {
+    get: function get() {
+      return this.UUID_IBT_READ;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(HeightWeightScaleProtocol.prototype, "characteristicWriteId", {
+    get: function get() {
+      return this.UUID_IBT_WRITE;
+    },
+    enumerable: false,
+    configurable: true
+  });
+
+  HeightWeightScaleProtocol.prototype.prepare = function () {
+    var _this = this;
+
+    this.instanceScaleBiz();
+    var deviceId = this.bleDevice.deviceId;
+    return this.bleNative.findService(deviceId).then(function (services) {
+      _this.log('获取到蓝牙服务列表', services); // 查找服务特征值方案
+
+
+      services.some(function (service) {
+        if (service.characteristicId === _this.UUID_IBT_SERVICE) {
+          return true;
+        }
+
+        return false;
+      });
+
+      _this.log('deviceId', deviceId, 'serviceId', _this.serviceId);
+
+      return timeoutPromise(100).then(function () {
+        return _this.bleNative.findBleDeviceCharacteristics(deviceId, _this.serviceId);
+      });
+    }).then(function () {
+      _this.log('发现特征值成功'); // 使能特征值
+
+
+      return _this.bleNative.enableNotify(deviceId, _this.serviceId, _this.characteristicReadId);
+    })["catch"](function (err) {
+      _this.log('prepare出错', err);
+
+      throw err;
+    });
+  };
   /**
    * @override
    * @param {QNBleTypings.TypedCharacteristicValueChangePayload} payload
@@ -2072,121 +2256,221 @@ function (_super) {
 
 
   HeightWeightScaleProtocol.prototype.decode = function (payload) {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
 
     return __awaiter(this, void 0, void 0, function () {
-      var data, scaleType, _c, cmd;
+      var data, scaleType, _j, height, weight, fatEnable, timeData, cmd;
 
-      return __generator(this, function (_d) {
-        switch (_d.label) {
+      return __generator(this, function (_k) {
+        switch (_k.label) {
           case 0:
             data = payload.data;
             scaleType = data[2];
-            _c = data[0];
+            _j = data[0];
 
-            switch (_c) {
-              case 0x12:
+            switch (_j) {
+              case 0x10:
                 return [3
                 /*break*/
                 , 1];
 
+              case 0x12:
+                return [3
+                /*break*/
+                , 10];
+
               case 0x14:
                 return [3
                 /*break*/
-                , 3];
+                , 12];
 
               case 0x61:
                 return [3
                 /*break*/
-                , 6];
+                , 16];
 
               case 0x63:
                 return [3
                 /*break*/
-                , 8];
+                , 18];
 
               case 0x65:
                 return [3
                 /*break*/
-                , 13];
+                , 23];
 
               case 0x67:
                 return [3
                 /*break*/
-                , 15];
+                , 25];
 
               case 0x69:
                 return [3
                 /*break*/
-                , 19];
+                , 29];
 
               case 0x6B:
                 return [3
                 /*break*/
-                , 21];
+                , 31];
 
               case 0x6F:
                 return [3
                 /*break*/
-                , 26];
+                , 36];
 
               case 0x71:
                 return [3
                 /*break*/
-                , 28];
+                , 38];
 
               case 0x73:
                 return [3
                 /*break*/
-                , 33];
+                , 43];
 
               case 0x74:
                 return [3
                 /*break*/
-                , 34];
+                , 44];
             }
 
             return [3
             /*break*/
-            , 37];
+            , 47];
 
           case 1:
+            height = this.scaleBizImp.decodeHeight(data[11], data[12]);
+            weight = this.scaleBizImp.decodeWeight(data[3], data[4]);
+            this.log('接收到0x10命令', height, weight);
+            if (!(data[5] === 0)) return [3
+            /*break*/
+            , 2]; // 实时的重量数据
+
+            (_b = (_a = this.listener).onGetUnsteadyWeight) === null || _b === void 0 ? void 0 : _b.call(_a, {
+              weight: weight
+            });
+            return [3
+            /*break*/
+            , 9];
+
+          case 2:
+            if (!(data[5] === 1)) return [3
+            /*break*/
+            , 4]; // 电阻测量完毕
+
+            return [4
+            /*yield*/
+            , this.dispatchSteadyData(weight, height, data)];
+
+          case 3:
+            // 电阻测量完毕
+            _k.sent();
+
+            return [3
+            /*break*/
+            , 9];
+
+          case 4:
+            if (!(data[5] === 3)) return [3
+            /*break*/
+            , 5]; // 身高实时数据
+
+            this.lastWeightTime = height === 0 ? 0 : new Date().getTime();
+            (_d = (_c = this.listener).onGetUnsteadyHeight) === null || _d === void 0 ? void 0 : _d.call(_c, {
+              height: height
+            });
+            return [3
+            /*break*/
+            , 9];
+
+          case 5:
+            if (!(data[5] === 4)) return [3
+            /*break*/
+            , 8]; // 身高测量结果
+
+            (_f = (_e = this.listener).onMeasureHeightEnd) === null || _f === void 0 ? void 0 : _f.call(_e, {
+              weight: weight,
+              height: height
+            });
+            fatEnable = data[data.length - 2];
+            if (!!fatEnable) return [3
+            /*break*/
+            , 7];
+            return [4
+            /*yield*/
+            , this.dispatchSteadyData(weight, height, data)];
+
+          case 6:
+            _k.sent();
+
+            _k.label = 7;
+
+          case 7:
+            return [3
+            /*break*/
+            , 9];
+
+          case 8:
+            if (data[5] === 5) ;
+
+            _k.label = 9;
+
+          case 9:
+            return [3
+            /*break*/
+            , 48];
+
+          case 10:
             this.log('接收到0x12命令');
+            this.lastWeightTime = 0;
             return [4
             /*yield*/
             , this.writeData({
               cmdData: [0x13, 0x9, scaleType, 0x01, 0, 0, 0, 0]
             })];
 
-          case 2:
-            _d.sent();
+          case 11:
+            _k.sent();
 
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 3:
+          case 12:
             this.log('接收到0x14命令');
             if (!(this.operation.action === QNBleAction.SET_WIFI)) return [3
             /*break*/
-            , 5]; // 通知秤准备配网
+            , 14]; // 通知秤准备配网
 
             return [4
             /*yield*/
             , this.doPrepareSetWifi()];
 
-          case 4:
+          case 13:
             // 通知秤准备配网
-            _d.sent();
+            _k.sent();
 
-            _d.label = 5;
-
-          case 5:
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 6:
+          case 14:
+            timeData = HSSyncTime();
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x20, 0x8, scaleType, timeData[0], timeData[1], timeData[2], timeData[3]]
+            })];
+
+          case 15:
+            _k.sent();
+
+            return [3
+            /*break*/
+            , 48];
+
+          case 16:
             this.log('接收到0x61命令'); // 收到开始配网的回复
             // 开始发送SSID命令
 
@@ -2195,32 +2479,32 @@ function (_super) {
             /*yield*/
             , this.sendWifiSsid()];
 
-          case 7:
-            _d.sent();
+          case 17:
+            _k.sent();
 
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 8:
+          case 18:
             this.log('接收到0x63命令');
             if (!(this.currentCmdNo < this.ssidCmdData.length)) return [3
             /*break*/
-            , 10]; // ssid还没发送完
+            , 20]; // ssid还没发送完
 
             return [4
             /*yield*/
             , this.sendWifiSsid()];
 
-          case 9:
+          case 19:
             // ssid还没发送完
-            _d.sent();
+            _k.sent();
 
             return [3
             /*break*/
-            , 12];
+            , 22];
 
-          case 10:
+          case 20:
             // ssid已经发送，重置序号，开始发送wifi密码
             this.currentCmdNo = 0;
             this.log('发送启动设置 WIFI密码 命令');
@@ -2230,91 +2514,91 @@ function (_super) {
               cmdData: [0x64, 0x04, this.pwdCmdData.length]
             })];
 
-          case 11:
-            _d.sent();
+          case 21:
+            _k.sent();
 
-            _d.label = 12;
+            _k.label = 22;
 
-          case 12:
+          case 22:
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 13:
+          case 23:
             this.log('接收到0x65命令');
             this.currentCmdNo = 0;
             return [4
             /*yield*/
             , this.sendWifiPwd()];
 
-          case 14:
-            _d.sent();
+          case 24:
+            _k.sent();
 
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 15:
+          case 25:
             this.log('接收到0x67命令');
             if (!(this.currentCmdNo < this.pwdCmdData.length)) return [3
             /*break*/
-            , 17]; // wifi密码还没发送完
+            , 27]; // wifi密码还没发送完
 
             return [4
             /*yield*/
             , this.sendWifiPwd()];
 
-          case 16:
+          case 26:
             // wifi密码还没发送完
-            _d.sent();
+            _k.sent();
 
             return [3
             /*break*/
-            , 18];
+            , 28];
 
-          case 17:
+          case 27:
             // wifi密码已发送完，重置序号
             this.currentCmdNo = 0;
-            _d.label = 18;
+            _k.label = 28;
 
-          case 18:
+          case 28:
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 19:
+          case 29:
             this.log('接收到0x69命令');
             this.currentCmdNo = 0;
             return [4
             /*yield*/
             , this.sendDataServerUrl()];
 
-          case 20:
-            _d.sent();
+          case 30:
+            _k.sent();
 
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 21:
+          case 31:
             this.log('接收到0x6B命令');
             if (!(this.currentCmdNo < this.dataServerUrlData.length)) return [3
             /*break*/
-            , 23]; // 数据服务器URL还没发送完
+            , 33]; // 数据服务器URL还没发送完
 
             return [4
             /*yield*/
             , this.sendDataServerUrl()];
 
-          case 22:
+          case 32:
             // 数据服务器URL还没发送完
-            _d.sent();
+            _k.sent();
 
             return [3
             /*break*/
-            , 25];
+            , 35];
 
-          case 23:
+          case 33:
             // 数据服务器URL已经发送，重置序号，开始发送OTA服务器URL
             this.currentCmdNo = 0;
             this.log('发送启动设置 OTA服务器 命令');
@@ -2324,49 +2608,49 @@ function (_super) {
               cmdData: [0x6E, 0x04, this.otaServerUrlData.length]
             })];
 
-          case 24:
-            _d.sent();
+          case 34:
+            _k.sent();
 
-            _d.label = 25;
+            _k.label = 35;
 
-          case 25:
+          case 35:
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 26:
+          case 36:
             this.log('接收到0x6F命令');
             this.currentCmdNo = 0;
             return [4
             /*yield*/
             , this.sendOtaServerUrl()];
 
-          case 27:
-            _d.sent();
+          case 37:
+            _k.sent();
 
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 28:
+          case 38:
             this.log('接收到0x71命令');
             if (!(this.currentCmdNo < this.otaServerUrlData.length)) return [3
             /*break*/
-            , 30]; // OTA服务器URL还没发送完
+            , 40]; // OTA服务器URL还没发送完
 
             return [4
             /*yield*/
             , this.sendOtaServerUrl()];
 
-          case 29:
+          case 39:
             // OTA服务器URL还没发送完
-            _d.sent();
+            _k.sent();
 
             return [3
             /*break*/
-            , 32];
+            , 42];
 
-          case 30:
+          case 40:
             // OTA服务器URL已发送完，重置序号，开始发送加密秘钥
             this.currentCmdNo = 0;
             cmd = this.encryptKeyCmdData;
@@ -2377,28 +2661,28 @@ function (_super) {
               cmdData: __spread([0x72, 0x10, 0x01], cmd)
             })];
 
-          case 31:
-            _d.sent();
+          case 41:
+            _k.sent();
 
-            _d.label = 32;
+            _k.label = 42;
 
-          case 32:
+          case 42:
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 33:
+          case 43:
             {
               this.log('接收到0x73命令'); // 写入加密密钥成功
               // 通知配网成功
 
-              (_b = (_a = this.listener).onSetWifiSuccess) === null || _b === void 0 ? void 0 : _b.call(_a);
+              (_h = (_g = this.listener).onSetWifiSuccess) === null || _h === void 0 ? void 0 : _h.call(_g);
               return [3
               /*break*/
-              , 38];
+              , 48];
             }
 
-          case 34:
+          case 44:
             this.log('接收到0x74命令'); // 收到配网成功的命令
 
             return [4
@@ -2407,9 +2691,9 @@ function (_super) {
               cmdData: [0x75, 0x04, 1]
             })];
 
-          case 35:
+          case 45:
             // 收到配网成功的命令
-            _d.sent();
+            _k.sent();
 
             this.currentCmdNo = 0;
             this.log('发送启动设置 数据服务器 命令');
@@ -2419,22 +2703,22 @@ function (_super) {
               cmdData: [0x68, 0x04, this.dataServerUrlData.length]
             })];
 
-          case 36:
-            _d.sent(); // this.deviceEventListener
+          case 46:
+            _k.sent(); // this.deviceEventListener
             //   && this.deviceEventListener.onSetWifiSuccess
             //   && this.deviceEventListener.onSetWifiSuccess();
 
 
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 37:
+          case 47:
             return [3
             /*break*/
-            , 38];
+            , 48];
 
-          case 38:
+          case 48:
             return [2
             /*return*/
             ];
@@ -2535,9 +2819,46 @@ function (_super) {
     });
   };
 
-  HeightWeightScaleProtocol.bleProfle = new HeightWeightScaleProfle();
+  HeightWeightScaleProtocol.prototype.dispatchSteadyData = function (weight, height, data) {
+    return __awaiter(this, void 0, void 0, function () {
+      var scaleType, sendCmd, testTime, hasResistance, resistance50, resistance500, scaleData;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            scaleType = data[2];
+            sendCmd = buildCmd(0x1f, scaleType, 0x10);
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: sendCmd
+            })];
+
+          case 1:
+            _a.sent();
+
+            testTime = new Date().getTime() - this.lastWeightTime;
+            hasResistance = Number(testTime > 4000);
+            resistance50 = decodeInteger(data[6], data[7]);
+            resistance500 = decodeInteger(data[8], data[9]);
+            scaleData = {
+              weight: weight,
+              height: height,
+              resistance50: resistance50,
+              resistance500: resistance500,
+              hasResistance: hasResistance
+            };
+            this.log('称重结束', scaleData);
+            return [2
+            /*return*/
+            , this.scaleBizImp.fetchScaleData(scaleData)];
+        }
+      });
+    });
+  };
+
+  HeightWeightScaleProtocol.bleProfile = new HeightWeightScaleProfile();
   return HeightWeightScaleProtocol;
-}(QNBleProtocol);
+}(QNBleBaseScaleProtocol);
 
 var SECOND_2000_YEAR = 946656000;
 /**
@@ -2549,7 +2870,7 @@ function isHeartRateScale(scaleType) {
   return scaleType === 0x21;
 }
 
-function buildCmd(cmd, deviceType) {
+function buildCmd$1(cmd, deviceType) {
   var data = [];
 
   for (var _i = 2; _i < arguments.length; _i++) {
@@ -2563,16 +2884,16 @@ function buildCmd(cmd, deviceType) {
   return cmdData;
 }
 
-var NormalBleScaleBleProfle =
+var NormalBleScalebleProfile =
 /** @class */
 function () {
-  function NormalBleScaleBleProfle() {
+  function NormalBleScalebleProfile() {
     this.defaultAction = QNBleAction.MEASURE_WEIGHT;
     this.type = QNBleDeviceType.NORMAL_BLE_SCALE;
     this.transferType = QNBleTransferType.BLE;
   }
 
-  NormalBleScaleBleProfle.prototype.isTargetDevice = function (nativeDevice) {
+  NormalBleScalebleProfile.prototype.isTargetDevice = function (nativeDevice) {
     var bleName = nativeDevice.bluetoothName;
 
     if (bleName === 'QN-Scale' || bleName === 'QN-Scale1' || bleName === 'ZT-Scale1' // 接入华为运动健康和智慧生活的秤
@@ -2584,14 +2905,14 @@ function () {
     return false;
   };
 
-  NormalBleScaleBleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  NormalBleScalebleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
 
     var manufacturer = nativeDevice.manufacturer;
 
-    if (manufacturer.length === 0) {
+    if (manufacturer.length < 13) {
       return {};
     }
 
@@ -2603,7 +2924,7 @@ function () {
     };
   };
 
-  return NormalBleScaleBleProfle;
+  return NormalBleScalebleProfile;
 }();
 
 var NormalBleScaleProtocol =
@@ -2763,7 +3084,7 @@ function (_super) {
             return [4
             /*yield*/
             , this.writeData({
-              cmdData: buildCmd(0x13, scaleType, unitByte, 0x10, 0x00, 0x00, 0x00)
+              cmdData: buildCmd$1(0x13, scaleType, unitByte, 0x10, 0x00, 0x00, 0x00)
             })];
 
           case 2:
@@ -2850,7 +3171,7 @@ function (_super) {
             return [4
             /*yield*/
             , this.writeData({
-              cmdData: buildCmd(0x20, scaleType, timeData[0], timeData[1], timeData[2], timeData[3])
+              cmdData: buildCmd$1(0x20, scaleType, timeData[0], timeData[1], timeData[2], timeData[3])
             })];
 
           case 12:
@@ -2881,7 +3202,7 @@ function (_super) {
         switch (_a.label) {
           case 0:
             scaleType = data[2];
-            sendCmd = buildCmd(0x1f, scaleType, 0x10);
+            sendCmd = buildCmd$1(0x1f, scaleType, 0x10);
             return [4
             /*yield*/
             , this.writeData({
@@ -2925,24 +3246,24 @@ function (_super) {
     });
   };
 
-  NormalBleScaleProtocol.bleProfle = new NormalBleScaleBleProfle();
+  NormalBleScaleProtocol.bleProfile = new NormalBleScalebleProfile();
   return NormalBleScaleProtocol;
 }(QNBleBaseScaleProtocol);
 
-var OneToMultiBroadcastScaleProfle =
+var OneToMultiBroadcastScaleProfile =
 /** @class */
 function () {
-  function OneToMultiBroadcastScaleProfle() {
+  function OneToMultiBroadcastScaleProfile() {
     this.defaultAction = QNBleAction.MEASURE_WEIGHT;
     this.type = QNBleDeviceType.OTM_BROADCAST_SCALE;
     this.transferType = QNBleTransferType.BROADCAST;
   }
 
-  OneToMultiBroadcastScaleProfle.prototype.isTargetDevice = function (nativeDevice) {
+  OneToMultiBroadcastScaleProfile.prototype.isTargetDevice = function (nativeDevice) {
     return nativeDevice.bluetoothName === 'QN-S3';
   };
 
-  OneToMultiBroadcastScaleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  OneToMultiBroadcastScaleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
@@ -2956,7 +3277,7 @@ function () {
     };
   };
 
-  return OneToMultiBroadcastScaleProfle;
+  return OneToMultiBroadcastScaleProfile;
 }();
 
 var OneToMultiBroadcastScaleProtocol =
@@ -3078,7 +3399,7 @@ function (_super) {
     return this.scaleBizImp.fetchScaleData(scaleData);
   };
 
-  OneToMultiBroadcastScaleProtocol.bleProfle = new OneToMultiBroadcastScaleProfle();
+  OneToMultiBroadcastScaleProtocol.bleProfile = new OneToMultiBroadcastScaleProfile();
   return OneToMultiBroadcastScaleProtocol;
 }(QNBleBaseScaleProtocol);
 
@@ -3086,21 +3407,21 @@ function randomResistance() {
   return 480 + Math.floor(Math.random() * 40);
 }
 
-var OneToOneBroadcastScaleProfle =
+var OneToOneBroadcastScaleProfile =
 /** @class */
 function () {
-  function OneToOneBroadcastScaleProfle() {
+  function OneToOneBroadcastScaleProfile() {
     this.defaultAction = QNBleAction.MEASURE_WEIGHT;
     this.type = QNBleDeviceType.OTO_BROADCAST_SCALE;
     this.transferType = QNBleTransferType.BROADCAST;
   }
 
-  OneToOneBroadcastScaleProfle.prototype.isTargetDevice = function (nativeDevice) {
+  OneToOneBroadcastScaleProfile.prototype.isTargetDevice = function (nativeDevice) {
     var manufacturer = nativeDevice.manufacturer;
     return manufacturer.length >= 26 && manufacturer[2] === 0xAA && (manufacturer[3] === 0xBB || manufacturer[3] === 0xCC);
   };
 
-  OneToOneBroadcastScaleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  OneToOneBroadcastScaleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
@@ -3116,7 +3437,7 @@ function () {
     };
   };
 
-  return OneToOneBroadcastScaleProfle;
+  return OneToOneBroadcastScaleProfile;
 }();
 
 var OneToOneBroadcastScaleProtocol =
@@ -3286,7 +3607,7 @@ function (_super) {
     return this.scaleBizImp.fetchScaleData(scaleData);
   };
 
-  OneToOneBroadcastScaleProtocol.bleProfle = new OneToOneBroadcastScaleProfle();
+  OneToOneBroadcastScaleProtocol.bleProfile = new OneToOneBroadcastScaleProfile();
   return OneToOneBroadcastScaleProtocol;
 }(QNBleBaseScaleProtocol);
 
@@ -3345,19 +3666,23 @@ var UUID_USER_DEFINED_WRITE = '0000FFE2-0000-1000-8000-00805F9B34FB'; // 自定�
 
 var UUID_USER_DEFINED_READ = '0000FFE1-0000-1000-8000-00805F9B34FB';
 
-var WspDualScaleBleProfle =
+var WspDualScalebleProfile =
 /** @class */
 function () {
-  function WspDualScaleBleProfle() {
+  function WspDualScalebleProfile() {
     this.defaultAction = QNBleAction.MEASURE_WEIGHT;
     this.type = QNBleDeviceType.WSP_DUAL_MODE_SCALE;
+    this.transferType = QNBleTransferType.BLE;
   }
 
-  WspDualScaleBleProfle.prototype.isTargetDevice = function (nativeDevice) {
-    return (nativeDevice.bluetoothName === 'QN-Scale' || nativeDevice.bluetoothName.startsWith("Hi-QNScale")) && nativeDevice.manufacturer.length >= 19;
+  WspDualScalebleProfile.prototype.isTargetDevice = function (nativeDevice) {
+    var bleName = nativeDevice.bluetoothName;
+    return (bleName === 'QN-Scale' // 接入华为运动健康和智慧生活的秤
+    // 华为hilink的秤的蓝牙名都以Hi-开头
+    || /^Hi-/.test(bleName)) && nativeDevice.manufacturer.length >= 19;
   };
 
-  WspDualScaleBleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  WspDualScalebleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
@@ -3371,8 +3696,9 @@ function () {
     var wifiVersion = manufacturer[9];
     var scaleInfoByte = manufacturer[10];
     var hardVersion = manufacturer[17] << 8 || manufacturer[18];
-    var macs = [number2hex(manufacturer[11]), number2hex(manufacturer[12]), number2hex(manufacturer[13]), number2hex(manufacturer[14]), number2hex(manufacturer[15]), number2hex(manufacturer[16])];
+    var macs = [number2hex(manufacturer[16]), number2hex(manufacturer[15]), number2hex(manufacturer[14]), number2hex(manufacturer[13]), number2hex(manufacturer[12]), number2hex(manufacturer[11])];
     return {
+      isSupportWifi: true,
       isWspScale: true,
       isScreenOn: true,
       modelId: number2hex(manufacturer[2]) + number2hex(manufacturer[3]),
@@ -3388,7 +3714,7 @@ function () {
     };
   };
 
-  return WspDualScaleBleProfle;
+  return WspDualScalebleProfile;
 }();
 
 var WspDualScaleProtocol =
@@ -3400,7 +3726,17 @@ function (_super) {
     var _this = _super !== null && _super.apply(this, arguments) || this; // 当前执行命令的包的序号
 
 
-    _this.currentCmdNo = 0; // wifi账号指令数据
+    _this.currentCmdNo = 0;
+    _this.wifiInfoCache = {
+      rssi: 0,
+      ssid: []
+    }; // 上一次收到的完整的wifi ssid数据包
+
+    _this.lastReceivedWifiIno = {}; // 上一包接受的wifi ssid序号
+
+    _this.lastReceivedWifiSsidPackNo = 0; // 当前执行配网命令的包的序号
+
+    _this.currentSetWifiCmdNo = 0; // wifi账号指令数据
 
     _this.ssidCmdData = []; // wifi密码指令数据
 
@@ -3414,9 +3750,26 @@ function (_super) {
 
     _this.bodyByteDataArr = []; // 是存储数据
 
-    _this.isStoreData = false;
+    _this.isStoreData = false; // 历史数据
+
+    _this.historyRecords = []; // wifi服务是否已使能过了
+
+    _this.wifiNotified = false;
     return _this;
-  }
+  } // 在使能后延时准备写入数据
+
+
+  WspDualScaleProtocol.prototype.delayWriteDataAfterNotify = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      var delay;
+      return __generator(this, function (_a) {
+        delay = this.bleNative.name === 'QNBleNativeHuaWeiHilink' ? 200 : 50;
+        return [2
+        /*return*/
+        , timeoutPromise(delay)];
+      });
+    });
+  };
 
   WspDualScaleProtocol.prototype.prepare = function () {
     return __awaiter(this, void 0, void 0, function () {
@@ -3437,57 +3790,71 @@ function (_super) {
               this.operation.isUpdateUser = true;
             }
 
+            if (!(this.bleNative.name === 'QNBleNativeJDIot')) return [3
+            /*break*/
+            , 2];
+            this.log('延时2s去获取服务');
+            return [4
+            /*yield*/
+            , timeoutPromise(2e3)];
+
+          case 1:
+            _b.sent();
+
+            _b.label = 2;
+
+          case 2:
             return [4
             /*yield*/
             , this.bleNative.findService(this.bleDevice.deviceId)];
 
-          case 1:
+          case 3:
             services = _b.sent();
-            _b.label = 2;
+            _b.label = 4;
 
-          case 2:
-            _b.trys.push([2, 7, 8, 9]);
+          case 4:
+            _b.trys.push([4, 9, 10, 11]);
 
             services_1 = __values(services), services_1_1 = services_1.next();
-            _b.label = 3;
+            _b.label = 5;
 
-          case 3:
+          case 5:
             if (!!services_1_1.done) return [3
             /*break*/
-            , 6];
+            , 8];
             serviceId = services_1_1.value; // eslint-disable-next-line no-await-in-loop
 
             return [4
             /*yield*/
             , this.bleNative.findBleDeviceCharacteristics(this.bleDevice.deviceId, serviceId)];
 
-          case 4:
+          case 6:
             // eslint-disable-next-line no-await-in-loop
             _b.sent();
 
-            _b.label = 5;
+            _b.label = 7;
 
-          case 5:
+          case 7:
             services_1_1 = services_1.next();
             return [3
             /*break*/
-            , 3];
+            , 5];
 
-          case 6:
+          case 8:
             return [3
             /*break*/
-            , 9];
+            , 11];
 
-          case 7:
+          case 9:
             e_1_1 = _b.sent();
             e_1 = {
               error: e_1_1
             };
             return [3
             /*break*/
-            , 9];
+            , 11];
 
-          case 8:
+          case 10:
             try {
               if (services_1_1 && !services_1_1.done && (_a = services_1["return"])) _a.call(services_1);
             } finally {
@@ -3498,27 +3865,26 @@ function (_super) {
             /*endfinally*/
             ];
 
-          case 9:
-            // this.log('使能时间');
+          case 11:
+            this.log('使能时间');
             return [4
             /*yield*/
             , this.bleNative.enableNotify(this.bleDevice.deviceId, UUID_TIME_SERVICES, UUID_TIME_WRITE_READ)];
 
-          case 10:
-            // this.log('使能时间');
+          case 12:
             _b.sent();
 
             return [4
             /*yield*/
             , this.doSyncTimeCmd()];
 
-          case 11:
+          case 13:
             _b.sent();
 
             if (this.operation.action === QNBleAction.SET_WIFI) {
               return [2
               /*return*/
-              , this.doPrepareSetWifi()];
+              , this.doNotifyWifi()];
             }
 
             return [2
@@ -3584,14 +3950,18 @@ function (_super) {
     });
   };
 
-  WspDualScaleProtocol.prototype.doPrepareSetWifi = function () {
+  WspDualScaleProtocol.prototype.doPrepareSetWifi = function (payload) {
+    if (payload === void 0) {
+      payload = {};
+    }
+
     return __awaiter(this, void 0, void 0, function () {
       var _a, _b, wifiSsid, _c, wifiPwd, _d, dataServerUrl, _e, otaServerUrl, _f, encryptKey, ssidByteArray, pwdByteArray, dataServerUrlByteArray, otaServerUrlByteArray;
 
       return __generator(this, function (_g) {
         switch (_g.label) {
           case 0:
-            _a = this.operation, _b = _a.wifiSsid, wifiSsid = _b === void 0 ? '' : _b, _c = _a.wifiPwd, wifiPwd = _c === void 0 ? '' : _c, _d = _a.dataServerUrl, dataServerUrl = _d === void 0 ? 'http://wifi.yolanda.hk:80/wifi_api/wsps?code=' : _d, _e = _a.otaServerUrl, otaServerUrl = _e === void 0 ? 'https://ota.yolanda.hk' : _e, _f = _a.encryptKey, encryptKey = _f === void 0 ? 'yolandakitnewhdr' : _f;
+            _a = __assign(__assign({}, this.operation), payload), _b = _a.wifiSsid, wifiSsid = _b === void 0 ? '' : _b, _c = _a.wifiPwd, wifiPwd = _c === void 0 ? '' : _c, _d = _a.dataServerUrl, dataServerUrl = _d === void 0 ? 'http://wifi.yolanda.hk:80/wifi_api/wsps?code=' : _d, _e = _a.otaServerUrl, otaServerUrl = _e === void 0 ? 'https://ota.yolanda.hk' : _e, _f = _a.encryptKey, encryptKey = _f === void 0 ? 'yolandakitnewhdr' : _f;
 
             if (wifiSsid.length > 32) {
               return [2
@@ -3641,18 +4011,18 @@ function (_super) {
 
 
   WspDualScaleProtocol.prototype.decode = function (payload) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
 
     return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, _j, result, index, isRegisterUser, flag, isRealTimeData, isStartMeasureFat, isStartMeasureHeart, weightRatio, weight, bmi, year, month, dayOfMonth, hour, minute, second, time;
+      var data, characteristicId, _q, result, index, result, isRegisterUser, flag, isRealTimeData, isStartMeasureFat, isStartMeasureHeart, weightRatio, weight, bmi, year, month, dayOfMonth, hour, minute, second, time;
 
-      return __generator(this, function (_k) {
-        switch (_k.label) {
+      return __generator(this, function (_r) {
+        switch (_r.label) {
           case 0:
             data = payload.data, characteristicId = payload.characteristicId;
-            _j = characteristicId;
+            _q = characteristicId.toUpperCase();
 
-            switch (_j) {
+            switch (_q) {
               case UUID_USER_WRITE_READ:
                 return [3
                 /*break*/
@@ -3661,42 +4031,42 @@ function (_super) {
               case UUID_USER_DEFINED_READ:
                 return [3
                 /*break*/
-                , 5];
+                , 7];
 
               case UUID_WEIGHT_READ:
                 return [3
                 /*break*/
-                , 6];
+                , 8];
 
               case UUID_BODY_READ:
                 return [3
                 /*break*/
-                , 7];
+                , 9];
 
               case UUID_WEIGHT_NOTIFY:
                 return [3
                 /*break*/
-                , 11];
+                , 10];
 
               case UUID_BODY_NOTIFY:
                 return [3
                 /*break*/
-                , 12];
+                , 11];
 
               case UUID_WIFI_READ:
                 return [3
                 /*break*/
-                , 13];
+                , 12];
             }
 
             return [3
             /*break*/
-            , 15];
+            , 14];
 
           case 1:
             if (!(data[0] === 0x20 && data[1] === 0x01)) return [3
             /*break*/
-            , 4];
+            , 5];
             result = data[2];
             if (!(result === 1)) return [3
             /*break*/
@@ -3704,7 +4074,8 @@ function (_super) {
             index = data[3];
             this.operation.userIndex = index;
             this.operation.isUpdateUser = true;
-            (_b = (_a = this.listener).onRegisterUserSuccess) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            (_b = (_a = this.listener).onGetRegisterUserResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
+              isSuccess: true,
               userIndex: index
             });
             return [4
@@ -3712,7 +4083,7 @@ function (_super) {
             , this.prepareUserAndMeasure()];
 
           case 2:
-            _k.sent();
+            _r.sent();
 
             return [3
             /*break*/
@@ -3720,6 +4091,9 @@ function (_super) {
 
           case 3:
             this.log('注册用户失败');
+            (_d = (_c = this.listener).onGetRegisterUserResult) === null || _d === void 0 ? void 0 : _d.call(_c, {
+              isSuccess: false
+            });
             return [2
             /*return*/
             , Promise.reject(new QNBleError(QNBleErrorType.REGISTER_USER_FAILED))];
@@ -3727,10 +4101,32 @@ function (_super) {
           case 4:
             return [3
             /*break*/
-            , 16];
+            , 6];
 
           case 5:
+            if (data[0] === 0x20 && data[1] === 0x02) {
+              result = data[2];
+              (_f = (_e = this.listener).onGetVisitUserResult) === null || _f === void 0 ? void 0 : _f.call(_e, {
+                isSuccess: result === 1
+              });
+              if (result !== 1) return [2
+              /*return*/
+              , Promise.reject(new QNBleError(QNBleErrorType.VISIT_USER_FAILED))];
+            }
+
+            _r.label = 6;
+
+          case 6:
+            return [3
+            /*break*/
+            , 15];
+
+          case 7:
             if (data[0] === 0x20 && data[1] === 0x5) {
+              // 删除用户的回调
+              (_h = (_g = this.listener).onGetDeleteUserResult) === null || _h === void 0 ? void 0 : _h.call(_g, {
+                isSuccess: true
+              });
               isRegisterUser = this.operation.isRegisterUser;
 
               if (isRegisterUser) {
@@ -3747,82 +4143,17 @@ function (_super) {
 
             return [3
             /*break*/
-            , 16];
-
-          case 6:
-            return [3
-            /*break*/
-            , 16];
-
-          case 7:
-            // const bodyStatus = (data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0];
-            // const isSupportTime = bodyStatus & 0x01;
-            // const isSupportMultiUser = (bodyStatus >> 1) & 0x01;
-            // const isSupportBMR = (bodyStatus >> 2) & 0x01;
-            // const isSupportMuscleRate = (bodyStatus >> 3) & 0x01;
-            // const isSupportMuscleMass = (bodyStatus >> 4) & 0x01;
-            // const isSupportLBM = (bodyStatus >> 5) & 0x01;
-            // // const isSupportSoftLeanMass = (bodyStatus >> 6) & 0x01;
-            // const isSupportWater = (bodyStatus >> 7) & 0x01;
-            // const isSupportResistance = (bodyStatus >> 8) & 0x01;
-            // // const isSupportWeight = (bodyStatus >> 9) & 0x01;
-            // // const isSupportHeight = (bodyStatus >> 10) & 0x01;
-            // const isSupportBone = (bodyStatus >> 18) & 0x01;
-            // const isSupportVisfat = (bodyStatus >> 19) & 0x01;
-            // const isSupportSubfat = (bodyStatus >> 20) & 0x01;
-            // const isSupportProtein = (bodyStatus >> 21) & 0x01;
-            // const isSupportBodyAge = (bodyStatus >> 22) & 0x01;
-            // const isSupportHeartRate = (bodyStatus >> 23) & 0x01;
-            // const isSupportScore = (bodyStatus >> 24) & 0x01;
-            // // const isSupportAMR = (bodyStatus >> 25) & 0x01;
-            // const isSupportBodyShape = (bodyStatus >> 26) & 0x01;
-            // const isSupportHeartIndex = (bodyStatus >> 27) & 0x01;
-            // this.cmdLength = 4
-            // + isSupportTime * 7
-            // + isSupportMultiUser * 1
-            // + isSupportBMR * 2
-            // + isSupportMuscleRate * 2
-            // + isSupportMuscleMass * 2
-            // + isSupportLBM * 2
-            // + isSupportWater * 2
-            // + isSupportResistance * 4
-            // + isSupportBone * 2
-            // + isSupportVisfat * 1
-            // + isSupportSubfat * 2
-            // + isSupportProtein * 2
-            // + isSupportBodyAge * 1
-            // + isSupportHeartRate * 1
-            // + isSupportScore * 2
-            // + isSupportBodyShape * 1
-            // + isSupportHeartIndex * 1;
-            this.log('使能体重特性');
-            return [4
-            /*yield*/
-            , this.bleNative.enableNotify(this.bleDevice.deviceId, UUID_WEIGHT_SERVICES, UUID_WEIGHT_NOTIFY)];
+            , 15];
 
           case 8:
-            _k.sent();
-
-            return [4
-            /*yield*/
-            , timeoutPromise(200)];
-
-          case 9:
-            _k.sent();
-
-            this.log('使能体脂特性');
-            return [4
-            /*yield*/
-            , this.bleNative.enableNotify(this.bleDevice.deviceId, UUID_BODY_SERVICES, UUID_BODY_NOTIFY)];
-
-          case 10:
-            _k.sent();
-
             return [3
             /*break*/
-            , 16];
+            , 15];
 
-          case 11:
+          case 9:
+            _r.label = 10;
+
+          case 10:
             {
               this.log('进入 UUID_WEIGHT_NOTIFY');
 
@@ -3838,9 +4169,9 @@ function (_super) {
               this.log('isRealTimeData', isRealTimeData, 'isStartMeasureFat', isStartMeasureFat, 'isStartMeasureHeart', isStartMeasureHeart);
 
               if (isStartMeasureFat) {
-                (_d = (_c = this.listener).onStartMeasureFat) === null || _d === void 0 ? void 0 : _d.call(_c);
+                (_k = (_j = this.listener).onStartMeasureFat) === null || _k === void 0 ? void 0 : _k.call(_j);
               } else if (isStartMeasureHeart) {
-                (_f = (_e = this.listener).onStartMeasureHeart) === null || _f === void 0 ? void 0 : _f.call(_e);
+                (_m = (_l = this.listener).onStartMeasureHeart) === null || _m === void 0 ? void 0 : _m.call(_l);
               }
 
               if (data.length < 13) {
@@ -3853,7 +4184,7 @@ function (_super) {
               weight = Number.parseFloat((decodeInteger(data[2], data[1]) * weightRatio).toFixed(2));
 
               if (isRealTimeData) {
-                (_h = (_g = this.listener).onGetUnsteadyWeight) === null || _h === void 0 ? void 0 : _h.call(_g, {
+                (_p = (_o = this.listener).onGetUnsteadyWeight) === null || _p === void 0 ? void 0 : _p.call(_o, {
                   weight: weight
                 });
               } else {
@@ -3880,10 +4211,10 @@ function (_super) {
 
               return [3
               /*break*/
-              , 16];
+              , 15];
             }
 
-          case 12:
+          case 11:
             this.log('进入 UUID_BODY_NOTIFY');
             this.bodyByteDataArr.push(data);
             this.log('bodyByteDataArr', this.bodyByteDataArr);
@@ -3894,28 +4225,28 @@ function (_super) {
 
             return [3
             /*break*/
-            , 16];
+            , 15];
 
-          case 13:
+          case 12:
             // 这里是跟配网相关的命令交互
             return [4
             /*yield*/
-            , this.doSetWifi(data)];
+            , this.handleWifiCmdData(data)];
+
+          case 13:
+            // 这里是跟配网相关的命令交互
+            _r.sent();
+
+            return [3
+            /*break*/
+            , 15];
 
           case 14:
-            // 这里是跟配网相关的命令交互
-            _k.sent();
-
             return [3
             /*break*/
-            , 16];
+            , 15];
 
           case 15:
-            return [3
-            /*break*/
-            , 16];
-
-          case 16:
             return [2
             /*return*/
             , undefined];
@@ -3923,108 +4254,287 @@ function (_super) {
       });
     });
   };
+  /**
+   * 通知设备扫描附近wifi
+   * 可在外部使用 qnble.callProtocolMethodAsync(deviceId, 'doScanWifi', ...args)
+   */
 
-  WspDualScaleProtocol.prototype.doSetWifi = function (data) {
+
+  WspDualScaleProtocol.prototype.doScanWifi = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            this.log('通知设备扫描附近wifi');
+            this.wifiInfoCache.rssi = 0;
+            this.wifiInfoCache.ssid = [];
+            this.lastReceivedWifiSsidPackNo = 0;
+            return [4
+            /*yield*/
+            , this.doNotifyWifi()];
+
+          case 1:
+            _a.sent();
+
+            return [4
+            /*yield*/
+            , this.writeData({
+              serviceId: UUID_TIME_SERVICES,
+              characteristicId: UUID_WIFI_WRITE,
+              cmdData: [0x55, 0x4, 0x01]
+            })];
+
+          case 2:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /**
+   * 收到设备发送过来的wifi信息数据
+   */
+
+
+  WspDualScaleProtocol.prototype.onReceiveWifiSsidData = function (data) {
     var _a, _b;
 
     return __awaiter(this, void 0, void 0, function () {
-      var _c, cmd;
-
-      return __generator(this, function (_d) {
-        switch (_d.label) {
+      var rssi, packInfo, packCount, packNo, ssidData, info;
+      return __generator(this, function (_c) {
+        switch (_c.label) {
           case 0:
-            _c = data[0];
+            rssi = data[1] - 0xFF - 1;
+            packInfo = data[2];
+            packCount = packInfo >> 4 & 15;
+            packNo = packInfo & 15;
+            ssidData = data.slice(3, data.length - 1);
+            this.log('onReceiveWifiSsidData', 'packCount', packCount, 'packNo', packNo, 'ssidData', ssidData);
 
-            switch (_c) {
-              case 0x61:
+            if (packNo > this.lastReceivedWifiSsidPackNo) {
+              this.wifiInfoCache.rssi = rssi;
+              this.wifiInfoCache.ssid.push(byteArrayToString(ssidData));
+
+              if (packCount === packNo) {
+                this.log('wifi ssid base64编码', this.wifiInfoCache.ssid.join(''));
+                info = {
+                  rssi: rssi,
+                  ssid: gBase64.decode(this.wifiInfoCache.ssid.join('')),
+                  level: getWifiRssiLevel(rssi)
+                };
+                this.log('收到完整 wifi 信息', info);
+
+                if (!equal(this.lastReceivedWifiIno, info)) {
+                  (_b = (_a = this.listener).onGetWifiInfo) === null || _b === void 0 ? void 0 : _b.call(_a, info);
+                  this.lastReceivedWifiIno = info;
+                } else {
+                  this.log('收到与上一条重复的 wifi 数据', 'lastReceivedWifiIno', this.lastReceivedWifiIno);
+                }
+
+                this.wifiInfoCache.rssi = 0;
+                this.wifiInfoCache.ssid = [];
+                this.lastReceivedWifiSsidPackNo = 0;
+              } else {
+                this.lastReceivedWifiSsidPackNo = packNo;
+              }
+            } else {
+              console.warn('收到重复的 wifi ssid 数据包', data);
+            }
+
+            return [4
+            /*yield*/
+            , this.writeData({
+              serviceId: UUID_TIME_SERVICES,
+              characteristicId: UUID_WIFI_WRITE,
+              cmdData: [0x57, 4, packInfo]
+            })];
+
+          case 1:
+            _c.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /**
+   * 这个方法由外部主动调用
+   * 可使用 qnble.callProtocolMethodAsync(deviceId, 'doSetWifi', ...args)
+   */
+
+
+  WspDualScaleProtocol.prototype.doSetWifi = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            this.log('doSetWifi', payload);
+            return [4
+            /*yield*/
+            , this.doPrepareSetWifi(payload)];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  WspDualScaleProtocol.prototype.handleWifiCmdData = function (data) {
+    var _a, _b, _c, _d, _e, _f;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var _g;
+
+      return __generator(this, function (_h) {
+        switch (_h.label) {
+          case 0:
+            _g = data[0];
+
+            switch (_g) {
+              case 0x56:
                 return [3
                 /*break*/
                 , 1];
 
-              case 0x63:
+              case 0x58:
                 return [3
                 /*break*/
                 , 3];
 
+              case 0x61:
+                return [3
+                /*break*/
+                , 5];
+
+              case 0x63:
+                return [3
+                /*break*/
+                , 6];
+
               case 0x65:
                 return [3
                 /*break*/
-                , 8];
+                , 11];
 
               case 0x67:
                 return [3
                 /*break*/
-                , 10];
+                , 16];
 
               case 0x69:
                 return [3
                 /*break*/
-                , 15];
+                , 21];
 
               case 0x6B:
                 return [3
                 /*break*/
-                , 17];
+                , 24];
 
               case 0x6F:
                 return [3
                 /*break*/
-                , 22];
+                , 29];
 
               case 0x71:
                 return [3
                 /*break*/
-                , 24];
+                , 32];
 
               case 0x73:
                 return [3
                 /*break*/
-                , 29];
+                , 36];
 
               case 0x74:
                 return [3
                 /*break*/
-                , 30];
+                , 39];
+
+              case 0x77:
+                return [3
+                /*break*/
+                , 41];
             }
 
             return [3
             /*break*/
-            , 32];
+            , 42];
 
           case 1:
-            // 收到开始配网发回复
-            // 开始发送SSID命令
+            // 收到设备发送的ssid包
             return [4
             /*yield*/
-            , this.sendWifiSsid()];
+            , this.onReceiveWifiSsidData(data)];
 
           case 2:
-            // 收到开始配网发回复
-            // 开始发送SSID命令
-            _d.sent();
+            // 收到设备发送的ssid包
+            _h.sent();
 
             return [3
             /*break*/
-            , 33];
+            , 43];
 
           case 3:
+            // Wi-Fi扫描结束
+            return [4
+            /*yield*/
+            , this.writeData({
+              serviceId: UUID_TIME_SERVICES,
+              characteristicId: UUID_WIFI_WRITE,
+              cmdData: [0x59, 4, 1]
+            })];
+
+          case 4:
+            // Wi-Fi扫描结束
+            _h.sent();
+
+            (_b = (_a = this.listener).onScanWifiFinished) === null || _b === void 0 ? void 0 : _b.call(_a);
+            return [3
+            /*break*/
+            , 43];
+
+          case 5:
+            // 收到开始配网发回复
+            // 开始发送SSID命令
+            if (data[2] === 1) {
+              this.currentCmdNo = 0;
+              this.sendWifiSsid();
+            }
+
+            return [3
+            /*break*/
+            , 43];
+
+          case 6:
+            this.currentCmdNo = data[2];
             if (!(this.currentCmdNo < this.ssidCmdData.length)) return [3
             /*break*/
-            , 5]; // ssid还没发送完
+            , 8]; // ssid还没发送完
 
             return [4
             /*yield*/
             , this.sendWifiSsid()];
 
-          case 4:
+          case 7:
             // ssid还没发送完
-            _d.sent();
+            _h.sent();
 
             return [3
             /*break*/
-            , 7];
+            , 10];
 
-          case 5:
+          case 8:
             // ssid已经发送，重置序号，开始发送wifi密码
             this.currentCmdNo = 0;
             this.log('发送启动设置 WIFI密码 命令');
@@ -4036,46 +4546,76 @@ function (_super) {
               cmdData: [0x64, 0x04, this.pwdCmdData.length]
             })];
 
-          case 6:
-            _d.sent();
-
-            _d.label = 7;
-
-          case 7:
-            return [3
-            /*break*/
-            , 33];
-
-          case 8:
-            return [4
-            /*yield*/
-            , this.sendWifiPwd()];
-
           case 9:
-            _d.sent();
+            _h.sent();
 
-            return [3
-            /*break*/
-            , 33];
+            _h.label = 10;
 
           case 10:
+            return [3
+            /*break*/
+            , 43];
+
+          case 11:
+            if (!(data[2] === 1)) return [3
+            /*break*/
+            , 15];
+            if (!(this.pwdCmdData.length > 0)) return [3
+            /*break*/
+            , 13];
+            this.currentCmdNo = 0;
+            return [4
+            /*yield*/
+            , this.sendWifiPwd()];
+
+          case 12:
+            _h.sent();
+
+            return [3
+            /*break*/
+            , 15];
+
+          case 13:
+            // 无wifi密码，重置序号，开始发送数据服务器URL
+            this.currentCmdNo = 0;
+            this.log('无wifi密码，跳过 66h 和 67h 命令，开始发送启动设置 数据服务器 命令');
+            return [4
+            /*yield*/
+            , this.writeData({
+              serviceId: UUID_TIME_SERVICES,
+              characteristicId: UUID_WIFI_WRITE,
+              cmdData: [0x68, 0x04, this.dataServerUrlData.length]
+            })];
+
+          case 14:
+            _h.sent();
+
+            _h.label = 15;
+
+          case 15:
+            return [3
+            /*break*/
+            , 43];
+
+          case 16:
+            this.currentCmdNo = data[2];
             if (!(this.currentCmdNo < this.pwdCmdData.length)) return [3
             /*break*/
-            , 12]; // wifi密码还没发送完
+            , 18]; // wifi密码还没发送完
 
             return [4
             /*yield*/
             , this.sendWifiPwd()];
 
-          case 11:
+          case 17:
             // wifi密码还没发送完
-            _d.sent();
+            _h.sent();
 
             return [3
             /*break*/
-            , 14];
+            , 20];
 
-          case 12:
+          case 18:
             // wifi密码已经发送，重置序号，开始发送数据服务器URL
             this.currentCmdNo = 0;
             this.log('发送启动设置 数据服务器 命令');
@@ -4087,46 +4627,53 @@ function (_super) {
               cmdData: [0x68, 0x04, this.dataServerUrlData.length]
             })];
 
-          case 13:
-            _d.sent();
+          case 19:
+            _h.sent();
 
-            _d.label = 14;
+            _h.label = 20;
 
-          case 14:
+          case 20:
             return [3
             /*break*/
-            , 33];
+            , 43];
 
-          case 15:
+          case 21:
+            if (!(data[2] === 1)) return [3
+            /*break*/
+            , 23];
             return [4
             /*yield*/
             , this.sendDataServerUrl()];
 
-          case 16:
-            _d.sent();
+          case 22:
+            _h.sent();
 
+            _h.label = 23;
+
+          case 23:
             return [3
             /*break*/
-            , 33];
+            , 43];
 
-          case 17:
+          case 24:
+            this.currentCmdNo = data[2];
             if (!(this.currentCmdNo < this.dataServerUrlData.length)) return [3
             /*break*/
-            , 19]; // 数据服务器URL还没发送完
+            , 26]; // 数据服务器URL还没发送完
 
             return [4
             /*yield*/
             , this.sendDataServerUrl()];
 
-          case 18:
+          case 25:
             // 数据服务器URL还没发送完
-            _d.sent();
+            _h.sent();
 
             return [3
             /*break*/
-            , 21];
+            , 28];
 
-          case 19:
+          case 26:
             // 数据服务器URL已经发送，重置序号，开始发送OTA服务器URL
             this.currentCmdNo = 0;
             this.log('发送启动设置 OTA服务器 命令');
@@ -4138,76 +4685,85 @@ function (_super) {
               cmdData: [0x6E, 0x04, this.otaServerUrlData.length]
             })];
 
-          case 20:
-            _d.sent();
-
-            _d.label = 21;
-
-          case 21:
-            return [3
-            /*break*/
-            , 33];
-
-          case 22:
-            return [4
-            /*yield*/
-            , this.sendOtaServerUrl()];
-
-          case 23:
-            _d.sent();
-
-            return [3
-            /*break*/
-            , 33];
-
-          case 24:
-            if (!(this.currentCmdNo < this.otaServerUrlData.length)) return [3
-            /*break*/
-            , 26]; // OTA服务器URL还没发送完
-
-            return [4
-            /*yield*/
-            , this.sendOtaServerUrl()];
-
-          case 25:
-            // OTA服务器URL还没发送完
-            _d.sent();
-
-            return [3
-            /*break*/
-            , 28];
-
-          case 26:
-            // OTA服务器URL已经发送，重置序号，开始发送加密密钥
-            this.currentCmdNo = 0;
-            cmd = this.encryptKeyCmdData;
-            this.log('发送加密密钥数据');
-            return [4
-            /*yield*/
-            , this.writeData({
-              serviceId: UUID_TIME_SERVICES,
-              characteristicId: UUID_WIFI_WRITE,
-              cmdData: __spread([0x72, 20, this.currentCmdNo], cmd)
-            })];
-
           case 27:
-            _d.sent();
+            _h.sent();
 
-            _d.label = 28;
+            _h.label = 28;
 
           case 28:
             return [3
             /*break*/
-            , 33];
+            , 43];
 
           case 29:
+            if (!(data[2] === 1)) return [3
+            /*break*/
+            , 31];
+            return [4
+            /*yield*/
+            , this.sendOtaServerUrl()];
+
+          case 30:
+            _h.sent();
+
+            _h.label = 31;
+
+          case 31:
+            return [3
+            /*break*/
+            , 43];
+
+          case 32:
+            this.currentCmdNo = data[2];
+            if (!(this.currentCmdNo < this.otaServerUrlData.length)) return [3
+            /*break*/
+            , 34]; // OTA服务器URL还没发送完
+
+            return [4
+            /*yield*/
+            , this.sendOtaServerUrl()];
+
+          case 33:
+            // OTA服务器URL还没发送完
+            _h.sent();
+
+            return [3
+            /*break*/
+            , 35];
+
+          case 34:
+            // OTA服务器URL已经发送，重置序号，开始发送加密密钥
+            this.currentCmdNo = 0;
+            this.sendEncryptKey();
+            _h.label = 35;
+
+          case 35:
+            return [3
+            /*break*/
+            , 43];
+
+          case 36:
+            if (!(data[2] === 0)) return [3
+            /*break*/
+            , 38];
+            return [4
+            /*yield*/
+            , this.sendEncryptKey()];
+
+          case 37:
+            _h.sent();
+
+            _h.label = 38;
+
+          case 38:
             // 写入加密密钥成功，这里需要发送请求给服务器
             return [3
             /*break*/
-            , 33];
+            , 43];
 
-          case 30:
+          case 39:
             // 收到秤配网成功的命令
+            (_d = (_c = this.listener).onGetSetWifiResult) === null || _d === void 0 ? void 0 : _d.call(_c, data[2] === 1);
             return [4
             /*yield*/
             , this.writeData({
@@ -4216,21 +4772,31 @@ function (_super) {
               cmdData: [0x75, 4, 1]
             })];
 
-          case 31:
-            // 收到秤配网成功的命令
-            _d.sent();
+          case 40:
+            _h.sent();
 
-            (_b = (_a = this.listener).onSetWifiSuccess) === null || _b === void 0 ? void 0 : _b.call(_a);
+            this.log('配网成功');
             return [3
             /*break*/
-            , 33];
+            , 43];
 
-          case 32:
+          case 41:
+            // 收到配网查询回复
+            // 0:wifi未连接
+            // 1:wifi已连接
+            // 2:wifi已连接服务器
+            // 3:wifi未连接服务器
+            (_f = (_e = this.listener).onGetQueryWifiConnectStatusResult) === null || _f === void 0 ? void 0 : _f.call(_e, data[2]);
             return [3
             /*break*/
-            , 33];
+            , 43];
 
-          case 33:
+          case 42:
+            return [3
+            /*break*/
+            , 43];
+
+          case 43:
             return [2
             /*return*/
             ];
@@ -4240,6 +4806,8 @@ function (_super) {
   };
 
   WspDualScaleProtocol.prototype.buildBodyData = function () {
+    var _a, _b, _c, _d;
+
     var data = __spread(this.bodyByteDataArr[0], this.bodyByteDataArr[1]);
 
     this.log('buildBodyData', 'data', data);
@@ -4279,10 +4847,10 @@ function (_super) {
     var lbm = decodeInteger(data[19], data[18]) * realMassRatio; // 体水分
 
     var water = decodeInteger(data[21], data[20]) * 0.1; // 阻抗
-    // const resistance50 = decodeInteger(data[23], data[22]);
-    // 阻抗
-    // const resistance500 = decodeInteger(data[25], data[24]);
-    // 骨量
+
+    var resistance50 = decodeInteger(data[23], data[22]); // 阻抗
+
+    var resistance500 = decodeInteger(data[25], data[24]); // 骨量
     // 这里x10 会在 QNScaleBiz.ts中 /10的
 
     var bone = decodeInteger(data[27], data[26]) * realMassRatio * 10; // 内脏脂肪等级
@@ -4304,34 +4872,50 @@ function (_super) {
     var heartIndex = (data[38] & 0xff) * 0.1;
     this.log('isStoreData', this.isStoreData);
 
-    if (this.isStoreData) ; else {
-      var measureData = __assign(__assign({}, this.partialScaleData), {
-        bodyfat: bodyfat,
-        bmr: bmr,
-        muscle: muscle,
-        muscleMass: muscleMass,
-        lbm: lbm,
-        heartIndex: heartIndex,
-        bodyShape: bodyShape,
-        score: score,
-        heartRate: heartRate,
-        bodyAge: bodyAge,
-        protein: protein,
-        subfat: subfat,
-        visfat: visfat,
-        bone: bone,
-        water: water,
-        time: time
-      });
+    var measureData = __assign(__assign({}, this.partialScaleData), {
+      bodyfat: bodyfat,
+      bmr: bmr,
+      muscle: muscle,
+      muscleMass: muscleMass,
+      lbm: lbm,
+      heartIndex: heartIndex,
+      bodyShape: bodyShape,
+      score: score,
+      heartRate: heartRate,
+      bodyAge: bodyAge,
+      protein: protein,
+      subfat: subfat,
+      visfat: visfat,
+      bone: bone,
+      water: water,
+      time: time
+    });
 
-      this.log('measureData', measureData);
+    this.log('measureData', measureData);
+    var mdata = {
+      measure: this.scaleBizImp.prepareWspMeasureData(measureData),
+      scaleData: {
+        resistance500: resistance500,
+        resistance50: resistance50
+      },
+      sdkObj: this.scaleBizImp.sdkObj
+    };
+    this.log('mdata', mdata);
 
+    if (this.isStoreData) {
+      // 这里处理存储数据的逻辑
+      this.log('正在接收存储数据');
+      this.historyRecords.push(mdata);
+    } else {
       try {
-        var mdata = {
-          measure: this.scaleBizImp.prepareWspMeasureData(measureData)
-        };
-        this.log('mdata', mdata);
-        this.listener.onGetScaleData(mdata);
+        if (this.historyRecords.length > 0) {
+          this.log('回调存储的历史数据', this.historyRecords);
+          (_b = (_a = this.listener).onGetStoredDatas) === null || _b === void 0 ? void 0 : _b.call(_a, __spread(this.historyRecords));
+          this.historyRecords = [];
+        }
+
+        this.log('回调当前测量完成的数据', mdata);
+        (_d = (_c = this.listener).onGetScaleData) === null || _d === void 0 ? void 0 : _d.call(_c, mdata);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err);
@@ -4340,8 +4924,31 @@ function (_super) {
   };
 
   WspDualScaleProtocol.prototype.doNotifyWifi = function () {
-    this.log('使能WiFi特性');
-    return this.bleNative.enableNotify(this.bleDevice.deviceId, UUID_TIME_SERVICES, UUID_WIFI_READ);
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            if (this.wifiNotified) {
+              return [2
+              /*return*/
+              , Promise.resolve(0)];
+            }
+
+            this.log('使能WiFi特性');
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, UUID_TIME_SERVICES, UUID_WIFI_READ)];
+
+          case 1:
+            _a.sent();
+
+            this.wifiNotified = true;
+            return [2
+            /*return*/
+            , Promise.resolve(0)];
+        }
+      });
+    });
   };
 
   WspDualScaleProtocol.prototype.sendWifiSsid = function () {
@@ -4445,32 +5052,32 @@ function (_super) {
           case 1:
             _a.sent();
 
+            return [4
+            /*yield*/
+            , timeoutPromise(200)];
+
+          case 2:
+            _a.sent();
+
             this.log('读取体脂特性');
             return [4
             /*yield*/
             , this.bleNative.readBleCharacteristicValue(this.bleDevice.deviceId, UUID_BODY_SERVICES, UUID_BODY_READ)];
 
-          case 2:
+          case 3:
             _a.sent();
 
             return [4
             /*yield*/
             , timeoutPromise(200)];
 
-          case 3:
+          case 4:
             _a.sent();
 
             this.log('使能体重特性');
             return [4
             /*yield*/
             , this.bleNative.enableNotify(this.bleDevice.deviceId, UUID_WEIGHT_SERVICES, UUID_WEIGHT_NOTIFY)];
-
-          case 4:
-            _a.sent();
-
-            return [4
-            /*yield*/
-            , timeoutPromise(200)];
 
           case 5:
             _a.sent();
@@ -4702,7 +5309,9 @@ function (_super) {
   };
 
   WspDualScaleProtocol.prototype.doSyncAge = function () {
+    var birthday = this.operation.user.birthday;
     var age = this.operation.user.age;
+    age = age || calcAgeWithBirthday(getNewDateInstance(birthday));
     this.log('同步年龄', age);
     return this.writeData({
       serviceId: UUID_USER_SERVICES,
@@ -4754,26 +5363,60 @@ function (_super) {
       needSum: false
     });
   };
+  /**
+   * 查询wifi连接状态
+   * 可使用 qnble.callProtocolMethodAsync(deviceId, 'queryWifiConnectStatus', ...args)
+   * @param {number} type 1：表示查询wifi是否连接 2：查询wifi是否连接服务器
+   */
 
-  WspDualScaleProtocol.bleProfle = new WspDualScaleBleProfle();
+
+  WspDualScaleProtocol.prototype.queryWifiConnectStatus = function (type) {
+    if (type === void 0) {
+      type = 1;
+    }
+
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , this.writeData({
+              serviceId: UUID_TIME_SERVICES,
+              characteristicId: UUID_WIFI_WRITE,
+              cmdData: [0x76, 4, type]
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  WspDualScaleProtocol.bleProfile = new WspDualScalebleProfile();
   return WspDualScaleProtocol;
 }(QNBleBaseScaleProtocol);
 
-var ShareCLScaleProfle =
+var ShareCLScaleProfile =
 /** @class */
 function () {
-  function ShareCLScaleProfle() {
+  function ShareCLScaleProfile() {
     this.defaultAction = QNBleAction.SET_WIFI;
     this.type = QNBleDeviceType.SHARE_SCALE_CL;
     this.transferType = QNBleTransferType.BLE;
   } // eslint-disable-next-line class-methods-use-this
 
 
-  ShareCLScaleProfle.prototype.isTargetDevice = function (nativeDevice) {
+  ShareCLScaleProfile.prototype.isTargetDevice = function (nativeDevice) {
     return nativeDevice.bluetoothName === 'QN-GXC';
   };
 
-  ShareCLScaleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  ShareCLScaleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
@@ -4791,7 +5434,7 @@ function () {
     };
   };
 
-  return ShareCLScaleProfle;
+  return ShareCLScaleProfile;
 }();
 
 var ShareCLScaleProtocol =
@@ -4822,7 +5465,7 @@ function (_super) {
 
   Object.defineProperty(ShareCLScaleProtocol.prototype, "action", {
     get: function get() {
-      return this.operation.action || ShareCLScaleProtocol.bleProfle.defaultAction;
+      return this.operation.action || ShareCLScaleProtocol.bleProfile.defaultAction;
     },
     enumerable: false,
     configurable: true
@@ -5451,25 +6094,25 @@ function (_super) {
     });
   };
 
-  ShareCLScaleProtocol.bleProfle = new ShareCLScaleProfle();
+  ShareCLScaleProtocol.bleProfile = new ShareCLScaleProfile();
   return ShareCLScaleProtocol;
 }(QNBleProtocol);
 
-var ShareScaleBleProfle =
+var ShareScalebleProfile =
 /** @class */
 function () {
-  function ShareScaleBleProfle() {
+  function ShareScalebleProfile() {
     this.defaultAction = QNBleAction.MEASURE_WEIGHT;
     this.type = QNBleDeviceType.SHARE_SCALE;
     this.transferType = QNBleTransferType.BLE;
   } // eslint-disable-next-line class-methods-use-this
 
 
-  ShareScaleBleProfle.prototype.isTargetDevice = function (nativeDevice) {
+  ShareScalebleProfile.prototype.isTargetDevice = function (nativeDevice) {
     return nativeDevice.bluetoothName === 'QN-GXC';
   };
 
-  ShareScaleBleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+  ShareScalebleProfile.prototype.buildTargetDevice = function (nativeDevice) {
     if (!this.isTargetDevice(nativeDevice)) {
       return null;
     }
@@ -5487,7 +6130,7 @@ function () {
     };
   };
 
-  return ShareScaleBleProfle;
+  return ShareScalebleProfile;
 }();
 
 var ShareScaleProtocol =
@@ -5574,1879 +6217,9 @@ function (_super) {
     });
   };
 
-  ShareScaleProtocol.bleProfle = new ShareScaleBleProfle();
+  ShareScaleProtocol.bleProfile = new ShareScalebleProfile();
   return ShareScaleProtocol;
 }(QNBleProtocol);
-
-var WspDualScaleMesProfle =
-/** @class */
-function () {
-  function WspDualScaleMesProfle() {
-    this.defaultAction = QNBleAction.MEASURE_WEIGHT;
-    this.type = QNBleDeviceType.WSP_DUAL_MODE_SCALE;
-    this.transferType = QNBleTransferType.BLE;
-  } // 是否生产广播
-
-
-  WspDualScaleMesProfle.prototype.isProduceDevice = function (nativeDevice) {
-    return nativeDevice.bluetoothName === 'QN-FAC';
-  }; // 是否成品广播
-
-
-  WspDualScaleMesProfle.prototype.isProductDevice = function (nativeDevice) {
-    return nativeDevice.bluetoothName === 'QN-Scale' && nativeDevice.manufacturer.length >= 19 || nativeDevice.bluetoothName === 'QN-HS';
-  };
-
-  WspDualScaleMesProfle.prototype.isTargetDevice = function (nativeDevice) {
-    return this.isProduceDevice(nativeDevice) || this.isProductDevice(nativeDevice);
-  };
-
-  WspDualScaleMesProfle.prototype.buildTargetDevice = function (nativeDevice) {
-    var device = this.buildProduceTargetDevice(nativeDevice);
-
-    if (device == null) {
-      device = this.buildProductTargetDevice(nativeDevice);
-    }
-
-    return device;
-  }; // 构建生产时的广播数据
-
-
-  WspDualScaleMesProfle.prototype.buildProduceTargetDevice = function (nativeDevice) {
-    if (!this.isProduceDevice(nativeDevice)) {
-      return null;
-    }
-
-    var manufacturer = nativeDevice.manufacturer;
-    var mac1 = number2hex(manufacturer[2]);
-    var mac2 = number2hex(manufacturer[3]);
-    var mac3 = number2hex(manufacturer[4]);
-    var mac4 = number2hex(manufacturer[5]);
-    var mac5 = number2hex(manufacturer[6]);
-    var mac6 = number2hex(manufacturer[7]);
-    var mac = mac6 + ":" + mac5 + ":" + mac4 + ":" + mac3 + ":" + mac2 + ":" + mac1;
-    var fatStatus = (manufacturer[8] << 8) + manufacturer[9];
-    var moduleTestFlag = (fatStatus >> 0 & 0x01) == 0x01; // 模块测试
-
-    var semiProductFlag = (fatStatus >> 1 & 0x01) == 0x01; // 半成品
-
-    var calibrationFlag = (fatStatus >> 2 & 0x01) == 0x01; // 标定
-
-    var reviewFlag = (fatStatus >> 3 & 0x01) == 0x01; // 回检
-
-    var partialFlag = (fatStatus >> 4 & 0x01) == 0x01; // 偏载
-
-    var scaleType = manufacturer[10];
-    var targetDevice = {
-      moduleTestFlag: moduleTestFlag,
-      semiProductFlag: semiProductFlag,
-      calibrationFlag: calibrationFlag,
-      reviewFlag: reviewFlag,
-      partialFlag: partialFlag,
-      type: QNBleDeviceType.NORMAL_BLE_SCALE
-    };
-
-    if (scaleType === 0x01) {
-      targetDevice.type = QNBleDeviceType.WSP_DUAL_MODE_SCALE;
-    } else if (scaleType === 0x02) {
-      targetDevice.type = QNBleDeviceType.NORMAL_BLE_SCALE;
-    } else if (scaleType === 0x03) {
-      targetDevice.type = QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE;
-    } else if (scaleType === 0x04) {
-      targetDevice.type = QNBleDeviceType.HEIGHTWEIGHT;
-    }
-
-    return __assign(__assign({}, targetDevice), {
-      name: nativeDevice.bluetoothName,
-      isScreenOn: true,
-      mac: mac,
-      isSupportWifi: true
-    });
-  };
-  /**
-   * 成品设备
-   */
-
-
-  WspDualScaleMesProfle.prototype.buildProductTargetDevice = function (nativeDevice) {
-    if (!this.isProductDevice(nativeDevice)) {
-      return null;
-    }
-
-    var manufacturer = nativeDevice.manufacturer;
-    var mac = '';
-    var sn = '';
-    var isHeightWeight = (manufacturer === null || manufacturer === void 0 ? void 0 : manufacturer[manufacturer.length - 1]) === 80;
-
-    if (isHeightWeight) {
-      sn = manufacturer.slice(4, -1).map(function (v) {
-        return String.fromCharCode(v);
-      }).join('').slice(0, 15);
-    } else {
-      var mac1 = number2hex(manufacturer[11]);
-      var mac2 = number2hex(manufacturer[12]);
-      var mac3 = number2hex(manufacturer[13]);
-      var mac4 = number2hex(manufacturer[14]);
-      var mac5 = number2hex(manufacturer[15]);
-      var mac6 = number2hex(manufacturer[16]);
-      mac = mac6 + ":" + mac5 + ":" + mac4 + ":" + mac3 + ":" + mac2 + ":" + mac1;
-    }
-
-    var targetDevice = {
-      moduleTestFlag: true,
-      semiProductFlag: true,
-      calibrationFlag: true,
-      reviewFlag: true,
-      partialFlag: true,
-      scaleType: 0,
-      // eslint-disable-next-line no-nested-ternary
-      type: isHeightWeight ? QNBleDeviceType.HEIGHTWEIGHT : (manufacturer[10] >> 4 & 0x01) === 0x01 ? QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE : QNBleDeviceType.WSP_DUAL_MODE_SCALE
-    };
-    return __assign(__assign({}, targetDevice), {
-      name: nativeDevice.bluetoothName,
-      isScreenOn: true,
-      mac: mac,
-      sn: sn,
-      isSupportWifi: true
-    });
-  }; // 工位数据通知
-
-
-  WspDualScaleMesProfle.UUID_NOTIFY = 'FFF1'; // 工位数据写入
-
-  WspDualScaleMesProfle.UUID_WRITE = 'FFF2'; // 八电极工位数据通知
-
-  WspDualScaleMesProfle.EIGHT_UUID_NOTIFY = 'FFE3'; // 八电极工位数据写入
-
-  WspDualScaleMesProfle.EIGHT_UUID_WRITE = 'FFE4'; // 八电极配网数据通知
-
-  WspDualScaleMesProfle.EIGHT_UUID_WIFI_NOTIFY = 'FFE1'; // 八电极配网数据写入
-
-  WspDualScaleMesProfle.EIGHT_UUID_WIFI_WRITE = 'FFE2'; // 身高体重工位数据通知
-
-  WspDualScaleMesProfle.HEIGHTWEIGHT_UUID_NOTIFY = 'ABF1'; // 身高体重工位数据写入
-
-  WspDualScaleMesProfle.HEIGHTWEIGHT_UUID_WRITE = 'ABF2'; // 时间服务
-
-  WspDualScaleMesProfle.UUID_TIME_SERVICES = '1805'; // 设备服务
-
-  WspDualScaleMesProfle.UUID_DEVICE_SERVICES = '180A'; // 八电极设备服务
-
-  WspDualScaleMesProfle.EIGHT_UUID_DEVICE_SERVICES = 'FFE0'; // 身高体重设备服务
-
-  WspDualScaleMesProfle.HEIGHTWEIGHT_UUID_DEVICE_SERVICES = 'ABF0'; // sn特征
-
-  WspDualScaleMesProfle.UUID_SN = '2A25';
-  return WspDualScaleMesProfle;
-}();
-
-var CalibrationFlow =
-/** @class */
-function (_super) {
-  __extends(CalibrationFlow, _super);
-
-  function CalibrationFlow(protocol, uuids) {
-    var _this = _super.call(this, protocol) || this;
-
-    _this.acceptActions = [QNBleAction.MES_CALIBRATION]; //标定重量
-
-    _this.calibrationWeight = 0;
-    _this.calibrationResult = false;
-    _this.uuids = uuids;
-    return _this;
-  } //需要做
-
-
-  CalibrationFlow.prototype.execute = function () {
-    var _a, _b;
-
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_c) {
-        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x11, 0x01]);
-        (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
-          behavior: MesBehavior.START_CALIBRATION
-        });
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  CalibrationFlow.prototype.decode = function (payload) {
-    return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, type;
-      return __generator(this, function (_a) {
-        data = payload.data, characteristicId = payload.characteristicId;
-
-        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        if (data[0] != 0xFD) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        type = data[2];
-
-        switch (type) {
-          case 0x12:
-            //收到标定工位的标定数据
-            this.getCalibrationWeightData(data);
-            break;
-
-          case 0x13:
-            //收到标定工位的保存结果
-            this.getCalibrationResultData(data);
-            break;
-
-          case 0x15:
-            //收到快速配网发送SSID回复
-            this.getQuickPairWifiSSIDResult(data);
-            break;
-
-          case 0x17:
-            //收到快速配网发送pwd回复
-            this.getQuickPairWifiPWDResult(data);
-            break;
-        }
-
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-  /**
-   * 收到标定数值 0x12
-   */
-
-
-  CalibrationFlow.prototype.getCalibrationWeightData = function (byteList) {
-    var _a, _b;
-
-    var retValue = byteList[3];
-    var weight = (byteList[4] << 8) + byteList[5];
-
-    if (this.calibrationWeight == weight) {
-      return;
-    }
-
-    this.calibrationWeight = weight;
-    this.confirmCalibrationWeightData(retValue);
-
-    if (retValue == 5) {
-      var success = weight == 0x01;
-      this.calibrationResult = success;
-      this.setQuickPairWifiSSID();
-    } else {
-      var calibrationType = MesCalibrationType.ZONE;
-
-      switch (retValue) {
-        case 2:
-          calibrationType = MesCalibrationType.FIFTY;
-          break;
-
-        case 3:
-          calibrationType = MesCalibrationType.HUNDRED;
-          break;
-
-        case 4:
-          calibrationType = MesCalibrationType.HUNDRED_FIFTY;
-          break;
-
-        default:
-          return;
-      }
-
-      (_b = (_a = this.listener).onGetCalibrationData) === null || _b === void 0 ? void 0 : _b.call(_a, {
-        calibrationType: calibrationType,
-        weight: weight
-      }); // this.deviceEventListener && this.deviceEventListener.onGetCalibrationData(calibrationType, weight)
-    }
-  };
-
-  CalibrationFlow.prototype.confirmCalibrationWeightData = function (retValue) {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x12, retValue]);
-  };
-  /**
-   * 收到标定结果 0x13
-   */
-
-
-  CalibrationFlow.prototype.getCalibrationResultData = function (byteList) {
-    var _a, _b, _c, _d;
-
-    var isSuccess = byteList[3] == 0x01 && this.calibrationResult;
-    (_b = (_a = this.listener).onCalibrationCodeStatus) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      isSuccess: isSuccess
-    }); // this.deviceEventListener && this.deviceEventListener.onCalibrationCodeStatus(success)
-    // this.wspMesActionCallback(MesBehavior.STOP_CALIBRATION)
-
-    (_d = (_c = this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
-      behavior: MesBehavior.STOP_CALIBRATION
-    });
-  };
-
-  CalibrationFlow.prototype.setQuickPairWifiSSID = function () {
-    var ssid = this.operation.wifiSsid || "";
-    var assiiList = [];
-
-    for (var i = 0; i < ssid.length; i++) {
-      var item = ssid.substring(i, i + 1);
-      item = item.charCodeAt(0).toString(16);
-
-      if (item.length == 1) {
-        item = "0" + item;
-      }
-
-      assiiList.push(item);
-    }
-
-    ssid = assiiList.join("");
-    var byteList = hex2Array(ssid);
-    byteList.unshift(0x14);
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, byteList);
-  };
-
-  CalibrationFlow.prototype.getQuickPairWifiSSIDResult = function (byteList) {
-    this.setQuickPairWifiPWD();
-  };
-
-  CalibrationFlow.prototype.setQuickPairWifiPWD = function () {
-    var pwd = this.operation.wifiSsid || "";
-    var assiiList = [];
-
-    for (var i = 0; i < pwd.length; i++) {
-      var item = pwd.substring(i, i + 1);
-      item = item.charCodeAt(0).toString(16);
-
-      if (item.length == 1) {
-        item = "0" + item;
-      }
-
-      assiiList.push(item);
-    }
-
-    pwd = assiiList.join("");
-    var byteList = hex2Array(pwd);
-    byteList.unshift(0x16);
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, byteList);
-  };
-
-  CalibrationFlow.prototype.getQuickPairWifiPWDResult = function (byteList) {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x13, this.calibrationResult ? 0x01 : 0x00]);
-  };
-
-  return CalibrationFlow;
-}(QNBleActionFlow);
-
-var PartialWeightFlow =
-/** @class */
-function (_super) {
-  __extends(PartialWeightFlow, _super);
-
-  function PartialWeightFlow(protocol, uuids) {
-    var _this = _super.call(this, protocol) || this;
-
-    _this.acceptActions = [QNBleAction.MES_MODULE_TEST];
-    _this.moduleTestWeightFlag = false;
-    _this.moduleTestHeightFlag = false;
-    _this.moduleTestImpFlag = false;
-    _this.modelIdResult = false;
-    _this.moduleTestResult = false;
-    _this.segmentsRes = {};
-    _this.uuids = uuids;
-    return _this;
-  } // 需要做
-
-
-  PartialWeightFlow.prototype.execute = function () {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        console.log('模块flow执行');
-        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x01, 0x01]);
-        this.listener.onDeviceStateChange({
-          behavior: MesBehavior.START_MODULE_TEST
-        });
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  PartialWeightFlow.prototype.decode = function (payload) {
-    return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, type;
-      return __generator(this, function (_a) {
-        data = payload.data, characteristicId = payload.characteristicId;
-
-        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        if (data[0] != 0xfd) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        type = data[2];
-
-        switch (type) {
-          case 0x01:
-            // 收到进入测试工位
-            console.log('收到进入测试工位');
-            this.setModuleTestSnData();
-            break;
-
-          case 0x02:
-            // 收到测试工位sn
-            this.getModuleTestSnDataResult(data);
-            break;
-
-          case 0x03:
-            // 收到测试工位体脂
-            this.getModuleTestResistanceData(data);
-            break;
-
-          case 0xa3:
-            // 收到测试工位体脂(八电极)
-            this.getModuleTestResistanceDataWithEightElec(data);
-            break;
-
-          case 0x04:
-            // 收到测试工位体重
-            this.getModuleTestWeightData(data);
-            break;
-
-          case 0x05:
-            this.getModuleTestCmdResult(data);
-            break;
-
-          case 0x06:
-            // 收到身高体重测试工位身高
-            this.getModuleTestHeightData(data);
-            break;
-        }
-
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-  /**
-   * 进入模块测试工位 0x01
-   */
-
-
-  PartialWeightFlow.prototype.startModuleTest = function () {
-    this.listener.onDeviceStateChange({
-      behavior: MesBehavior.START_MODULE_TEST
-    });
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x01, 0x01]);
-  };
-  /**
-   * 设置sn码 0x02
-   */
-
-
-  PartialWeightFlow.prototype.setModuleTestSnData = function () {
-    var sn = this.operation.sn;
-    this.log('准备写入sn码', sn);
-    var assiiList = [];
-
-    for (var i = 0; i < sn.length; i++) {
-      var item = sn.substring(i, i + 1);
-      item = item.charCodeAt(0).toString(16);
-
-      if (item.length == 1) {
-        item = "0" + item;
-      }
-
-      assiiList.push(item);
-    }
-
-    sn = assiiList.join('');
-    var data = hex2Array(sn);
-    data.unshift(0x02);
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, data);
-  };
-
-  PartialWeightFlow.prototype.getModuleTestSnDataResult = function (data) {
-    var isSuccess = data[3] == 0x01;
-    console.log('开始回调数据结果', this.listener);
-    this.listener.onModuleTestWriteSnState({
-      isSuccess: isSuccess
-    }); // this.deviceEventListener && this.deviceEventListener.onModuleTestWriteSnState(success)
-
-    if (isSuccess) {
-      // sn码设置成功后才进行下一步
-      this.startModuleTestWeight();
-    } else {
-      this.setModuleTestResult(false);
-    }
-  };
-  /**
-   * 进入重量测试 0x04
-   */
-
-
-  PartialWeightFlow.prototype.startModuleTestWeight = function () {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x04, 0x01]);
-  };
-
-  PartialWeightFlow.prototype.getModuleTestWeightData = function (data) {
-    var _a, _b;
-
-    if (data[3] !== 0x01 || this.moduleTestWeightFlag) {
-      return;
-    }
-
-    this.moduleTestWeightFlag = true;
-    var weight = (data[4] << 8) + data[5];
-    (_b = (_a = this.listener).onModuleTestWeightData) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      weight: weight
-    });
-  };
-  /**
-   * 进入身高测试 0x06
-   */
-
-
-  PartialWeightFlow.prototype.startModuleTestHeight = function () {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x06, 0x01]);
-  };
-
-  PartialWeightFlow.prototype.getModuleTestHeightData = function (data) {
-    var _a, _b;
-
-    if (data[3] !== 0x01) {
-      return;
-    } // 过滤非结果数据
-
-
-    if (this.moduleTestHeightFlag) {
-      return;
-    } // 只收到一次结果即可
-
-
-    this.moduleTestHeightFlag = true;
-    var height = times(((data[4] << 8) + data[5]) / 10, 1);
-    (_b = (_a = this.listener).onModuleTestHeightData) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      height: height
-    });
-  };
-  /**
-   * 进入阻抗测试 0x03
-   */
-
-
-  PartialWeightFlow.prototype.startModuleTestResistance = function () {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x03, 0x01]);
-  };
-
-  PartialWeightFlow.prototype.getModuleTestResistanceData = function (data) {
-    if (data[3] != 0x01) {
-      return;
-    } // 过滤非结果数据
-
-
-    if (this.moduleTestImpFlag) {
-      return;
-    } // 只收到一次结果即可
-
-
-    this.moduleTestImpFlag = true;
-    var res50 = (data[4] << 8) + data[5];
-    var res500 = (data[6] << 8) + data[7];
-    this.listener.onModuleTestResistanceData({
-      res50: res50,
-      res500: res500
-    });
-  };
-  /**
-   * 获取八电极阻抗
-   */
-
-
-  PartialWeightFlow.prototype.getModuleTestResistanceDataWithEightElec = function (data) {
-    if (data.length < 15) {
-      return;
-    }
-
-    var pack = data[3];
-
-    if (pack == 1) {
-      this.segmentsRes = {
-        lf20: times((data[4] << 8) + data[5], 1),
-        lf100: times((data[6] << 8) + data[7], 1),
-        rf20: times((data[8] << 8) + data[9], 1),
-        rf100: times((data[10] << 8) + data[11], 1),
-        lh20: times((data[12] << 8) + data[13], 1)
-      };
-    } else {
-      var secondSegmentsRes = {
-        lh100: times((data[4] << 8) + data[5], 1),
-        rh20: times((data[6] << 8) + data[7], 1),
-        rh100: times((data[8] << 8) + data[9], 1),
-        t20: times((data[10] << 8) + data[11], 1),
-        t100: times((data[12] << 8) + data[13], 1)
-      };
-      var obj = Object.assign(this.segmentsRes, secondSegmentsRes);
-      this.listener.onModuleTestResistanceData(obj);
-    }
-  };
-  /**
-   * 停止模块测试 0x05
-   */
-
-
-  PartialWeightFlow.prototype.setModuleTestResult = function (success) {
-    this.moduleTestResult = success;
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x05, success ? 0x01 : 0x00]);
-  };
-
-  PartialWeightFlow.prototype.getModuleTestCmdResult = function (data) {
-    var isSuccess = this.moduleTestResult && data[3] == 0x01;
-    this.listener.onModuleTestCodeStatus({
-      isSuccess: isSuccess
-    });
-    this.listener.onDeviceStateChange({
-      behavior: MesBehavior.STOP_MODULE_TEST
-    });
-  };
-
-  return PartialWeightFlow;
-}(QNBleActionFlow);
-
-var ModelProductFlow =
-/** @class */
-function (_super) {
-  __extends(ModelProductFlow, _super);
-
-  function ModelProductFlow(protocol, uuids) {
-    var _this = _super.call(this, protocol) || this;
-
-    _this.baseStamp2000 = Date.now() / 1000 - 946656000;
-    _this.acceptActions = [QNBleAction.MES_MODEL_PRODUCT];
-    _this.deviceType = 0;
-    _this.isSupportQuickPair = false;
-    _this.modelIdResult = false;
-    _this.timerId = 0;
-    _this.wifiPairFailNum = 0; // 当前执行命令的包的序号
-
-    _this.currentCmdNo = 0; // wifi账号指令数据
-
-    _this.ssidCmdData = []; // wifi密码指令数据
-
-    _this.pwdCmdData = []; // 数据服务地址指令数据
-
-    _this.dataServerUrlData = []; // OTA升级地址指令数据
-
-    _this.otaServerUrlData = []; // 秘钥指令数据
-
-    _this.encryptKeyCmdData = []; // body字节数据
-
-    _this.bodyByteDataArr = [];
-    _this.measureResult = {};
-    _this.uuids = uuids;
-    return _this;
-  } // 需要做
-
-
-  ModelProductFlow.prototype.execute = function () {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        this.setDeviceTime();
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  ModelProductFlow.prototype.decode = function (payload) {
-    return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, byteList, header, type;
-      return __generator(this, function (_a) {
-        data = payload.data, characteristicId = payload.characteristicId;
-
-        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        byteList = data;
-        header = data[0];
-
-        switch (header) {
-          case 0x12:
-            this.getDeviceInfo(byteList);
-            break;
-
-          case 0x14:
-            this.getUnitAndScreenTimeResult();
-            break;
-
-          case 0x21:
-            this.getDeviceTimeResult();
-
-          case 0x10:
-            this.getMeasureData(byteList);
-            break;
-
-          case 0x41:
-            this.getModelIdAndWeightResult(byteList);
-            break;
-
-          case 0x49:
-            this.getHeightWeightConfigResult(byteList);
-            break;
-
-          case 0x61:
-            this.getSsidTotalPackResult(byteList);
-            break;
-
-          case 0x63:
-            this.getWifiSsidDataResult(byteList);
-            break;
-
-          case 0x65:
-            this.getWifiPwdTotalPackDataResult(byteList);
-            break;
-
-          case 0x67:
-            this.getWifiPwdDataResult(byteList);
-            break;
-
-          case 0x69:
-            this.getServerUrlTotalPackDataResult(byteList);
-            break;
-
-          case 0x6b:
-            this.getServerUrlDataResult(byteList);
-            break;
-
-          case 0x6f:
-            this.getWifiOtaTotalPackDataResult(byteList);
-            break;
-
-          case 0x71:
-            this.getWifiOtaDataResult(byteList);
-            break;
-
-          case 0x73:
-            this.getWifiEncryptDataResult(byteList);
-            break;
-
-          case 0x74:
-            this.getWifiConnectNetResult(byteList);
-            break;
-
-          case 0x77:
-            this.getScaleWifiStatusResult(byteList);
-            break;
-
-          case 0x78:
-            this.getWifiConnectServerResult(byteList);
-            break;
-        }
-
-        if (header != 0xfd) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        type = byteList[2];
-
-        switch (type) {
-          case 0x51:
-            // 型号写入
-            this.getModelIdDataResult(byteList);
-        }
-
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  }; // 0x20
-
-
-  ModelProductFlow.prototype.setDeviceTime = function () {
-    var _a, _b;
-
-    var byteList = [this.bleDevice.type === QNBleDeviceType.HEIGHTWEIGHT ? 0x50 : 0x00];
-
-    for (var i = 0; i < 4; i += 1) {
-      byteList.push(this.baseStamp2000 >> i * 8 & 0xff);
-    }
-
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x20, byteList);
-    (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      behavior: MesBehavior.START_MODEL_ID
-    });
-    this.listener.onDeviceStateChange({
-      behavior: MesBehavior.START_MODEL_ID
-    });
-  }; // 0x12
-
-
-  ModelProductFlow.prototype.getDeviceInfo = function (byteList) {
-    if (byteList.length < 15) {
-      return;
-    }
-
-    this.deviceType = byteList[2];
-    this.isSupportQuickPair = (byteList[10] >> 6 && 0x01) == 0x01;
-    this.setUnitAndScreenTime();
-  }; // 0x13
-
-
-  ModelProductFlow.prototype.setUnitAndScreenTime = function () {
-    var byteList = [this.deviceType];
-
-    switch (this.operation.unit) {
-      case QNBleUnit.LB:
-        byteList.push(0x02);
-        break;
-
-      case QNBleUnit.JIN:
-        byteList.push(0x04);
-        break;
-
-      case QNBleUnit.ST:
-        byteList.push(0x03);
-        break;
-
-      default:
-        byteList.push(0x01);
-        break;
-    }
-
-    byteList.push(0x10);
-    var isHeartRate = this.operation.isHeartRate ? 0x00 : 0x01;
-    byteList.push(isHeartRate);
-    byteList.push(0x00);
-    byteList.push(0x00);
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x13, byteList);
-  }; // 0x14
-
-
-  ModelProductFlow.prototype.getUnitAndScreenTimeResult = function () {}; // 0x21
-
-
-  ModelProductFlow.prototype.getDeviceTimeResult = function () {}; // 0x10
-
-
-  ModelProductFlow.prototype.getMeasureData = function (byteList) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
-
-    if (this.bleDevice.type == QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE) {
-      if (byteList.length < 11) {
-        return;
-      }
-
-      var weight = this.decodeWeight(byteList[3], byteList[4]);
-      var res50 = byteList[7] + (byteList[6] << 8);
-      var res500 = byteList[9] + (byteList[8] << 8);
-      var state = byteList[5];
-
-      if (state != 1) {
-        (_b = (_a = this.listener).onGetUnsteadyWeight) === null || _b === void 0 ? void 0 : _b.call(_a, {
-          weight: weight
-        }); // this.deviceEventListener && this.deviceEventListener.onGetUnreadyWeightData(weight)
-      } else {
-        this.confirmReceiveMeasureData();
-        (_d = (_c = this.listener).onGetOriginScaleData) === null || _d === void 0 ? void 0 : _d.call(_c, {
-          weight: weight,
-          res50: res50,
-          res500: res500
-        });
-      }
-
-      return;
-    }
-
-    if (this.bleDevice.type == QNBleDeviceType.HEIGHT_WEIGHT_SCALE) {
-      if (byteList.length < 8) {
-        return;
-      }
-
-      var weight = this.decodeWeight(byteList[5], byteList[6]);
-      (_f = (_e = this.listener).onGetUnsteadyWeight) === null || _f === void 0 ? void 0 : _f.call(_e, {
-        weight: weight
-      }); // this.deviceEventListener && this.deviceEventListener.onGetUnreadyWeightData(weight)
-
-      if (byteList.length >= 19 && byteList[1] == 0x13) {
-        this.measureResult = {
-          weight: this.decodeWeight(byteList[4], byteList[5]),
-          lf20: times((byteList[6] << 8) + byteList[7], 1),
-          lf100: times((byteList[8] << 8) + byteList[9], 1),
-          rf20: times((byteList[10] << 8) + byteList[11], 1),
-          rf100: times((byteList[12] << 8) + byteList[13], 1),
-          lh20: times((byteList[14] << 8) + byteList[15], 1),
-          lh100: times((byteList[16] << 8) + byteList[17], 1)
-        };
-      } else if (byteList.length >= 13 && byteList[1] == 0x0d) {
-        var result = {
-          rh20: times((byteList[4] << 8) + byteList[5], 1),
-          rh100: times((byteList[6] << 8) + byteList[7], 1),
-          t20: times((byteList[8] << 8) + byteList[9], 1),
-          t100: times((byteList[10] << 8) + byteList[11], 1)
-        };
-        var obj = Object.assign(this.measureResult, result);
-        this.confirmReceiveMeasureData();
-        (_h = (_g = this.listener).onGetOriginScaleData) === null || _h === void 0 ? void 0 : _h.call(_g, obj);
-      }
-    }
-  }; // 0x1F
-
-
-  ModelProductFlow.prototype.confirmReceiveMeasureData = function () {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x1f, [this.deviceType, 0x10]);
-  }; // 0x40 设置秤体ID
-
-
-  ModelProductFlow.prototype.setDeviceID = function () {
-    var _this = this;
-
-    var utcTime1 = this.baseStamp2000 & 0xff;
-    var utcTime2 = this.baseStamp2000 >> 8 & 0xff;
-    var utcTime3 = this.baseStamp2000 >> 16 & 0xff;
-    var utcTime4 = this.baseStamp2000 >> 24 & 0xff;
-    var macByteList = hex2Array(this.bleDevice.mac.split(':').join(''));
-    var key = (utcTime1 ^ utcTime2 ^ utcTime3 ^ utcTime4) + ((macByteList[0] << 1) + (macByteList[1] << 1) + (macByteList[2] << 1) + (macByteList[3] << 2) + (macByteList[4] << 2) + (macByteList[5] << 2));
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x40, [this.deviceType, key & 0xff]);
-    setTimeout(function () {
-      // 防止两条命令之间时间过短导致写入失败
-      _this.setDeviceModelIDAndWeight();
-    }, 500);
-  };
-
-  ModelProductFlow.prototype.setDeviceModelIDAndWeight = function () {
-    var utcTime1 = this.baseStamp2000 & 0xff;
-    var utcTime2 = this.baseStamp2000 >> 8 & 0xff;
-    var utcTime3 = this.baseStamp2000 >> 16 & 0xff;
-    var utcTime4 = this.baseStamp2000 >> 24 & 0xff;
-    var macByteList = hex2Array(this.bleDevice.mac.split(':').join(''));
-    var cmd = (utcTime1 + 1 ^ utcTime2 + 1 ^ utcTime3 + 1 ^ utcTime4 + 1) + ((macByteList[0] >> 1) + (macByteList[1] >> 1) + (macByteList[2] >> 1) + (macByteList[3] >> 2) + (macByteList[4] >> 2) + (macByteList[5] >> 2));
-    var modeIdByteList = hex2Array(this.operation.modelId);
-    var aliIdByteList = [0, 0];
-    var minWeightList = hex2Array(this.operation.minWeight);
-    var maxWeightList = hex2Array(this.operation.maxWeight);
-    var overrideWeightList = hex2Array(this.operation.overrideWeight);
-    var byteList = [this.deviceType];
-    byteList.push(cmd & 0xff);
-    byteList.push(modeIdByteList[0], modeIdByteList[1]);
-    byteList.push(aliIdByteList[0], aliIdByteList[1]);
-    byteList.push(minWeightList[0], minWeightList[1]);
-    byteList.push(maxWeightList[0], maxWeightList[1]);
-    byteList.push(overrideWeightList[0], overrideWeightList[1]);
-
-    switch (this.operation.batteryType) {
-      case 9:
-        byteList.push(0x03);
-        break;
-
-      case 3:
-        byteList.push(0x01);
-        break;
-
-      case 2:
-        byteList.push(0x02);
-        break;
-
-      default:
-        byteList.push(0x00);
-        break;
-    }
-
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x43, byteList);
-  }; // 0x41
-
-
-  ModelProductFlow.prototype.getModelIdAndWeightResult = function (byteList) {
-    var _a, _b;
-
-    if (byteList.length < 9) {
-      return;
-    }
-
-    var isSuccess = byteList[7] == 0x01;
-    (_b = (_a = this.listener).onGetWriteModelIdResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      isSuccess: isSuccess
-    }); // this.deviceEventListener && this.deviceEventListener.onGetWriteModelIdResult(success)
-
-    if (isSuccess) {
-      this.startWifiConfig();
-    } else {
-      this.setModelIdDataResult(false);
-    }
-  }; // 开始配置wifi
-
-
-  ModelProductFlow.prototype.startWifiConfig = function () {
-    if (this.bleDevice.type == QNBleDeviceType.NORMAL_BLE_SCALE) {
-      // 普通蓝牙称配网直接成功
-      this.listener.onGetWifiResult({
-        isSuccess: true
-      });
-      this.setModelIdDataResult(true);
-    } else {
-      if (this.isSupportQuickPair) {
-        this.checkScaleWifiStatus();
-      } else {
-        this.setWifiSsidTotalPackData();
-      }
-    }
-  }; // 准备wifi数据
-
-
-  ModelProductFlow.prototype.prepareWifiData = function () {
-    var _a = this.operation,
-        _b = _a.wifiSsid,
-        wifiSsid = _b === void 0 ? '' : _b,
-        _c = _a.wifiPwd,
-        wifiPwd = _c === void 0 ? '' : _c,
-        _d = _a.dataServerUrl,
-        dataServerUrl = _d === void 0 ? 'http://wifi.yolanda.hk:80/wifi_api/wsps?code=' : _d,
-        _e = _a.otaServerUrl,
-        otaServerUrl = _e === void 0 ? 'https://ota.yolanda.hk' : _e,
-        _f = _a.encryptKey,
-        encryptKey = _f === void 0 ? 'yolandakitnewhdr' : _f; // eslint-disable-next-line no-console
-
-    this.log('ssid:', wifiSsid, 'pwd:', wifiPwd, 'dataServerUrl', dataServerUrl, 'otaServerUrl', otaServerUrl, 'encryptKey', encryptKey);
-    var ssidByteArray = stringToByteArray(gBase64.encode(wifiSsid));
-    var pwdByteArray = stringToByteArray(wifiPwd);
-    var dataServerUrlByteArray = stringToByteArray(dataServerUrl);
-    var otaServerUrlByteArray = stringToByteArray(otaServerUrl);
-    this.ssidCmdData = splitArray(ssidByteArray);
-    this.pwdCmdData = splitArray(pwdByteArray);
-    this.dataServerUrlData = splitArray(dataServerUrlByteArray);
-    this.otaServerUrlData = splitArray(otaServerUrlByteArray);
-    this.encryptKeyCmdData = stringToByteArray(encryptKey);
-  }; // 0x76 获取wifi状态
-
-
-  ModelProductFlow.prototype.checkScaleWifiStatus = function () {
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x76, [0x02]);
-  };
-
-  ModelProductFlow.prototype.getScaleWifiStatusResult = function (byteList) {
-    var _a, _b;
-
-    if (byteList.length < 4) {
-      return;
-    }
-
-    var isSuccess = byteList[2] == 0x02;
-
-    if (isSuccess) {
-      this.setModelIdDataResult(true);
-      (_b = (_a = this.listener).onGetWifiResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
-        isSuccess: isSuccess
-      }); // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(isSuccess)
-    } else {
-      this.setWifiSsidTotalPackData();
-    }
-
-    this.setWifiSsidTotalPackData(); // const isSuccess = byteList[2] === 0x02;
-    // if (isSuccess) {
-    //   this.setModelIdDataResult(true);
-    //   this.listener.onGetWifiResult({ isSuccess });
-    //   // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(isSuccess)
-    // } else {
-    //   this.setWifiSsidTotalPackData();
-    // }
-  }; // 0x60
-
-
-  ModelProductFlow.prototype.setWifiSsidTotalPackData = function () {
-    var _this = this;
-
-    this.prepareWifiData();
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x60, [this.ssidCmdData.length]);
-    this.timerId = setTimeout(function () {
-      _this.wifiPairFailNum += 1;
-
-      if (_this.wifiPairFailNum >= 4) {
-        _this.setModelIdDataResult(false);
-      } else {
-        _this.setWifiSsidTotalPackData();
-      }
-    }, 500);
-  }; // 0x61
-
-
-  ModelProductFlow.prototype.getSsidTotalPackResult = function (byteList) {
-    this.timerId && clearTimeout(this.timerId);
-    this.timerId = undefined;
-
-    if (byteList[2] === 0x00) {
-      this.setModelIdDataResult(false);
-    } else {
-      this.setWifiSsidData(1);
-    }
-  }; // 0x62
-
-
-  ModelProductFlow.prototype.setWifiSsidData = function (index) {
-    var byteList = this.ssidCmdData[index - 1];
-    byteList.unshift(index);
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x62, byteList);
-  }; // 0x63
-
-
-  ModelProductFlow.prototype.getWifiSsidDataResult = function (byteList) {
-    var curPack = byteList[2];
-
-    if (curPack == this.ssidCmdData.length) {
-      this.setWifiPwdTotalPackData();
-    } else {
-      this.setWifiSsidData(curPack + 1);
-    }
-  }; // 0x64
-
-
-  ModelProductFlow.prototype.setWifiPwdTotalPackData = function () {
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x64, [this.pwdCmdData.length]);
-  }; // 0x65
-
-
-  ModelProductFlow.prototype.getWifiPwdTotalPackDataResult = function (byteList) {
-    if (byteList[2] == 0) {
-      this.setModelIdDataResult(false);
-    } else {
-      this.setWifiPwdData(1);
-    }
-  }; // 0x66
-
-
-  ModelProductFlow.prototype.setWifiPwdData = function (index) {
-    if (this.pwdCmdData.length == 0) {
-      this.setWifiServerUrlTotalPackData();
-    } else {
-      var byteList = this.pwdCmdData[index - 1];
-      byteList.unshift(index);
-      this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x66, byteList);
-    }
-  }; // 0x67
-
-
-  ModelProductFlow.prototype.getWifiPwdDataResult = function (byteList) {
-    var curPack = byteList[2];
-
-    if (curPack == this.pwdCmdData.length) {
-      this.setWifiServerUrlTotalPackData();
-    } else {
-      this.setWifiPwdData(curPack + 1);
-    }
-  }; // 0x68
-
-
-  ModelProductFlow.prototype.setWifiServerUrlTotalPackData = function () {
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x68, [this.dataServerUrlData.length]);
-  }; // 0x69
-
-
-  ModelProductFlow.prototype.getServerUrlTotalPackDataResult = function (byteList) {
-    if (byteList[2] === 0) {
-      this.setModelIdDataResult(false);
-    } else {
-      this.setWifiServerUrlData(1);
-    }
-  }; // 0x6A
-
-
-  ModelProductFlow.prototype.setWifiServerUrlData = function (index) {
-    var byteList = this.dataServerUrlData[index - 1];
-    byteList.unshift(index);
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x6a, byteList);
-  }; // 0x6B
-
-
-  ModelProductFlow.prototype.getServerUrlDataResult = function (byteList) {
-    var curPack = byteList[2];
-
-    if (curPack == this.dataServerUrlData.length) {
-      this.setWifiOtaTotalPackData();
-    } else {
-      this.setWifiServerUrlData(curPack + 1);
-    }
-  }; // 0x6E
-
-
-  ModelProductFlow.prototype.setWifiOtaTotalPackData = function () {
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x6e, [this.otaServerUrlData.length]);
-  }; // 0x6F
-
-
-  ModelProductFlow.prototype.getWifiOtaTotalPackDataResult = function (byteList) {
-    if (byteList[2] == 0) {
-      this.setModelIdDataResult(false);
-    } else {
-      this.setWifiOtaData(1);
-    }
-  }; // 0x70
-
-
-  ModelProductFlow.prototype.setWifiOtaData = function (index) {
-    var byteList = this.otaServerUrlData[index - 1];
-    byteList.unshift(index);
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x70, byteList);
-  }; // 0x71
-
-
-  ModelProductFlow.prototype.getWifiOtaDataResult = function (byteList) {
-    var curPack = byteList[2];
-
-    if (curPack == this.otaServerUrlData.length) {
-      this.setWifiEncryptData();
-    } else {
-      this.setWifiOtaData(curPack + 1);
-    }
-  }; // 0x72
-
-
-  ModelProductFlow.prototype.setWifiEncryptData = function () {
-    var byteList = this.encryptKeyCmdData;
-    byteList.unshift(byteList.length);
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x72, byteList);
-  }; // 0x73
-
-
-  ModelProductFlow.prototype.getWifiEncryptDataResult = function (byteList) {
-    if (byteList[2] == 0) {
-      this.setModelIdDataResult(false);
-    }
-  }; // 0x74
-
-
-  ModelProductFlow.prototype.getWifiConnectNetResult = function (byteList) {
-    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x75, [0x01]);
-
-    if (byteList[2] == 0) {
-      // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(false)
-      this.setModelIdDataResult(false);
-    }
-  }; // 0x78
-
-
-  ModelProductFlow.prototype.getWifiConnectServerResult = function (byteList) {
-    var _a, _b;
-
-    this.writeCmd(this.uuids.produce.serviceUUID, WspDualScaleMesProfle.UUID_WRITE, 0x79, [0x01]);
-    var isSuccess = byteList[2] == 0x01;
-    (_b = (_a = this.listener).onGetWifiResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      isSuccess: isSuccess
-    }); // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(success)
-
-    if (this.bleDevice.type !== QNBleDeviceType.HEIGHTWEIGHT) {
-      this.setModelIdDataResult(isSuccess);
-    }
-  };
-  /**
-   * 身高体重秤设置信息(型号写入) 0x48
-   */
-
-
-  ModelProductFlow.prototype.startHeightWeightConfig = function () {
-    console.log('开始写入配置');
-    var byteList = [this.deviceType, 0x00, 0x00, 0x00];
-    var modeIdByteList = hex2Array(this.operation.modelId);
-    var minWeightList = hex2Array(this.operation.minWeight);
-    var maxWeightList = hex2Array(this.operation.maxWeight);
-    byteList.push(modeIdByteList[0], modeIdByteList[1]);
-    byteList.push(minWeightList[0], minWeightList[1]);
-    byteList.push(maxWeightList[0], maxWeightList[1]);
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x48, byteList);
-  };
-  /**
-   * 身高体重秤型号写入结果 0x49
-   */
-
-
-  ModelProductFlow.prototype.getHeightWeightConfigResult = function (byteList) {
-    var isSuccess = byteList[3] === 1;
-    this.listener.onGetWriteModelIdResult({
-      isSuccess: isSuccess
-    });
-    this.setModelIdDataResult(isSuccess);
-  };
-  /**
-   * 型号写入结果 0x51
-   */
-
-
-  ModelProductFlow.prototype.setModelIdDataResult = function (success) {
-    this.modelIdResult = success;
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x51, success ? 0x01 : 0x00]);
-  };
-
-  ModelProductFlow.prototype.getModelIdDataResult = function (byteList) {
-    var _this = this;
-
-    var isSuccess = byteList[3] === 1 && this.modelIdResult;
-
-    if (isSuccess) {
-      this.setDeviceSleepMode();
-    }
-
-    setTimeout(function () {
-      var _a, _b, _c, _d;
-
-      (_b = (_a = _this.listener).onReviewCodeStatus) === null || _b === void 0 ? void 0 : _b.call(_a, {
-        isSuccess: isSuccess
-      }); // this.deviceEventListener && this.deviceEventListener.onReviewCodeStatus(success)
-
-      (_d = (_c = _this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
-        behavior: MesBehavior.STOP_MODEL_ID
-      });
-    }, 2000);
-  }; // 0x50
-
-
-  ModelProductFlow.prototype.setDeviceSleepMode = function () {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x50, [this.deviceType]);
-  };
-
-  return ModelProductFlow;
-}(QNBleActionFlow);
-
-var PartialWeightFlow$1 =
-/** @class */
-function (_super) {
-  __extends(PartialWeightFlow, _super);
-
-  function PartialWeightFlow(protocol, uuids) {
-    var _this = _super.call(this, protocol) || this;
-
-    _this.acceptActions = [QNBleAction.MES_PARTIAL];
-    _this.uuids = uuids;
-    return _this;
-  } //需要做
-
-
-  PartialWeightFlow.prototype.execute = function () {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x31, 0x01]);
-        this.listener.onDeviceStateChange({
-          behavior: MesBehavior.START_PARTIAL
-        });
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  PartialWeightFlow.prototype.decode = function (payload) {
-    return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, type;
-      return __generator(this, function (_a) {
-        data = payload.data, characteristicId = payload.characteristicId;
-
-        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        if (data[0] != 0xfd) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        type = data[2];
-
-        switch (type) {
-          case 0x32:
-            //收到偏载数据值
-            this.getPartialWeightData(data);
-            break;
-
-          case 0x33:
-            //收到偏载标识保存结果
-            this.getPartialWeightDataResult(data);
-            break;
-
-          case 0x41:
-            //删除工位
-            this.getPartialWeightData(data);
-            break;
-        }
-
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-  /**
-   * 偏载锁定重量 0x32
-   */
-
-
-  PartialWeightFlow.prototype.getPartialWeightData = function (byteList) {
-    this.setPartialWeightDataResult(1);
-    var weight = this.decodeWeight(byteList[3], byteList[4]);
-    this.listener.onGetPartialWeightData({
-      weight: weight
-    }); // const success = this.deviceEventListener && this.deviceEventListener.onGetPartialWeightData(weight)
-  }; //1收到数据 2 偏载成功 3 偏载失败
-
-
-  PartialWeightFlow.prototype.setPartialWeightDataResult = function (state) {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x32, state]);
-  };
-  /**
-   * 收到偏载标示保存结果 0x33
-   */
-
-
-  PartialWeightFlow.prototype.getPartialWeightDataResult = function (byteList) {
-    var isSuccess = byteList[3] === 0x01;
-    this.listener.onPartialCodeStatus({
-      isSuccess: isSuccess
-    }); // this.deviceEventListener && this.deviceEventListener.onPartialCodeStatus(success)
-
-    this.listener.onDeviceStateChange({
-      behavior: MesBehavior.STOP_PARTIAL
-    });
-  };
-
-  return PartialWeightFlow;
-}(QNBleActionFlow);
-
-var ReviewFlow =
-/** @class */
-function (_super) {
-  __extends(ReviewFlow, _super);
-
-  function ReviewFlow(protocol, uuids) {
-    var _this = _super.call(this, protocol) || this;
-
-    _this.acceptActions = [QNBleAction.MES_REVIEW];
-    _this.uuids = uuids;
-    return _this;
-  } //需要做
-
-
-  ReviewFlow.prototype.execute = function () {
-    var _a, _b;
-
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_c) {
-        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x21, 0x01]);
-        (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
-          behavior: MesBehavior.START_BACKHOE
-        });
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  ReviewFlow.prototype.decode = function (payload) {
-    return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, type;
-      return __generator(this, function (_a) {
-        data = payload.data, characteristicId = payload.characteristicId;
-
-        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        if (data[0] != 0xFD) {
-          return [2
-          /*return*/
-          ];
-        }
-
-        type = data[2];
-
-        switch (type) {
-          case 0x22:
-            //收到回检数据值
-            this.getReviewWeightData(data);
-            break;
-
-          case 0x23:
-            //收到回检标识保存结果
-            this.getReviewWeightDataResult(data);
-            break;
-        }
-
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-  /**
-     * 进入回检 0x21
-     */
-
-
-  ReviewFlow.prototype.enterReview = function () {
-    var _a, _b;
-
-    (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      behavior: MesBehavior.START_BACKHOE
-    }); // this.listener.onDeviceStateChange({behavior:MesBehavior.START_BACKHOE)
-
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x21, 0x01]);
-  };
-  /**
-   * 收到回检重量 0x22
-   */
-
-
-  ReviewFlow.prototype.getReviewWeightData = function (byteList) {
-    var _a, _b;
-
-    this.setReviewWeightDataResult(1);
-    var weight = this.decodeWeight(byteList[3], byteList[4]);
-    (_b = (_a = this.listener).onGetReviewWeightData) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      weight: weight
-    }); // const success = this.deviceEventListener && this.deviceEventListener.onGetReviewWeightData(weight)
-  }; //1 收到重量值 2 回检成功 3 回检失败
-
-
-  ReviewFlow.prototype.setReviewWeightDataResult = function (state) {
-    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x22, state]);
-  };
-  /**
-   * 收到回检标示保存结果 0x23
-   */
-
-
-  ReviewFlow.prototype.getReviewWeightDataResult = function (byteList) {
-    var _a, _b, _c, _d;
-
-    var isSuccess = byteList[3] == 0x01 && byteList[3] == 0x01;
-    (_b = (_a = this.listener).onReviewCodeStatus) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      isSuccess: isSuccess
-    }); // this.deviceEventListener && this.deviceEventListener.onReviewCodeStatus(success)
-
-    (_d = (_c = this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
-      behavior: MesBehavior.STOP_BACKHOE
-    });
-  };
-
-  return ReviewFlow;
-}(QNBleActionFlow);
-
-var WspMes = {
-  WspDualScaleMesProfle: WspDualScaleMesProfle,
-  CalibrationFlow: CalibrationFlow,
-  ModuleTestFlow: PartialWeightFlow,
-  ModelProductFlow: ModelProductFlow,
-  PartialWeightFlow: PartialWeightFlow$1,
-  ReviewFlow: ReviewFlow
-};
-
-var WspDualScaleMesProfle$1 = WspMes.WspDualScaleMesProfle,
-    CalibrationFlow$1 = WspMes.CalibrationFlow,
-    ReviewFlow$1 = WspMes.ReviewFlow,
-    PartialWeightFlow$2 = WspMes.PartialWeightFlow,
-    ModuleTestFlow = WspMes.ModuleTestFlow,
-    ModelProductFlow$1 = WspMes.ModelProductFlow;
-
-var WspDualScaleMesProtocol =
-/** @class */
-function (_super) {
-  __extends(WspDualScaleMesProtocol, _super);
-
-  function WspDualScaleMesProtocol() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-  /**
-   * 准备工作，在此接收所有的特征值
-   *
-   * @memberof WspDualScaleMesProtocol
-   */
-
-
-  WspDualScaleMesProtocol.prototype.prepare = function () {
-    var _a, _b;
-
-    return __awaiter(this, void 0, void 0, function () {
-      var uuids;
-      return __generator(this, function (_c) {
-        switch (_c.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this.bleNative.findService(this.bleDevice.deviceId)];
-
-          case 1:
-            _c.sent();
-
-            uuids = {
-              produce: {
-                serviceUUID: WspDualScaleMesProfle$1.UUID_TIME_SERVICES,
-                writeUUID: WspDualScaleMesProfle$1.UUID_WRITE
-              },
-              wifi: {
-                serviceUUID: WspDualScaleMesProfle$1.UUID_TIME_SERVICES,
-                writeUUID: WspDualScaleMesProfle$1.UUID_WRITE
-              }
-            };
-            if (!(this.bleDevice.type === QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE)) return [3
-            /*break*/
-            , 4]; // 八电极
-
-            return [4
-            /*yield*/
-            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.EIGHT_UUID_NOTIFY)];
-
-          case 2:
-            // 八电极
-            _c.sent();
-
-            return [4
-            /*yield*/
-            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.EIGHT_UUID_WIFI_NOTIFY)];
-
-          case 3:
-            _c.sent();
-
-            uuids = {
-              produce: {
-                serviceUUID: WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES,
-                writeUUID: WspDualScaleMesProfle$1.EIGHT_UUID_WRITE
-              },
-              wifi: {
-                serviceUUID: WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES,
-                writeUUID: WspDualScaleMesProfle$1.EIGHT_UUID_WIFI_WRITE
-              }
-            };
-            return [3
-            /*break*/
-            , 8];
-
-          case 4:
-            if (!(this.bleDevice.type === QNBleDeviceType.HEIGHTWEIGHT)) return [3
-            /*break*/
-            , 6]; // 身高体重秤
-
-            return [4
-            /*yield*/
-            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_NOTIFY)];
-
-          case 5:
-            // 身高体重秤
-            _c.sent();
-
-            uuids = {
-              produce: {
-                serviceUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_DEVICE_SERVICES,
-                writeUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_WRITE
-              },
-              wifi: {
-                serviceUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_DEVICE_SERVICES,
-                writeUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_WRITE
-              }
-            };
-            return [3
-            /*break*/
-            , 8];
-
-          case 6:
-            // 普通秤
-            return [4
-            /*yield*/
-            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.UUID_TIME_SERVICES, WspDualScaleMesProfle$1.UUID_NOTIFY)];
-
-          case 7:
-            // 普通秤
-            _c.sent();
-
-            _c.label = 8;
-
-          case 8:
-            if (this.operation.action === QNBleAction.MES_READ_SN) {
-              (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
-                behavior: MesBehavior.STOP_READ_SN
-              });
-            }
-
-            return [4
-            /*yield*/
-            , this.bleNative.readBleCharacteristicValue(this.bleDevice.deviceId, WspDualScaleMesProfle$1.UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.UUID_SN)];
-
-          case 9:
-            _c.sent();
-
-            this.actionFlows.push(new CalibrationFlow$1(this, uuids));
-            this.actionFlows.push(new ReviewFlow$1(this, uuids));
-            this.actionFlows.push(new PartialWeightFlow$2(this, uuids));
-            this.actionFlows.push(new ModuleTestFlow(this, uuids));
-            this.actionFlows.push(new ModelProductFlow$1(this, uuids));
-            this.applyFlow();
-            return [2
-            /*return*/
-            ];
-        }
-      });
-    });
-  };
-
-  WspDualScaleMesProtocol.prototype.applyFlow = function () {
-    var e_1, _a;
-
-    try {
-      for (var _b = __values(this.actionFlows), _c = _b.next(); !_c.done; _c = _b.next()) {
-        var flow = _c.value;
-
-        if (flow.accept(this.operation.action)) {
-          flow.action = this.operation.action;
-          this.currentFlow = flow;
-          break;
-        }
-      }
-    } catch (e_1_1) {
-      e_1 = {
-        error: e_1_1
-      };
-    } finally {
-      try {
-        if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
-      } finally {
-        if (e_1) throw e_1.error;
-      }
-    }
-
-    if (this.currentFlow) {
-      this.currentFlow.execute();
-    }
-  };
-  /**
-   * 解析命令
-   * @param {Partial<QNBleTypings.TypedCharacteristicValueChangePayload>} payload
-   */
-
-
-  WspDualScaleMesProtocol.prototype.decode = function (payload) {
-    var _a, _b, _c, _d;
-
-    return __awaiter(this, void 0, void 0, function () {
-      var data, characteristicId, sn, _e, _f, num, item;
-
-      var e_2, _g;
-
-      return __generator(this, function (_h) {
-        switch (_h.label) {
-          case 0:
-            data = payload.data, characteristicId = payload.characteristicId;
-
-            if (characteristicId === WspDualScaleMesProfle$1.UUID_SN) {
-              sn = '';
-
-              try {
-                // eslint-disable-next-line no-restricted-syntax
-                for (_e = __values(payload.data), _f = _e.next(); !_f.done; _f = _e.next()) {
-                  num = _f.value;
-                  item = String.fromCharCode(num);
-                  sn += item;
-                }
-              } catch (e_2_1) {
-                e_2 = {
-                  error: e_2_1
-                };
-              } finally {
-                try {
-                  if (_f && !_f.done && (_g = _e["return"])) _g.call(_e);
-                } finally {
-                  if (e_2) throw e_2.error;
-                }
-              }
-
-              (_b = (_a = this.listener).onGetSnCode) === null || _b === void 0 ? void 0 : _b.call(_a, {
-                sn: sn
-              });
-
-              if (this.operation.action === QNBleAction.MES_READ_SN) {
-                (_d = (_c = this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
-                  behavior: MesBehavior.STOP_READ_SN
-                });
-              }
-            }
-
-            if (!this.currentFlow) return [3
-            /*break*/
-            , 2];
-            return [4
-            /*yield*/
-            , this.currentFlow.decode(payload)];
-
-          case 1:
-            _h.sent();
-
-            _h.label = 2;
-
-          case 2:
-            return [2
-            /*return*/
-            ];
-        }
-      });
-    });
-  };
-  /************  删除工位  *************/
-
-  /**
-   * 删除工位 0x41
-   * 0x00 所有工位 0x01 模块测试 0x02 半成品
-   * 0x04 标定工位 0x08 重量回检 0x10 偏载  0x02 写型号
-   */
-
-
-  WspDualScaleMesProtocol.prototype.resetStation = function (station) {// this.writeCmd(this.getProduceUUID().serviceUUID, this.getProduceUUID().writeUUID, 0xFD, [0x41, station])
-  };
-
-  WspDualScaleMesProtocol.prototype.getCurrentFlow = function () {
-    return this.currentFlow;
-  };
-
-  WspDualScaleMesProtocol.bleProfle = new WspDualScaleMesProfle$1();
-  WspDualScaleMesProtocol.WspMes = WspMes;
-  return WspDualScaleMesProtocol;
-}(QNBleProtocol);
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
 
 function getUnitString(unitNumber) {
   var unitMapping = {
@@ -7485,10 +6258,13 @@ function parseMeasureInfo(data) {
   var response = {
     user: user,
     dateTimeString: dateTimeString,
-    hyper: hyper,
-    hypot: hypot,
+    // 千帕单位设备放大了10倍传递的数据，设备不能传送小数
+    hyper: unit === QNBleUnit.KPA ? hyper / 10 : hyper,
+    // 千帕单位设备放大了10倍传递的数据，设备不能传送小数
+    hypot: unit === QNBleUnit.KPA ? hypot / 10 : hypot,
     heartRate: heartRate,
     unit: unit,
+    // 千帕单位设备放大了10倍传递的数据，设备不能传送小数
     value: resultValue
   };
   return response;
@@ -7499,7 +6275,7 @@ var SphygmomanometerProtocolProfile =
 function () {
   function SphygmomanometerProtocolProfile() {
     this.defaultAction = QNBleAction.NOT_SET;
-    this.type = QNBleDeviceType.SP_10A;
+    this.type = QNBleDeviceType.SPHYGMOMANOMETER;
     this.transferType = QNBleTransferType.BLE;
   }
 
@@ -7515,8 +6291,6 @@ function () {
     var manufacturer = nativeDevice.manufacturer;
     var macs = [number2hex(manufacturer[9]), number2hex(manufacturer[8]), number2hex(manufacturer[7]), number2hex(manufacturer[6]), number2hex(manufacturer[5]), number2hex(manufacturer[4])];
     return {
-      isWspScale: true,
-      isScreenOn: true,
       modelId: number2hex(manufacturer[2]) + number2hex(manufacturer[3]),
       mac: macs.join(':'),
       // bit 0-02为血压计标准
@@ -7529,39 +6303,6 @@ function () {
 
   return SphygmomanometerProtocolProfile;
 }();
-/**
- * 判断两个对象的值是否一致
- */
-
-
-function equal(o1, o2) {
-  if (o1 === o2) {
-    return true;
-  }
-
-  if (_typeof(o1) !== 'object' || _typeof(o2) !== 'object') {
-    return false;
-  }
-
-  var o1Keys = Object.keys(o1);
-  var o2Keys = Object.keys(o2);
-
-  if (o1Keys.length !== o2Keys.length) {
-    return false;
-  }
-
-  return o1Keys.every(function (key) {
-    if (!o2Keys.includes(key)) {
-      return false;
-    } // @ts-ignore
-
-
-    var o1Val = o1[key]; // @ts-ignore
-
-    var o2Val = o2[key];
-    return equal(o1Val, o2Val);
-  });
-}
 
 var SphygmomanometerProtocol =
 /** @class */
@@ -7612,7 +6353,7 @@ function (_super) {
 
   Object.defineProperty(SphygmomanometerProtocol.prototype, "action", {
     get: function get() {
-      return this.operation.action || SphygmomanometerProtocol.bleProfle.defaultAction;
+      return this.operation.action || SphygmomanometerProtocol.bleProfile.defaultAction;
     },
     enumerable: false,
     configurable: true
@@ -7690,23 +6431,23 @@ function (_super) {
 
 
   SphygmomanometerProtocol.prototype.decode = function (payload) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
 
     return __awaiter(this, void 0, void 0, function () {
-      var data, _j, retValue, _k, status_1, status_2, status_3, status_4, status_5, status_6;
+      var data, _o, retValue, _p, status_1;
 
-      return __generator(this, function (_l) {
-        switch (_l.label) {
+      return __generator(this, function (_q) {
+        switch (_q.label) {
           case 0:
             data = payload.data;
-            _l.label = 1;
+            _q.label = 1;
 
           case 1:
-            _l.trys.push([1,, 58, 59]);
+            _q.trys.push([1,, 67, 68]);
 
-            _j = data[0];
+            _o = data[0];
 
-            switch (_j) {
+            switch (_o) {
               case 0x12:
                 return [3
                 /*break*/
@@ -7725,47 +6466,82 @@ function (_super) {
               case 0x23:
                 return [3
                 /*break*/
-                , 22];
+                , 20];
 
               case 0x56:
                 return [3
                 /*break*/
+                , 22];
+
+              case 0x58:
+                return [3
+                /*break*/
                 , 24];
 
-              case 0x63:
+              case 0x61:
                 return [3
                 /*break*/
                 , 26];
 
+              case 0x63:
+                return [3
+                /*break*/
+                , 27];
+
+              case 0x65:
+                return [3
+                /*break*/
+                , 32];
+
               case 0x67:
                 return [3
                 /*break*/
-                , 34];
+                , 36];
+
+              case 0x69:
+                return [3
+                /*break*/
+                , 41];
 
               case 0x6B:
                 return [3
                 /*break*/
-                , 42];
+                , 44];
+
+              case 0x6F:
+                return [3
+                /*break*/
+                , 49];
+
+              case 0x71:
+                return [3
+                /*break*/
+                , 52];
 
               case 0x73:
                 return [3
                 /*break*/
-                , 50];
+                , 57];
 
               case 0x74:
                 return [3
                 /*break*/
-                , 53];
+                , 60];
+
+              case 0x77:
+                return [3
+                /*break*/
+                , 62];
 
               case 0xA0:
                 return [3
                 /*break*/
-                , 54];
+                , 63];
             }
 
             return [3
             /*break*/
-            , 56];
+            , 65];
 
           case 2:
             if (!(this.lastCmd !== 0x12)) return [3
@@ -7776,7 +6552,7 @@ function (_super) {
             , this.getDeviceInfo(data)];
 
           case 3:
-            _l.sent();
+            _q.sent();
 
             return [3
             /*break*/
@@ -7784,12 +6560,12 @@ function (_super) {
 
           case 4:
             this.log('收到重复的0x12命令数据，舍弃');
-            _l.label = 5;
+            _q.label = 5;
 
           case 5:
             return [3
             /*break*/
-            , 57];
+            , 66];
 
           case 6:
             if (!(this.lastCmd !== 0x14)) return [3
@@ -7800,9 +6576,9 @@ function (_super) {
             if (!(retValue === 1)) return [3
             /*break*/
             , 13];
-            _k = this.action;
+            _p = this.action;
 
-            switch (_k) {
+            switch (_p) {
               case QNBleAction.SP_SYNC_CURRENT_DATA:
                 return [3
                 /*break*/
@@ -7838,7 +6614,7 @@ function (_super) {
 
           case 9:
             // 准备读取历史数据
-            _l.sent();
+            _q.sent();
 
             return [3
             /*break*/
@@ -7852,7 +6628,7 @@ function (_super) {
 
           case 11:
             // 通知设备扫描附近wifi
-            _l.sent();
+            _q.sent();
 
             return [3
             /*break*/
@@ -7870,50 +6646,48 @@ function (_super) {
 
           case 14:
             this.log('收到重复的0x14命令数据，舍弃');
-            _l.label = 15;
+            _q.label = 15;
 
           case 15:
             return [3
             /*break*/
-            , 57];
+            , 66];
 
           case 16:
             if (!(this.lastCmd !== 0x10)) return [3
             /*break*/
-            , 20];
-            if (!(this.action === QNBleAction.SP_SYNC_CURRENT_DATA)) return [3
-            /*break*/
-            , 18];
+            , 18]; // if (this.action === QNBleAction.SP_SYNC_CURRENT_DATA) {
+            //   await this.doSyncCurrentData(data);
+            // } else {
+            //   this.log('指定的operation.action不是同步当前数据动作，忽略同步当前数据');
+            // }
+
             return [4
             /*yield*/
             , this.doSyncCurrentData(data)];
 
           case 17:
-            _l.sent();
+            // if (this.action === QNBleAction.SP_SYNC_CURRENT_DATA) {
+            //   await this.doSyncCurrentData(data);
+            // } else {
+            //   this.log('指定的operation.action不是同步当前数据动作，忽略同步当前数据');
+            // }
+            _q.sent();
 
             return [3
             /*break*/
             , 19];
 
           case 18:
-            this.log('指定的operation.action不是同步当前数据动作，忽略同步当前数据');
-            _l.label = 19;
+            this.log('收到重复的0x10命令数据，舍弃');
+            _q.label = 19;
 
           case 19:
             return [3
             /*break*/
-            , 21];
+            , 66];
 
           case 20:
-            this.log('收到重复的0x10命令数据，舍弃');
-            _l.label = 21;
-
-          case 21:
-            return [3
-            /*break*/
-            , 57];
-
-          case 22:
             // if (!this.isCancelHistoryData) {
             //   await this.doSyncHistoryData(data);
             // }
@@ -7921,251 +6695,334 @@ function (_super) {
             /*yield*/
             , this.doSyncHistoryData(data)];
 
-          case 23:
+          case 21:
             // if (!this.isCancelHistoryData) {
             //   await this.doSyncHistoryData(data);
             // }
-            _l.sent();
+            _q.sent();
 
             return [3
             /*break*/
-            , 57];
+            , 66];
 
-          case 24:
+          case 22:
             return [4
             /*yield*/
             , this.onReceiveWifiSsidData(data)];
 
-          case 25:
-            _l.sent();
+          case 23:
+            _q.sent();
 
             return [3
             /*break*/
-            , 57];
+            , 66];
+
+          case 24:
+            // wifi扫描结束
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x59, 4, 1]
+            })];
+
+          case 25:
+            // wifi扫描结束
+            _q.sent();
+
+            (_d = (_c = this.listener).onScanWifiFinished) === null || _d === void 0 ? void 0 : _d.call(_c);
+            return [3
+            /*break*/
+            , 66];
 
           case 26:
-            status_1 = data[2];
-            if (!(status_1 === 1)) return [3
-            /*break*/
-            , 31];
-            if (!(this.currentSetWifiCmdNo < this.ssidCmdData.length)) return [3
-            /*break*/
-            , 28]; // ssid还没发送完
+            // 发送ssid
+            if (data[2] === 1) {
+              this.currentSetWifiCmdNo = 0;
+              this.log('开始发送 WIFI ssid ');
+              this.sendWifiSsid();
+            }
 
-            return [4
-            /*yield*/
-            , this.sendWifiSsid()];
+            return [3
+            /*break*/
+            , 66];
 
           case 27:
-            // ssid还没发送完
-            _l.sent();
-
-            return [3
+            this.currentSetWifiCmdNo = data[2];
+            if (!(this.currentSetWifiCmdNo < this.ssidCmdData.length)) return [3
             /*break*/
-            , 30];
+            , 29]; // ssid还没发送完
 
-          case 28:
-            // ssid已经发送，重置序号，开始发送wifi密码
-            this.currentSetWifiCmdNo = 0;
-            this.log('开始发送 WIFI密码 ');
-            return [4
-            /*yield*/
-            , this.sendWifiPwd()];
-
-          case 29:
-            _l.sent();
-
-            _l.label = 30;
-
-          case 30:
-            return [3
-            /*break*/
-            , 33];
-
-          case 31:
-            this.log("ssid \u7B2C " + this.currentSetWifiCmdNo + " \u5305 \u53D1\u9001\u5931\u8D25\uFF0C\u91CD\u53D1\u5F53\u524D\u5305");
-            this.currentSetWifiCmdNo -= 1;
             return [4
             /*yield*/
             , this.sendWifiSsid()];
 
-          case 32:
-            _l.sent();
+          case 28:
+            // ssid还没发送完
+            _q.sent();
 
-            _l.label = 33;
-
-          case 33:
             return [3
             /*break*/
-            , 57];
+            , 31];
+
+          case 29:
+            // ssid已经发送，重置序号，开始发送wifi密码
+            this.currentSetWifiCmdNo = 0;
+            this.log('APP启动发送 WIFI PASSWORD命令');
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x64, 4, this.pwdCmdData.length]
+            })];
+
+          case 30:
+            _q.sent();
+
+            _q.label = 31;
+
+          case 31:
+            return [3
+            /*break*/
+            , 66];
+
+          case 32:
+            if (!(data[2] === 1)) return [3
+            /*break*/
+            , 35];
+            if (!(this.pwdCmdData.length > 0)) return [3
+            /*break*/
+            , 33];
+            this.log('准备发送密码');
+            this.currentSetWifiCmdNo = 0;
+            this.sendWifiPwd();
+            return [3
+            /*break*/
+            , 35];
+
+          case 33:
+            this.log('无密码，不发送66h，通知设备准备开始发送 server_url');
+            this.currentSetWifiCmdNo = 0;
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x68, 4, this.dataServerUrlData.length]
+            })];
 
           case 34:
-            status_2 = data[2];
-            if (!(status_2 === 1)) return [3
+            _q.sent();
+
+            _q.label = 35;
+
+          case 35:
+            return [3
             /*break*/
-            , 39];
+            , 66];
+
+          case 36:
+            this.currentSetWifiCmdNo = data[2];
             if (!(this.currentSetWifiCmdNo < this.pwdCmdData.length)) return [3
             /*break*/
-            , 36]; // wifi密码还没发送完
+            , 38]; // wifi密码还没发送完
 
             return [4
             /*yield*/
             , this.sendWifiPwd()];
 
-          case 35:
+          case 37:
             // wifi密码还没发送完
-            _l.sent();
+            _q.sent();
 
             return [3
             /*break*/
-            , 38];
+            , 40];
 
-          case 36:
+          case 38:
             // wifi密码已发送完，重置序号
             this.currentSetWifiCmdNo = 0; // 发送server_url
 
-            this.log('开始发送 data_server_url');
+            this.log('通知设备开始发送 data_server_url');
             return [4
             /*yield*/
-            , this.sendDataServerUrl()];
-
-          case 37:
-            _l.sent();
-
-            _l.label = 38;
-
-          case 38:
-            return [3
-            /*break*/
-            , 41];
+            , this.writeData({
+              cmdData: [0x68, 4, this.dataServerUrlData.length]
+            })];
 
           case 39:
-            this.log("pwd \u7B2C " + this.currentSetWifiCmdNo + " \u5305 \u53D1\u9001\u5931\u8D25\uFF0C\u91CD\u53D1\u5F53\u524D\u5305");
-            this.currentSetWifiCmdNo -= 1;
-            return [4
-            /*yield*/
-            , this.sendWifiPwd()];
+            _q.sent();
+
+            _q.label = 40;
 
           case 40:
-            _l.sent();
-
-            _l.label = 41;
-
-          case 41:
             return [3
             /*break*/
-            , 57];
+            , 66];
+
+          case 41:
+            if (!(data[2] === 1)) return [3
+            /*break*/
+            , 43];
+            this.log('开始发送SEVER URL');
+            return [4
+            /*yield*/
+            , this.sendDataServerUrl()];
 
           case 42:
-            status_3 = data[2];
-            if (!(status_3 === 1)) return [3
+            _q.sent();
+
+            _q.label = 43;
+
+          case 43:
+            return [3
             /*break*/
-            , 47];
+            , 66];
+
+          case 44:
+            this.currentSetWifiCmdNo = data[2];
             if (!(this.currentSetWifiCmdNo < this.dataServerUrlData.length)) return [3
             /*break*/
-            , 44]; // 数据服务器URL还没发送完
+            , 46]; // 数据服务器URL还没发送完
 
             return [4
             /*yield*/
             , this.sendDataServerUrl()];
 
-          case 43:
+          case 45:
             // 数据服务器URL还没发送完
-            _l.sent();
+            _q.sent();
 
             return [3
             /*break*/
-            , 46];
+            , 48];
 
-          case 44:
-            // 数据服务器URL已经发送，重置序号，开始发送密钥数据
-            this.currentSetWifiCmdNo = 0; // this.log('发送启动设置 OTA服务器 命令');
-            // await this.writeData({
-            //   cmdData: [
-            //     0x6E,
-            //     4,
-            //     this.otaServerUrlData.length,
-            //   ],
-            // });
+          case 46:
+            // 数据服务器URL已经发送，重置序号，开始发送OTA URL数据
+            this.currentSetWifiCmdNo = 0;
+            this.log('发送启动设置 OTA服务器 命令');
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x6E, 4, this.otaServerUrlData.length]
+            })];
 
+          case 47:
+            _q.sent();
+
+            _q.label = 48;
+
+          case 48:
+            return [3
+            /*break*/
+            , 66];
+
+          case 49:
+            if (!(data[2] === 1)) return [3
+            /*break*/
+            , 51];
+            this.log('开始发送OTA URL');
+            return [4
+            /*yield*/
+            , this.sendOtaServerUrl()];
+
+          case 50:
+            _q.sent();
+
+            _q.label = 51;
+
+          case 51:
+            return [3
+            /*break*/
+            , 66];
+
+          case 52:
+            this.currentSetWifiCmdNo = data[2];
+            if (!(this.currentSetWifiCmdNo < this.otaServerUrlData.length)) return [3
+            /*break*/
+            , 54]; // ota服务器URL还没发送完
+
+            return [4
+            /*yield*/
+            , this.sendOtaServerUrl()];
+
+          case 53:
+            // ota服务器URL还没发送完
+            _q.sent();
+
+            return [3
+            /*break*/
+            , 56];
+
+          case 54:
+            // ota服务器URL已经发送，重置序号，开始发送密钥数据
+            this.currentSetWifiCmdNo = 0;
+            this.log('发送密钥');
             return [4
             /*yield*/
             , this.sendEncryptKeyData()];
 
-          case 45:
-            // this.log('发送启动设置 OTA服务器 命令');
-            // await this.writeData({
-            //   cmdData: [
-            //     0x6E,
-            //     4,
-            //     this.otaServerUrlData.length,
-            //   ],
-            // });
-            _l.sent();
+          case 55:
+            _q.sent();
 
-            _l.label = 46;
+            _q.label = 56;
 
-          case 46:
+          case 56:
             return [3
             /*break*/
-            , 49];
+            , 66];
 
-          case 47:
-            this.log("server_url \u7B2C " + this.currentSetWifiCmdNo + " \u5305 \u53D1\u9001\u5931\u8D25\uFF0C\u91CD\u53D1\u5F53\u524D\u5305");
-            this.currentSetWifiCmdNo -= 1;
-            return [4
-            /*yield*/
-            , this.sendDataServerUrl()];
-
-          case 48:
-            _l.sent();
-
-            _l.label = 49;
-
-          case 49:
-            return [3
+          case 57:
+            if (!(data[2] === 0)) return [3
             /*break*/
-            , 57];
-
-          case 50:
-            status_4 = data[2];
-            if (!(status_4 === 0)) return [3
-            /*break*/
-            , 52];
+            , 59];
             this.log('密钥发送失败，重发密钥');
             return [4
             /*yield*/
             , this.sendEncryptKeyData()];
 
-          case 51:
-            _l.sent();
+          case 58:
+            _q.sent();
 
-            _l.label = 52;
+            _q.label = 59;
 
-          case 52:
+          case 59:
             return [3
             /*break*/
-            , 57];
+            , 66];
 
-          case 53:
-            {
-              status_5 = data[2];
-
-              if (status_5 === 1) {
-                (_d = (_c = this.listener).onSetWifiSuccess) === null || _d === void 0 ? void 0 : _d.call(_c);
-              } else {
-                (_f = (_e = this.listener).onSetWifiFail) === null || _f === void 0 ? void 0 : _f.call(_e, status_5);
-              }
-
-              return [3
-              /*break*/
-              , 57];
+          case 60:
+            // TODO wifi连接状态回调可以合并成一个回调
+            if (data[2] === 1) {
+              (_f = (_e = this.listener).onSetWifiSuccess) === null || _f === void 0 ? void 0 : _f.call(_e);
+            } else {
+              (_h = (_g = this.listener).onSetWifiFail) === null || _h === void 0 ? void 0 : _h.call(_g, data[2]);
             }
 
-          case 54:
-            status_6 = data[2];
-            this.blePaireStatus = status_6;
-            (_h = (_g = this.listener).onGetBlePaireStatus) === null || _h === void 0 ? void 0 : _h.call(_g, status_6);
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x75, 4, 1]
+            })];
+
+          case 61:
+            _q.sent();
+
+            return [3
+            /*break*/
+            , 66];
+
+          case 62:
+            // 收到配网查询回复
+            // 0:wifi未连接
+            // 1:wifi已连接
+            // 2:wifi已连接服务器
+            // 3:wifi未连接服务器
+            (_k = (_j = this.listener).onGetQueryWifiConnectStatusResult) === null || _k === void 0 ? void 0 : _k.call(_j, data[2]);
+            return [3
+            /*break*/
+            , 66];
+
+          case 63:
+            status_1 = data[2];
+            this.blePaireStatus = status_1;
+            (_m = (_l = this.listener).onGetBlePaireStatus) === null || _m === void 0 ? void 0 : _m.call(_l, status_1);
             return [4
             /*yield*/
             , this.writeData({
@@ -8173,30 +7030,30 @@ function (_super) {
               cmdData: [0xA1, 4, 1]
             })];
 
-          case 55:
-            _l.sent();
+          case 64:
+            _q.sent();
 
             return [3
             /*break*/
-            , 57];
+            , 66];
 
-          case 56:
+          case 65:
             return [3
             /*break*/
-            , 57];
+            , 66];
 
-          case 57:
+          case 66:
             return [3
             /*break*/
-            , 59];
+            , 68];
 
-          case 58:
+          case 67:
             this.lastCmd = data[0];
             return [7
             /*endfinally*/
             ];
 
-          case 59:
+          case 68:
             return [2
             /*return*/
             ];
@@ -8545,7 +7402,7 @@ function (_super) {
             return [4
             /*yield*/
             , this.writeData({
-              cmdData: [0x57, 4, 1]
+              cmdData: [0x57, 4, packInfo]
             })];
 
           case 1:
@@ -8575,11 +7432,19 @@ function (_super) {
             , this.doPrepareSetWifi(payload)];
 
           case 1:
-            _a.sent(); // 发送ssid
+            _a.sent(); // APP启动发送WIFI SSID 命令
 
 
-            this.log('开始发送 WIFI ssid ');
-            this.sendWifiSsid();
+            this.log('APP启动发送WIFI SSID命令');
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x60, 4, this.ssidCmdData.length]
+            })];
+
+          case 2:
+            _a.sent();
+
             return [2
             /*return*/
             ];
@@ -8589,11 +7454,15 @@ function (_super) {
   };
 
   SphygmomanometerProtocol.prototype.doPrepareSetWifi = function (payload) {
-    return __awaiter(this, void 0, void 0, function () {
-      var _a, _b, wifiSsid, _c, wifiPwd, _d, dataServerUrl, _e, encryptKey, ssidByteArray, pwdByteArray, dataServerUrlByteArray;
+    if (payload === void 0) {
+      payload = {};
+    }
 
-      return __generator(this, function (_f) {
-        _a = __assign(__assign({}, this.operation), payload), _b = _a.wifiSsid, wifiSsid = _b === void 0 ? '' : _b, _c = _a.wifiPwd, wifiPwd = _c === void 0 ? '' : _c, _d = _a.dataServerUrl, dataServerUrl = _d === void 0 ? '' : _d, _e = _a.encryptKey, encryptKey = _e === void 0 ? '' : _e;
+    return __awaiter(this, void 0, void 0, function () {
+      var _a, _b, wifiSsid, _c, wifiPwd, _d, dataServerUrl, _e, encryptKey, _f, otaServerUrl, ssidByteArray, pwdByteArray, dataServerUrlByteArray, otaServerUrlByteArray;
+
+      return __generator(this, function (_g) {
+        _a = __assign(__assign({}, this.operation), payload), _b = _a.wifiSsid, wifiSsid = _b === void 0 ? '' : _b, _c = _a.wifiPwd, wifiPwd = _c === void 0 ? '' : _c, _d = _a.dataServerUrl, dataServerUrl = _d === void 0 ? '' : _d, _e = _a.encryptKey, encryptKey = _e === void 0 ? '' : _e, _f = _a.otaServerUrl, otaServerUrl = _f === void 0 ? 'https://ota.yolanda.hk' : _f;
         this.log('wifiSsid', wifiSsid, 'wifiPwd', wifiPwd, 'dataServerUrl', dataServerUrl, 'encryptKey', encryptKey);
 
         if (wifiSsid.length > 32) {
@@ -8611,12 +7480,12 @@ function (_super) {
         ssidByteArray = stringToByteArray(gBase64.encode(wifiSsid));
         pwdByteArray = stringToByteArray(wifiPwd);
         this.log('pwdByteArray', pwdByteArray, 'wifiPwd', wifiPwd);
-        dataServerUrlByteArray = stringToByteArray(dataServerUrl); // const otaServerUrlByteArray = stringToByteArray(otaServerUrl);
-
+        dataServerUrlByteArray = stringToByteArray(dataServerUrl);
+        otaServerUrlByteArray = stringToByteArray(otaServerUrl);
         this.ssidCmdData = splitArray(ssidByteArray);
         this.pwdCmdData = splitArray(pwdByteArray);
-        this.dataServerUrlData = splitArray(dataServerUrlByteArray); // this.otaServerUrlData = splitArray(otaServerUrlByteArray);
-
+        this.dataServerUrlData = splitArray(dataServerUrlByteArray);
+        this.otaServerUrlData = splitArray(otaServerUrlByteArray);
         this.encryptKeyCmdData = stringToByteArray(encryptKey); // 当前发包的序号
 
         this.currentSetWifiCmdNo = 0;
@@ -8629,20 +7498,20 @@ function (_super) {
 
   SphygmomanometerProtocol.prototype.sendWifiSsid = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var cmdCount, cmd, cmdLength, packInfo;
+      var cmd, cmdLength;
       return __generator(this, function (_a) {
         this.log('ssidCmdData数据', this.ssidCmdData, 'currentSetWifiCmdNo', this.currentSetWifiCmdNo);
-        cmdCount = this.ssidCmdData.length;
         cmd = this.ssidCmdData[this.currentSetWifiCmdNo];
         cmdLength = cmd.length + 4; // 这里进行+1，发给硬件的序号是从1开始的
 
-        this.currentSetWifiCmdNo += 1;
-        packInfo = (cmdCount << 4) + this.currentSetWifiCmdNo;
+        this.currentSetWifiCmdNo += 1; // 高4位表示此数据需要传输多少包,低4位表示目前传输的是第几包,例如0X21,表示总共两包,目前传输的是第一包
+        // const packInfo = (cmdCount << 4) + this.currentSetWifiCmdNo;
+
         this.log("\u53D1\u9001\u7B2C " + this.currentSetWifiCmdNo + " \u5305 SSID \u6570\u636E");
         return [2
         /*return*/
         , this.writeData({
-          cmdData: __spread([0x62, cmdLength, packInfo], cmd)
+          cmdData: __spread([0x62, cmdLength, this.currentSetWifiCmdNo], cmd)
         })];
       });
     });
@@ -8650,25 +7519,20 @@ function (_super) {
 
   SphygmomanometerProtocol.prototype.sendWifiPwd = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var cmdCount, cmd, cmdLength, packInfo;
+      var cmd, cmdLength;
       return __generator(this, function (_a) {
         this.log('pwdCmdData', this.pwdCmdData);
-        cmdCount = this.pwdCmdData.length;
         cmd = this.pwdCmdData[this.currentSetWifiCmdNo] || [];
         cmdLength = cmd.length + 4; // 这里进行+1，发给硬件的序号是从1开始的
 
         this.currentSetWifiCmdNo += 1;
-        this.log("\u53D1\u9001\u7B2C " + this.currentSetWifiCmdNo + " \u5305 PWD \u6570\u636E");
+        this.log("\u53D1\u9001\u7B2C " + this.currentSetWifiCmdNo + " \u5305 PWD \u6570\u636E"); // 高4位表示此数据需要传输多少包,低4位表示目前传输的是第几包,例如0X21,表示总共两包,目前传输的是第一包
+        // const packInfo = cmdCount > 0 ? ((cmdCount << 4) + this.currentSetWifiCmdNo) : 0;
 
-        if (cmdCount === 0) {
-          this.log('发送无密码数据');
-        }
-
-        packInfo = cmdCount > 0 ? (cmdCount << 4) + this.currentSetWifiCmdNo : 0;
         return [2
         /*return*/
         , this.writeData({
-          cmdData: __spread([0x66, cmdLength, packInfo], cmd)
+          cmdData: __spread([0x66, cmdLength, this.currentSetWifiCmdNo], cmd)
         })];
       });
     });
@@ -8676,19 +7540,19 @@ function (_super) {
 
   SphygmomanometerProtocol.prototype.sendDataServerUrl = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var cmdCount, cmd, cmdLength, packInfo;
+      var cmd, cmdLength;
       return __generator(this, function (_a) {
-        cmdCount = this.dataServerUrlData.length;
         cmd = this.dataServerUrlData[this.currentSetWifiCmdNo];
         cmdLength = cmd.length + 4; // 这里进行+1，发给硬件的序号是从1开始的
 
-        this.currentSetWifiCmdNo += 1;
-        packInfo = (cmdCount << 4) + this.currentSetWifiCmdNo;
+        this.currentSetWifiCmdNo += 1; // 高4位表示此数据需要传输多少包,低4位表示目前传输的是第几包,例如0X21,表示总共两包,目前传输的是第一包
+        // const packInfo = (cmdCount << 4) + this.currentSetWifiCmdNo;
+
         this.log("\u53D1\u9001\u7B2C " + this.currentSetWifiCmdNo + " \u5305 DATA\u670D\u52A1\u5668 \u6570\u636E");
         return [2
         /*return*/
         , this.writeData({
-          cmdData: __spread([0x6A, cmdLength, packInfo], cmd)
+          cmdData: __spread([0x6A, cmdLength, this.currentSetWifiCmdNo], cmd)
         })];
       });
     });
@@ -8696,19 +7560,19 @@ function (_super) {
 
   SphygmomanometerProtocol.prototype.sendOtaServerUrl = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var cmdCount, cmd, cmdLength, packInfo;
+      var cmd, cmdLength;
       return __generator(this, function (_a) {
-        cmdCount = this.otaServerUrlData.length;
         cmd = this.otaServerUrlData[this.currentSetWifiCmdNo];
         cmdLength = cmd.length + 4; // 这里进行+1，发给硬件的序号是从1开始的
 
-        this.currentSetWifiCmdNo += 1;
-        packInfo = (cmdCount << 4) + this.currentSetWifiCmdNo;
+        this.currentSetWifiCmdNo += 1; // 高4位表示此数据需要传输多少包,低4位表示目前传输的是第几包,例如0X21,表示总共两包,目前传输的是第一包
+        // const packInfo = (cmdCount << 4) + this.currentSetWifiCmdNo;
+
         this.log("\u53D1\u9001\u7B2C " + this.currentSetWifiCmdNo + " \u5305 OTA\u670D\u52A1\u5668 \u6570\u636E");
         return [2
         /*return*/
         , this.writeData({
-          cmdData: __spread([0x70, cmdLength, packInfo], cmd)
+          cmdData: __spread([0x70, cmdLength, this.currentSetWifiCmdNo], cmd)
         })];
       });
     });
@@ -8723,6 +7587,38 @@ function (_super) {
         , this.writeData({
           cmdData: __spread([0x72, this.encryptKeyCmdData.length + 4, 1], this.encryptKeyCmdData)
         })];
+      });
+    });
+  };
+  /**
+   * 查询wifi连接状态
+   * 可使用 qnble.callProtocolMethodAsync(deviceId, 'queryWifiConnectStatus', ...args)
+   * @param {number} type 1：表示查询wifi是否连接 2：查询wifi是否连接服务器
+   */
+
+
+  SphygmomanometerProtocol.prototype.queryWifiConnectStatus = function (type) {
+    if (type === void 0) {
+      type = 1;
+    }
+
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x76, 4, type]
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
       });
     });
   };
@@ -8752,7 +7648,7 @@ function (_super) {
     });
   };
 
-  SphygmomanometerProtocol.bleProfle = new SphygmomanometerProtocolProfile();
+  SphygmomanometerProtocol.bleProfile = new SphygmomanometerProtocolProfile();
   return SphygmomanometerProtocol;
 }(QNBleProtocol);
 
@@ -8947,7 +7843,7 @@ function (_super) {
     });
   };
 
-  BleKitchenScaleProtocol.bleProfle = new BleKitchenScaleProtocolProfile();
+  BleKitchenScaleProtocol.bleProfile = new BleKitchenScaleProtocolProfile();
   return BleKitchenScaleProtocol;
 }(QNBleProtocol);
 
@@ -9059,8 +7955,3157 @@ function (_super) {
     });
   };
 
-  BroadcastKitchenScaleProtocol.bleProfle = new BroadcastKitchenScaleProtocolProfile();
+  BroadcastKitchenScaleProtocol.bleProfile = new BroadcastKitchenScaleProtocolProfile();
   return BroadcastKitchenScaleProtocol;
+}(QNBleProtocol);
+
+var FasciaGunMCUProtocolProfile =
+/** @class */
+function () {
+  function FasciaGunMCUProtocolProfile() {
+    this.defaultAction = QNBleAction.FG_ADJUST_SETTING;
+    this.transferType = QNBleTransferType.BLE;
+    this.type = QNBleDeviceType.FASCIA_GUN;
+  }
+
+  FasciaGunMCUProtocolProfile.prototype.isTargetDevice = function (nativeDevice) {
+    return nativeDevice.bluetoothName === 'Hi-QNCM10A-120C000';
+  };
+
+  FasciaGunMCUProtocolProfile.prototype.buildTargetDevice = function (nativeDevice) {
+    if (!this.isTargetDevice(nativeDevice)) {
+      return null;
+    }
+
+    var manufacturer = nativeDevice.manufacturer;
+    var modelId = number2hex(manufacturer[2]) + number2hex(manufacturer[3]);
+    var macs = [number2hex(manufacturer[12]), number2hex(manufacturer[11]), number2hex(manufacturer[10]), number2hex(manufacturer[9]), number2hex(manufacturer[8]), number2hex(manufacturer[7])];
+    var targetDevice = {
+      modelId: modelId,
+      mac: macs.join(':'),
+      isSupportWifi: false,
+      isScreenOn: false
+    };
+    return targetDevice;
+  };
+
+  return FasciaGunMCUProtocolProfile;
+}();
+
+var FasciaGunMCUProtocol =
+/** @class */
+function (_super) {
+  __extends(FasciaGunMCUProtocol, _super);
+
+  function FasciaGunMCUProtocol() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.UUID_IBT_READ = 'FFF1';
+    _this.UUID_IBT_WRITE = 'FFF2';
+    _this.UUID_IBT_SERVICE = 'FFF0';
+    return _this;
+  }
+
+  FasciaGunMCUProtocol.prototype.prepare = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      var deviceId, services;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            deviceId = this.bleDevice.deviceId;
+            return [4
+            /*yield*/
+            , timeoutPromise(200)];
+
+          case 1:
+            _a.sent();
+
+            return [4
+            /*yield*/
+            , this.bleNative.findService(deviceId)];
+
+          case 2:
+            services = _a.sent();
+            return [4
+            /*yield*/
+            , timeoutPromise(200)];
+
+          case 3:
+            _a.sent();
+
+            this.log('获取到蓝牙服务列表', services);
+            return [4
+            /*yield*/
+            , this.bleNative.findBleDeviceCharacteristics(deviceId, this.serviceId)];
+
+          case 4:
+            _a.sent();
+
+            this.log('发现特征值成功，使能特征值');
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(deviceId, this.serviceId, this.characteristicReadId)];
+
+          case 5:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  FasciaGunMCUProtocol.prototype.decode = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, header, _a;
+
+      return __generator(this, function (_b) {
+        switch (_b.label) {
+          case 0:
+            data = payload.data;
+            header = data[0];
+            _a = header;
+
+            switch (_a) {
+              case 0x10:
+                return [3
+                /*break*/
+                , 1];
+
+              case 0x21:
+                return [3
+                /*break*/
+                , 3];
+
+              case 0x31:
+                return [3
+                /*break*/
+                , 4];
+
+              case 0x41:
+                return [3
+                /*break*/
+                , 5];
+            }
+
+            return [3
+            /*break*/
+            , 6];
+
+          case 1:
+            // 收到设备信息
+            return [4
+            /*yield*/
+            , this.getDeviceInfo(data)];
+
+          case 2:
+            // 收到设备信息
+            _b.sent();
+
+            return [3
+            /*break*/
+            , 7];
+
+          case 3:
+            // 收到设置筋膜枪档位结果
+            this.setDeviceWorkGearResult(data);
+            return [3
+            /*break*/
+            , 7];
+
+          case 4:
+            this.setDeviceWorkTimeResult(data);
+            return [3
+            /*break*/
+            , 7];
+
+          case 5:
+            this.setDeviceWorkModeResult(data);
+            return [3
+            /*break*/
+            , 7];
+
+          case 6:
+            return [3
+            /*break*/
+            , 7];
+
+          case 7:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }; // 0x10 收到设备信息
+
+
+  FasciaGunMCUProtocol.prototype.getDeviceInfo = function (data) {
+    var _a;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var id, bcuVer, bleVer, gear, gmqMode, batteryInfo;
+      return __generator(this, function (_b) {
+        switch (_b.label) {
+          case 0:
+            id = (data[2] << 8) + data[3];
+            bcuVer = data[4];
+            bleVer = data[5];
+            gear = data[6];
+            gmqMode = data[7];
+            batteryInfo = data[8];
+            (_a = this.listener) === null || _a === void 0 ? void 0 : _a.onGetDeviceInfo({
+              deviceId: this.bleDevice.deviceId,
+              info: {
+                id: id,
+                bcuVer: bcuVer,
+                bleVer: bleVer,
+                gear: gear,
+                gmqMode: gmqMode,
+                batteryInfo: batteryInfo
+              }
+            });
+            return [4
+            /*yield*/
+            , this.writeCmd({
+              header: 0x11,
+              cmd: [0x01]
+            })];
+
+          case 1:
+            _b.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /**
+   * 设置工作档位
+   * @param gear 1-30
+   */
+
+
+  FasciaGunMCUProtocol.prototype.setDeviceWorkGear = function (gear) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            data = Number.parseInt(gear.toString());
+
+            if (data < 1 || data > 30) {
+              this.log("\u6863\u4F4D\u53C2\u6570: " + data + ",\u4E0D\u5728\u6B63\u786E\u8303\u56F4\u5185,\u65E0\u6CD5\u8BBE\u7F6E");
+              return [2
+              /*return*/
+              , Promise.reject()];
+            }
+
+            this.log("\u5C1D\u8BD5\u8BBE\u7F6E\u7B4B\u819C\u67AA\u6863\u4F4D\u4E3A: " + data);
+            return [4
+            /*yield*/
+            , this.writeCmd({
+              header: 0x20,
+              cmd: [data]
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }; // 0x21
+
+
+  FasciaGunMCUProtocol.prototype.setDeviceWorkGearResult = function (data) {
+    var result = data[2] === 0x01;
+    this.log("\u7B4B\u819C\u67AA\u6863\u4F4D\u8BBE\u7F6E\u7ED3\u679C: " + (result ? '成功' : '失败'));
+  };
+  /**
+   * 设置设备工作时间(单位:min)
+   * @param time 范围5-300 分度 5
+   */
+
+
+  FasciaGunMCUProtocol.prototype.setDeviceWorkTime = function (time) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, cmd;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            data = Number.parseInt((time / 5).toString()) * 5;
+
+            if (data < 5 || data > 300) {
+              this.log("\u5DE5\u4F5C\u65F6\u95F4\u53C2\u6570: " + data + ",\u4E0D\u5728\u6B63\u786E\u8303\u56F4\u5185,\u65E0\u6CD5\u8BBE\u7F6E");
+              return [2
+              /*return*/
+              , Promise.reject()];
+            }
+
+            this.log("\u5C1D\u8BD5\u8BBE\u7F6E\u7B4B\u819C\u67AA\u5DE5\u4F5C\u65F6\u95F4\u4E3A: " + data + "min");
+            cmd = [];
+            cmd.push(data >> 8 & 0xff);
+            cmd.push(data & 0xff);
+            return [4
+            /*yield*/
+            , this.writeCmd({
+              header: 0x30,
+              cmd: cmd
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }; // 0x31
+
+
+  FasciaGunMCUProtocol.prototype.setDeviceWorkTimeResult = function (data) {
+    var result = data[2] === 0x01;
+    this.log("\u7B4B\u819C\u67AA\u5DE5\u4F5C\u65F6\u95F4\u8BBE\u7F6E\u7ED3\u679C: " + (result ? '成功' : '失败'));
+  };
+  /**
+   * 设置筋膜枪工作模式
+   * @param mode 1 待机 2 工作模式
+   */
+
+
+  FasciaGunMCUProtocol.prototype.setDeviceWorkMode = function (mode) {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            this.log("\u5C1D\u8BD5\u8BBE\u7F6E\u7B4B\u819C\u67AA\u5DE5\u4F5C\u6A21\u5F0F\u4E3A: " + mode);
+            return [4
+            /*yield*/
+            , this.writeCmd({
+              header: 0x40,
+              cmd: [mode]
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }; // 0x41
+
+
+  FasciaGunMCUProtocol.prototype.setDeviceWorkModeResult = function (data) {
+    var result = data[2] === 0x01;
+    this.log("\u7B4B\u819C\u67AA\u5DE5\u4F5C\u6A21\u5F0F\u8BBE\u7F6E\u7ED3\u679C: " + (result ? '成功' : '失败'));
+  };
+
+  FasciaGunMCUProtocol.bleProfle = new FasciaGunMCUProtocolProfile();
+  return FasciaGunMCUProtocol;
+}(QNBleProtocol);
+
+var WspDualScaleMesProfle =
+/** @class */
+function () {
+  function WspDualScaleMesProfle() {
+    this.defaultAction = QNBleAction.MEASURE_WEIGHT;
+    this.type = QNBleDeviceType.WSP_DUAL_MODE_SCALE;
+    this.transferType = QNBleTransferType.BLE;
+  } // 是否生产广播
+
+
+  WspDualScaleMesProfle.prototype.isProduceDevice = function (nativeDevice) {
+    return nativeDevice.bluetoothName === 'QN-FAC';
+  }; // 是否成品广播
+
+
+  WspDualScaleMesProfle.prototype.isProductDevice = function (nativeDevice) {
+    return nativeDevice.bluetoothName === 'QN-Scale' || nativeDevice.bluetoothName === 'QN-HS';
+  };
+
+  WspDualScaleMesProfle.prototype.isTargetDevice = function (nativeDevice) {
+    return this.isProduceDevice(nativeDevice) || this.isProductDevice(nativeDevice);
+  };
+
+  WspDualScaleMesProfle.prototype.buildTargetDevice = function (nativeDevice) {
+    var device = this.buildProduceTargetDevice(nativeDevice);
+
+    if (device == null) {
+      device = this.buildProductTargetDevice(nativeDevice);
+    }
+
+    return device;
+  }; // 构建生产时的广播数据
+
+
+  WspDualScaleMesProfle.prototype.buildProduceTargetDevice = function (nativeDevice) {
+    if (!this.isProduceDevice(nativeDevice)) {
+      return null;
+    }
+
+    var manufacturer = nativeDevice.manufacturer;
+    var mac1 = number2hex(manufacturer[2]);
+    var mac2 = number2hex(manufacturer[3]);
+    var mac3 = number2hex(manufacturer[4]);
+    var mac4 = number2hex(manufacturer[5]);
+    var mac5 = number2hex(manufacturer[6]);
+    var mac6 = number2hex(manufacturer[7]);
+    var mac = mac6 + ":" + mac5 + ":" + mac4 + ":" + mac3 + ":" + mac2 + ":" + mac1;
+    var fatStatus = (manufacturer[8] << 8) + manufacturer[9];
+    var moduleTestFlag = (fatStatus >> 0 & 0x01) == 0x01; // 模块测试
+
+    var semiProductFlag = (fatStatus >> 1 & 0x01) == 0x01; // 半成品
+
+    var calibrationFlag = (fatStatus >> 2 & 0x01) == 0x01; // 标定
+
+    var reviewFlag = (fatStatus >> 3 & 0x01) == 0x01; // 回检
+
+    var partialFlag = (fatStatus >> 4 & 0x01) == 0x01; // 偏载
+
+    var scaleType = manufacturer[10];
+    var targetDevice = {
+      moduleTestFlag: moduleTestFlag,
+      semiProductFlag: semiProductFlag,
+      calibrationFlag: calibrationFlag,
+      reviewFlag: reviewFlag,
+      partialFlag: partialFlag,
+      type: QNBleDeviceType.NORMAL_BLE_SCALE
+    };
+
+    switch (scaleType) {
+      case 0x01:
+        targetDevice.type = QNBleDeviceType.WSP_DUAL_MODE_SCALE;
+        break;
+
+      case 0x02:
+        targetDevice.type = QNBleDeviceType.NORMAL_BLE_SCALE;
+        break;
+
+      case 0x03:
+        targetDevice.type = QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE;
+        break;
+
+      case 0x04:
+        targetDevice.type = QNBleDeviceType.HEIGHTWEIGHT;
+        break;
+
+      case 0x08:
+        targetDevice.type = QNBleDeviceType.HEIGHTWEIGHT_SINGLE_BLE;
+        break;
+    }
+
+    return __assign(__assign({}, targetDevice), {
+      name: nativeDevice.bluetoothName,
+      isScreenOn: true,
+      mac: mac,
+      isSupportWifi: true
+    });
+  };
+  /**
+   * 成品设备
+   */
+
+
+  WspDualScaleMesProfle.prototype.buildProductTargetDevice = function (nativeDevice) {
+    if (!this.isProductDevice(nativeDevice)) {
+      return null;
+    }
+
+    var manufacturer = nativeDevice.manufacturer;
+    var mac = '';
+    var sn = '';
+    var type = QNBleDeviceType.NORMAL_BLE_SCALE;
+
+    if (nativeDevice.bluetoothName === 'QN-HS') {
+      type = QNBleDeviceType.HEIGHTWEIGHT;
+    } else if (nativeDevice.bluetoothName === 'QN-HS2') {
+      type = QNBleDeviceType.HEIGHTWEIGHT_SINGLE_BLE;
+    } else {
+      if (nativeDevice.services.includes('181D')) {
+        if (manufacturer.length < 17) {
+          type = QNBleDeviceType.NORMAL_BLE_SCALE;
+        } else {
+          if ((manufacturer[10] >> 4 & 0x01) === 0x01) {
+            type = QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE;
+          } else {
+            type = QNBleDeviceType.WSP_DUAL_MODE_SCALE;
+          }
+        }
+      }
+    }
+
+    switch (type) {
+      // TODO 确认CP30A的成品取mac地址逻辑是否一致
+      case QNBleDeviceType.HEIGHTWEIGHT_SINGLE_BLE:
+      case QNBleDeviceType.HEIGHTWEIGHT:
+        sn = manufacturer.slice(4, -1).map(function (v) {
+          return String.fromCharCode(v);
+        }).join('').slice(0, 15);
+        mac = number2hex(manufacturer[24]) + ":" + number2hex(manufacturer[23]) + ":" + number2hex(manufacturer[22]) + ":" + number2hex(manufacturer[21]) + ":" + number2hex(manufacturer[20]) + ":" + number2hex(manufacturer[19]);
+        break;
+
+      case QNBleDeviceType.NORMAL_BLE_SCALE:
+        mac = number2hex(manufacturer[12]) + ":" + number2hex(manufacturer[11]) + ":" + number2hex(manufacturer[10]) + ":" + number2hex(manufacturer[9]) + ":" + number2hex(manufacturer[8]) + ":" + number2hex(manufacturer[7]);
+        break;
+
+      default:
+        mac = number2hex(manufacturer[16]) + ":" + number2hex(manufacturer[15]) + ":" + number2hex(manufacturer[14]) + ":" + number2hex(manufacturer[13]) + ":" + number2hex(manufacturer[12]) + ":" + number2hex(manufacturer[11]);
+        break;
+    }
+
+    var targetDevice = {
+      moduleTestFlag: true,
+      semiProductFlag: true,
+      calibrationFlag: true,
+      reviewFlag: true,
+      partialFlag: true,
+      scaleType: 0,
+      type: type
+    };
+    return __assign(__assign({}, targetDevice), {
+      name: nativeDevice.bluetoothName,
+      isScreenOn: true,
+      mac: mac,
+      sn: sn,
+      isSupportWifi: true
+    });
+  }; // 工位数据通知
+
+
+  WspDualScaleMesProfle.UUID_NOTIFY = 'FFF1'; // 工位数据写入
+
+  WspDualScaleMesProfle.UUID_WRITE = 'FFF2'; // 八电极工位数据通知
+
+  WspDualScaleMesProfle.EIGHT_UUID_NOTIFY = 'FFE3'; // 八电极工位数据写入
+
+  WspDualScaleMesProfle.EIGHT_UUID_WRITE = 'FFE4'; // 八电极配网数据通知
+
+  WspDualScaleMesProfle.EIGHT_UUID_WIFI_NOTIFY = 'FFE1'; // 八电极配网数据写入
+
+  WspDualScaleMesProfle.EIGHT_UUID_WIFI_WRITE = 'FFE2'; // 身高体重工位数据通知
+
+  WspDualScaleMesProfle.HEIGHTWEIGHT_UUID_NOTIFY = 'ABF1'; // 身高体重工位数据写入
+
+  WspDualScaleMesProfle.HEIGHTWEIGHT_UUID_WRITE = 'ABF2'; // 身高体重单蓝牙工位数据通知
+
+  WspDualScaleMesProfle.HEIGHTWEIGHT_SINGLE_BLE_UUID_NOTIFY = '8A82'; // 身高体重蓝牙看工位数据写入
+
+  WspDualScaleMesProfle.HEIGHTWEIGHT_SINGLE_BLE_UUID_WRITE = '8A83'; // 时间服务
+
+  WspDualScaleMesProfle.UUID_TIME_SERVICES = '1805'; // 设备服务
+
+  WspDualScaleMesProfle.UUID_DEVICE_SERVICES = '180A'; // 八电极设备服务
+
+  WspDualScaleMesProfle.EIGHT_UUID_DEVICE_SERVICES = 'FFE0'; // 身高体重设备服务
+
+  WspDualScaleMesProfle.HEIGHTWEIGHT_UUID_DEVICE_SERVICES = 'ABF0'; // 身高体重单蓝牙设备服务
+
+  WspDualScaleMesProfle.HEIGHTWEIGHT_SINGLE_BLE_UUID_DEVICE_SERVICES = '78B2'; // sn特征
+
+  WspDualScaleMesProfle.UUID_SN = '2A25';
+  return WspDualScaleMesProfle;
+}();
+
+var CalibrationFlow =
+/** @class */
+function (_super) {
+  __extends(CalibrationFlow, _super);
+
+  function CalibrationFlow(protocol, uuids) {
+    var _this = _super.call(this, protocol) || this;
+
+    _this.acceptActions = [QNBleAction.MES_CALIBRATION]; //标定重量
+
+    _this.calibrationWeight = 0;
+    _this.calibrationResult = false;
+    _this.uuids = uuids;
+    return _this;
+  } //需要做
+
+
+  CalibrationFlow.prototype.execute = function () {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_c) {
+        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x11, 0x01]);
+        (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
+          behavior: MesBehavior.START_CALIBRATION
+        });
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  CalibrationFlow.prototype.decode = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, characteristicId, type;
+      return __generator(this, function (_a) {
+        data = payload.data, characteristicId = payload.characteristicId;
+
+        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        if (data[0] != 0xfd) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        type = data[2];
+
+        switch (type) {
+          case 0x12:
+            //收到标定工位的标定数据
+            this.getCalibrationWeightData(data);
+            break;
+
+          case 0x13:
+            //收到标定工位的保存结果
+            this.getCalibrationResultData(data);
+            break;
+
+          case 0x15:
+            //收到快速配网发送SSID回复
+            this.getQuickPairWifiSSIDResult();
+            break;
+
+          case 0x17:
+            //收到快速配网发送pwd回复
+            this.getQuickPairWifiPWDResult();
+            break;
+        }
+
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+  /**
+   * 收到标定数值 0x12
+   */
+
+
+  CalibrationFlow.prototype.getCalibrationWeightData = function (byteList) {
+    var _a, _b;
+
+    var retValue = byteList[3];
+    var weight = (byteList[4] << 8) + byteList[5];
+
+    if (this.calibrationWeight == weight) {
+      return;
+    }
+
+    this.calibrationWeight = weight;
+    this.confirmCalibrationWeightData(retValue);
+
+    if (retValue == 5) {
+      this.calibrationResult = weight == 0x01;
+
+      if (this.bleDevice.type == QNBleDeviceType.NORMAL_BLE_SCALE) {
+        // 蓝牙称没有快速配网，直接判断成功与否
+        this.setCalibrationResult();
+      } else {
+        this.setQuickPairWifiSSID();
+      }
+    } else {
+      var calibrationType = MesCalibrationType.ZONE;
+
+      switch (retValue) {
+        case 2:
+          calibrationType = MesCalibrationType.FIFTY;
+          break;
+
+        case 3:
+          calibrationType = MesCalibrationType.HUNDRED;
+          break;
+
+        case 4:
+          calibrationType = MesCalibrationType.HUNDRED_FIFTY;
+          break;
+
+        default:
+          return;
+      }
+
+      (_b = (_a = this.listener).onGetCalibrationData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+        calibrationType: calibrationType,
+        weight: weight
+      }); // this.deviceEventListener && this.deviceEventListener.onGetCalibrationData(calibrationType, weight)
+    }
+  };
+
+  CalibrationFlow.prototype.confirmCalibrationWeightData = function (retValue) {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x12, retValue]);
+  };
+  /**
+   * 收到标定结果 0x13
+   */
+
+
+  CalibrationFlow.prototype.getCalibrationResultData = function (byteList) {
+    var _a, _b, _c, _d;
+
+    var isSuccess = byteList[3] == 0x01 && this.calibrationResult;
+    (_b = (_a = this.listener).onCalibrationCodeStatus) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      isSuccess: isSuccess
+    }); // this.deviceEventListener && this.deviceEventListener.onCalibrationCodeStatus(success)
+    // this.wspMesActionCallback(MesBehavior.STOP_CALIBRATION)
+
+    (_d = (_c = this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
+      behavior: MesBehavior.STOP_CALIBRATION
+    });
+  };
+
+  CalibrationFlow.prototype.setQuickPairWifiSSID = function () {
+    var ssid = this.operation.wifiSsid || '';
+    var assiiList = [];
+
+    for (var i = 0; i < ssid.length; i++) {
+      var item = ssid.substring(i, i + 1);
+      item = item.charCodeAt(0).toString(16);
+
+      if (item.length == 1) {
+        item = '0' + item;
+      }
+
+      assiiList.push(item);
+    }
+
+    ssid = assiiList.join('');
+    var byteList = hex2Array(ssid);
+    byteList.unshift(0x14);
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, byteList);
+  };
+
+  CalibrationFlow.prototype.getQuickPairWifiSSIDResult = function () {
+    this.setQuickPairWifiPWD();
+  };
+
+  CalibrationFlow.prototype.setQuickPairWifiPWD = function () {
+    var pwd = this.operation.wifiPwd || '';
+    var assiiList = [];
+
+    for (var i = 0; i < pwd.length; i++) {
+      var item = pwd.substring(i, i + 1);
+      item = item.charCodeAt(0).toString(16);
+
+      if (item.length == 1) {
+        item = '0' + item;
+      }
+
+      assiiList.push(item);
+    }
+
+    pwd = assiiList.join('');
+    var byteList = hex2Array(pwd);
+    byteList.unshift(0x16);
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, byteList);
+  };
+
+  CalibrationFlow.prototype.getQuickPairWifiPWDResult = function () {
+    this.setCalibrationResult();
+  };
+
+  CalibrationFlow.prototype.setCalibrationResult = function () {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x13, this.calibrationResult ? 0x01 : 0x00]);
+  };
+
+  return CalibrationFlow;
+}(QNBleActionFlow);
+
+var PartialWeightFlow =
+/** @class */
+function (_super) {
+  __extends(PartialWeightFlow, _super);
+
+  function PartialWeightFlow(protocol, uuids) {
+    var _this = _super.call(this, protocol) || this;
+
+    _this.acceptActions = [QNBleAction.MES_MODULE_TEST];
+    _this.moduleTestWeightFlag = false;
+    _this.moduleTestHeightFlag = false;
+    _this.moduleTestImpFlag = false;
+    _this.modelIdResult = false;
+    _this.moduleTestResult = false;
+    _this.segmentsRes = {};
+    _this.uuids = uuids;
+    return _this;
+  } // 需要做
+
+
+  PartialWeightFlow.prototype.execute = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        console.log('模块flow执行');
+        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x01, 0x01]);
+        this.listener.onDeviceStateChange({
+          behavior: MesBehavior.START_MODULE_TEST
+        });
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  PartialWeightFlow.prototype.decode = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, characteristicId, type;
+      return __generator(this, function (_a) {
+        data = payload.data, characteristicId = payload.characteristicId;
+
+        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        if (data[0] != 0xfd) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        type = data[2];
+
+        switch (type) {
+          case 0x01:
+            // 收到进入测试工位
+            console.log('收到进入测试工位');
+            this.setModuleTestSnData();
+            break;
+
+          case 0x02:
+            // 收到测试工位sn
+            this.getModuleTestSnDataResult(data);
+            break;
+
+          case 0x03:
+            // 收到测试工位体脂
+            this.getModuleTestResistanceData(data);
+            break;
+
+          case 0xa3:
+            // 收到测试工位体脂(八电极)
+            this.getModuleTestResistanceDataWithEightElec(data);
+            break;
+
+          case 0x04:
+            // 收到测试工位体重
+            this.getModuleTestWeightData(data);
+            break;
+
+          case 0x05:
+            this.getModuleTestCmdResult(data);
+            break;
+
+          case 0x06:
+            // 收到身高体重测试工位身高
+            this.getModuleTestHeightData(data);
+            break;
+        }
+
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+  /**
+   * 进入模块测试工位 0x01
+   */
+
+
+  PartialWeightFlow.prototype.startModuleTest = function () {
+    this.listener.onDeviceStateChange({
+      behavior: MesBehavior.START_MODULE_TEST
+    });
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x01, 0x01]);
+  };
+  /**
+   * 设置sn码 0x02
+   */
+
+
+  PartialWeightFlow.prototype.setModuleTestSnData = function () {
+    var sn = this.operation.sn;
+    this.log('准备写入sn码', sn);
+    var assiiList = [];
+
+    for (var i = 0; i < sn.length; i++) {
+      var item = sn.substring(i, i + 1);
+      item = item.charCodeAt(0).toString(16);
+
+      if (item.length == 1) {
+        item = "0" + item;
+      }
+
+      assiiList.push(item);
+    }
+
+    sn = assiiList.join('');
+    var data = hex2Array(sn);
+    data.unshift(0x02);
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, data);
+  };
+
+  PartialWeightFlow.prototype.getModuleTestSnDataResult = function (data) {
+    var isSuccess = data[3] == 0x01;
+    console.log('开始回调数据结果', this.listener);
+    this.listener.onModuleTestWriteSnState({
+      isSuccess: isSuccess
+    }); // this.deviceEventListener && this.deviceEventListener.onModuleTestWriteSnState(success)
+
+    if (isSuccess) {
+      // sn码设置成功后才进行下一步
+      this.startModuleTestWeight();
+    } else {
+      this.setModuleTestResult(false);
+    }
+  };
+  /**
+   * 进入重量测试 0x04
+   */
+
+
+  PartialWeightFlow.prototype.startModuleTestWeight = function () {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x04, 0x01]);
+  };
+
+  PartialWeightFlow.prototype.getModuleTestWeightData = function (data) {
+    var _a, _b;
+
+    if (data[3] !== 0x01 || this.moduleTestWeightFlag) {
+      return;
+    }
+
+    this.moduleTestWeightFlag = true;
+    var weight = (data[4] << 8) + data[5];
+    (_b = (_a = this.listener).onModuleTestWeightData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      weight: weight
+    });
+  };
+  /**
+   * 进入身高测试 0x06
+   */
+
+
+  PartialWeightFlow.prototype.startModuleTestHeight = function () {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x06, 0x01]);
+  };
+
+  PartialWeightFlow.prototype.getModuleTestHeightData = function (data) {
+    var _a, _b;
+
+    if (data[3] !== 0x01) {
+      return;
+    } // 过滤非结果数据
+
+
+    if (this.moduleTestHeightFlag) {
+      return;
+    } // 只收到一次结果即可
+
+
+    this.moduleTestHeightFlag = true;
+    var height = times(((data[4] << 8) + data[5]) / 10, 1);
+    (_b = (_a = this.listener).onModuleTestHeightData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      height: height
+    });
+  };
+  /**
+   * 进入阻抗测试 0x03
+   */
+
+
+  PartialWeightFlow.prototype.startModuleTestResistance = function () {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x03, 0x01]);
+  };
+
+  PartialWeightFlow.prototype.getModuleTestResistanceData = function (data) {
+    if (data[3] != 0x01) {
+      return;
+    } // 过滤非结果数据
+
+
+    if (this.moduleTestImpFlag) {
+      return;
+    } // 只收到一次结果即可
+
+
+    this.moduleTestImpFlag = true;
+    var res50 = (data[4] << 8) + data[5];
+    var res500 = (data[6] << 8) + data[7];
+    this.listener.onModuleTestResistanceData({
+      res50: res50,
+      res500: res500
+    });
+  };
+  /**
+   * 获取八电极阻抗
+   */
+
+
+  PartialWeightFlow.prototype.getModuleTestResistanceDataWithEightElec = function (data) {
+    if (data.length < 15) {
+      return;
+    }
+
+    var pack = data[3];
+
+    if (pack == 1) {
+      this.segmentsRes = {
+        lf20: times(((data[4] << 8) + data[5]) / 10, 1),
+        lf100: times(((data[6] << 8) + data[7]) / 10, 1),
+        rf20: times(((data[8] << 8) + data[9]) / 10, 1),
+        rf100: times(((data[10] << 8) + data[11]) / 10, 1),
+        lh20: times(((data[12] << 8) + data[13]) / 10, 1)
+      };
+    } else {
+      var secondSegmentsRes = {
+        lh100: times(((data[4] << 8) + data[5]) / 10, 1),
+        rh20: times(((data[6] << 8) + data[7]) / 10, 1),
+        rh100: times(((data[8] << 8) + data[9]) / 10, 1),
+        t20: times(((data[10] << 8) + data[11]) / 10, 1),
+        t100: times(((data[12] << 8) + data[13]) / 10, 1)
+      };
+      var obj = Object.assign(this.segmentsRes, secondSegmentsRes);
+      this.listener.onModuleTestResistanceData(obj);
+    }
+  };
+  /**
+   * 停止模块测试 0x05
+   */
+
+
+  PartialWeightFlow.prototype.setModuleTestResult = function (success) {
+    this.moduleTestResult = success;
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x05, success ? 0x01 : 0x00]);
+  };
+
+  PartialWeightFlow.prototype.getModuleTestCmdResult = function (data) {
+    var isSuccess = this.moduleTestResult && data[3] == 0x01;
+    this.listener.onModuleTestCodeStatus({
+      isSuccess: isSuccess
+    });
+    this.listener.onDeviceStateChange({
+      behavior: MesBehavior.STOP_MODULE_TEST
+    });
+  };
+
+  return PartialWeightFlow;
+}(QNBleActionFlow);
+
+var ModelProductFlow =
+/** @class */
+function (_super) {
+  __extends(ModelProductFlow, _super);
+
+  function ModelProductFlow(protocol, uuids) {
+    var _this = _super.call(this, protocol) || this;
+
+    _this.baseStamp2000 = Date.now() / 1000 - 946656000;
+    _this.acceptActions = [QNBleAction.MES_MODEL_PRODUCT];
+    _this.deviceType = 0;
+    _this.isSupportQuickPair = false;
+    _this.modelIdResult = false;
+    _this.timerId = 0;
+    _this.wifiPairFailNum = 0; // 当前执行命令的包的序号
+
+    _this.currentCmdNo = 0; // wifi账号指令数据
+
+    _this.ssidCmdData = []; // wifi密码指令数据
+
+    _this.pwdCmdData = []; // 数据服务地址指令数据
+
+    _this.dataServerUrlData = []; // OTA升级地址指令数据
+
+    _this.otaServerUrlData = []; // 秘钥指令数据
+
+    _this.encryptKeyCmdData = []; // body字节数据
+
+    _this.bodyByteDataArr = [];
+    _this.measureResult = {};
+    _this.uuids = uuids;
+    return _this;
+  } // 需要做
+
+
+  ModelProductFlow.prototype.execute = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        this.setDeviceTime();
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  ModelProductFlow.prototype.decode = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, characteristicId, byteList, header, type;
+      return __generator(this, function (_a) {
+        data = payload.data, characteristicId = payload.characteristicId;
+
+        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        byteList = data;
+        header = data[0];
+
+        switch (header) {
+          case 0x12:
+            this.getDeviceInfo(byteList);
+            break;
+
+          case 0x14:
+            this.getUnitAndScreenTimeResult();
+            break;
+
+          case 0x21:
+            this.getDeviceTimeResult();
+
+          case 0x10:
+            this.getMeasureData(byteList);
+            break;
+
+          case 0x41:
+            this.getModelIdAndWeightResult(byteList);
+            break;
+
+          case 0x49:
+            this.getHeightWeightConfigResult(byteList);
+            break;
+
+          case 0x61:
+            this.getSsidTotalPackResult(byteList);
+            break;
+
+          case 0x63:
+            this.getWifiSsidDataResult(byteList);
+            break;
+
+          case 0x65:
+            this.getWifiPwdTotalPackDataResult(byteList);
+            break;
+
+          case 0x67:
+            this.getWifiPwdDataResult(byteList);
+            break;
+
+          case 0x69:
+            this.getServerUrlTotalPackDataResult(byteList);
+            break;
+
+          case 0x6b:
+            this.getServerUrlDataResult(byteList);
+            break;
+
+          case 0x6f:
+            this.getWifiOtaTotalPackDataResult(byteList);
+            break;
+
+          case 0x71:
+            this.getWifiOtaDataResult(byteList);
+            break;
+
+          case 0x73:
+            this.getWifiEncryptDataResult(byteList);
+            break;
+
+          case 0x74:
+            this.getWifiConnectNetResult(byteList);
+            break;
+
+          case 0x77:
+            this.getScaleWifiStatusResult(byteList);
+            break;
+
+          case 0x78:
+            this.getWifiConnectServerResult(byteList);
+            break;
+        }
+
+        if (header != 0xfd) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        type = byteList[2];
+
+        switch (type) {
+          case 0x51:
+            // 型号写入
+            this.getModelIdDataResult(byteList);
+        }
+
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  }; // 0x20
+
+
+  ModelProductFlow.prototype.setDeviceTime = function () {
+    var _a, _b;
+
+    var byteList = [this.bleDevice.type === QNBleDeviceType.HEIGHTWEIGHT ? 0x50 : 0x00];
+
+    for (var i = 0; i < 4; i += 1) {
+      byteList.push(this.baseStamp2000 >> i * 8 & 0xff);
+    }
+
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x20, byteList);
+    (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      behavior: MesBehavior.START_MODEL_ID
+    });
+    this.listener.onDeviceStateChange({
+      behavior: MesBehavior.START_MODEL_ID
+    });
+  }; // 0x12
+
+
+  ModelProductFlow.prototype.getDeviceInfo = function (byteList) {
+    if (byteList.length < 15) {
+      return;
+    }
+
+    this.deviceType = byteList[2];
+    this.isSupportQuickPair = (byteList[10] >> 6 && 0x01) == 0x01;
+    this.setUnitAndScreenTime();
+  }; // 0x13
+
+
+  ModelProductFlow.prototype.setUnitAndScreenTime = function () {
+    var byteList = [this.deviceType];
+
+    switch (this.operation.unit) {
+      case QNBleUnit.LB:
+        byteList.push(0x02);
+        break;
+
+      case QNBleUnit.JIN:
+        byteList.push(0x04);
+        break;
+
+      case QNBleUnit.ST:
+        byteList.push(0x03);
+        break;
+
+      default:
+        byteList.push(0x01);
+        break;
+    }
+
+    byteList.push(0x10);
+    var isHeartRate = this.operation.isHeartRate ? 0x00 : 0x01;
+    byteList.push(isHeartRate);
+    byteList.push(0x00);
+    byteList.push(0x00);
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x13, byteList);
+  }; // 0x14
+
+
+  ModelProductFlow.prototype.getUnitAndScreenTimeResult = function () {}; // 0x21
+
+
+  ModelProductFlow.prototype.getDeviceTimeResult = function () {}; // 0x10
+
+
+  ModelProductFlow.prototype.getMeasureData = function (byteList) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+
+    if (this.bleDevice.type === QNBleDeviceType.WSP_DUAL_MODE_SCALE) {
+      if (byteList.length < 11) {
+        return;
+      }
+
+      var weight_1 = this.decodeWeight(byteList[3], byteList[4]);
+      var res50_1 = byteList[7] + (byteList[6] << 8);
+      var res500_1 = byteList[9] + (byteList[8] << 8);
+      var state_1 = byteList[5];
+
+      if (state_1 !== 1) {
+        (_b = (_a = this.listener).onGetUnsteadyWeight) === null || _b === void 0 ? void 0 : _b.call(_a, {
+          weight: weight_1
+        }); // this.deviceEventListener && this.deviceEventListener.onGetUnreadyWeightData(weight)
+      } else {
+        this.confirmReceiveMeasureData();
+        this.listener.onGetOriginScaleData({
+          weight: weight_1,
+          res50: res50_1,
+          res500: res500_1
+        });
+      }
+
+      return;
+    }
+
+    if (this.bleDevice.type === QNBleDeviceType.HEIGHTWEIGHT) {
+      if (byteList.length < 16) {
+        return;
+      }
+
+      var weight_2 = this.decodeWeight(byteList[3], byteList[4]);
+      var height = times(((byteList[11] << 8) + byteList[12]) / 10, 1);
+      var res50_2 = byteList[7] + (byteList[6] << 8);
+      var res500_2 = byteList[9] + (byteList[8] << 8);
+      var state_2 = byteList[5];
+
+      if (state_2 !== 1) {
+        (_d = (_c = this.listener).onGetUnsteadyHeightWeight) === null || _d === void 0 ? void 0 : _d.call(_c, {
+          weight: weight_2,
+          height: height
+        });
+      } else {
+        this.confirmReceiveMeasureData();
+        this.listener.onGetOriginScaleData({
+          weight: weight_2,
+          height: height,
+          res50: res50_2,
+          res500: res500_2
+        });
+      }
+
+      return;
+    }
+
+    if (this.bleDevice.type === QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE) {
+      if (byteList.length < 8) {
+        return;
+      }
+
+      var weight_3 = this.decodeWeight(byteList[5], byteList[6]);
+      this.listener.onGetUnsteadyWeight({
+        weight: weight_3
+      }); // this.deviceEventListener && this.deviceEventListener.onGetUnreadyWeightData(weight)
+
+      if (byteList.length >= 19 && byteList[1] == 0x13) {
+        this.measureResult = {
+          weight: this.decodeWeight(byteList[4], byteList[5]),
+          lf20: times(((byteList[6] << 8) + byteList[7]) / 10, 1),
+          lf100: times(((byteList[8] << 8) + byteList[9]) / 10, 1),
+          rf20: times(((byteList[10] << 8) + byteList[11]) / 10, 1),
+          rf100: times(((byteList[12] << 8) + byteList[13]) / 10, 1),
+          lh20: times(((byteList[14] << 8) + byteList[15]) / 10, 1),
+          lh100: times(((byteList[16] << 8) + byteList[17]) / 10, 1)
+        };
+      } else if (byteList.length >= 13 && byteList[1] == 0x0d) {
+        var result = {
+          rh20: times(((byteList[4] << 8) + byteList[5]) / 10, 1),
+          rh100: times(((byteList[6] << 8) + byteList[7]) / 10, 1),
+          t20: times(((byteList[8] << 8) + byteList[9]) / 10, 1),
+          t100: times(((byteList[10] << 8) + byteList[11]) / 10, 1)
+        };
+        var obj = Object.assign(this.measureResult, result);
+        this.confirmReceiveMeasureData();
+        this.listener.onGetOriginScaleData(obj);
+      }
+
+      return;
+    } // 捕获其他秤
+
+
+    if (byteList.length < 11) {
+      return;
+    }
+
+    var weight = this.decodeWeight(byteList[3], byteList[4]);
+    var res50 = byteList[7] + (byteList[6] << 8);
+    var res500 = byteList[9] + (byteList[8] << 8);
+    var state = byteList[5];
+
+    if (state != 1) {
+      (_f = (_e = this.listener).onGetUnsteadyWeight) === null || _f === void 0 ? void 0 : _f.call(_e, {
+        weight: weight
+      }); // this.deviceEventListener && this.deviceEventListener.onGetUnreadyWeightData(weight)
+    } else {
+      this.confirmReceiveMeasureData();
+      (_h = (_g = this.listener).onGetOriginScaleData) === null || _h === void 0 ? void 0 : _h.call(_g, {
+        weight: weight,
+        res50: res50,
+        res500: res500
+      });
+    }
+  }; // 0x1F
+
+
+  ModelProductFlow.prototype.confirmReceiveMeasureData = function () {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x1f, [this.deviceType, 0x10]);
+  }; // 0x40 设置秤体ID
+
+
+  ModelProductFlow.prototype.setDeviceID = function () {
+    var _this = this;
+
+    var utcTime1 = this.baseStamp2000 & 0xff;
+    var utcTime2 = this.baseStamp2000 >> 8 & 0xff;
+    var utcTime3 = this.baseStamp2000 >> 16 & 0xff;
+    var utcTime4 = this.baseStamp2000 >> 24 & 0xff;
+    var macByteList = hex2Array(this.bleDevice.mac.split(':').join(''));
+
+    if (this.bleDevice.type == QNBleDeviceType.NORMAL_BLE_SCALE) {
+      macByteList = macByteList.reverse();
+    }
+
+    var key = (utcTime1 ^ utcTime2 ^ utcTime3 ^ utcTime4) + ((macByteList[0] << 1) + (macByteList[1] << 1) + (macByteList[2] << 1) + (macByteList[3] << 2) + (macByteList[4] << 2) + (macByteList[5] << 2));
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x40, [this.deviceType, key & 0xff]);
+    setTimeout(function () {
+      // 防止两条命令之间时间过短导致写入失败
+      _this.setDeviceModelIDAndWeight();
+    }, 500);
+  };
+
+  ModelProductFlow.prototype.setDeviceModelIDAndWeight = function () {
+    var utcTime1 = this.baseStamp2000 & 0xff;
+    var utcTime2 = this.baseStamp2000 >> 8 & 0xff;
+    var utcTime3 = this.baseStamp2000 >> 16 & 0xff;
+    var utcTime4 = this.baseStamp2000 >> 24 & 0xff;
+    var macByteList = hex2Array(this.bleDevice.mac.split(':').join(''));
+
+    if (this.bleDevice.type == QNBleDeviceType.NORMAL_BLE_SCALE) {
+      macByteList = macByteList.reverse();
+    }
+
+    var cmdSource = (utcTime1 + 1 ^ utcTime2 + 1 ^ utcTime3 + 1 ^ utcTime4 + 1) + ((macByteList[0] >> 1) + (macByteList[1] >> 1) + (macByteList[2] >> 1) + (macByteList[3] >> 2) + (macByteList[4] >> 2) + (macByteList[5] >> 2));
+    var cmd = cmdSource & 0xff;
+    var modeIdByteList = hex2Array(this.operation.modelId);
+    var aliIdByteList = [0, 0];
+    var minWeightList = hex2Array(this.operation.minWeight);
+    var maxWeightList = hex2Array(this.operation.maxWeight);
+    var overrideWeightList = hex2Array(this.operation.overrideWeight);
+    var byteList = [this.deviceType];
+
+    if (this.bleDevice.type !== QNBleDeviceType.NORMAL_BLE_SCALE) {
+      byteList.push(cmd);
+    }
+
+    byteList.push(modeIdByteList[0], modeIdByteList[1]);
+    byteList.push(aliIdByteList[0], aliIdByteList[1]);
+    byteList.push(minWeightList[0], minWeightList[1]);
+    byteList.push(maxWeightList[0], maxWeightList[1]);
+    byteList.push(overrideWeightList[0], overrideWeightList[1]);
+
+    switch (this.operation.batteryType) {
+      case 9:
+        byteList.push(0x03);
+        break;
+
+      case 3:
+        byteList.push(0x01);
+        break;
+
+      case 2:
+        byteList.push(0x02);
+        break;
+
+      default:
+        byteList.push(0x00);
+        break;
+    }
+
+    if (this.bleDevice.type == QNBleDeviceType.NORMAL_BLE_SCALE) {
+      this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, cmd, byteList);
+    } else {
+      this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x43, byteList);
+    }
+  }; // 0x41
+
+
+  ModelProductFlow.prototype.getModelIdAndWeightResult = function (byteList) {
+    var _a, _b;
+
+    if (byteList.length < 9) {
+      return;
+    }
+
+    var sucessCondition = this.bleDevice.type === QNBleDeviceType.NORMAL_BLE_SCALE ? 0 : 1;
+    var isSuccess = byteList[7] == sucessCondition;
+    (_b = (_a = this.listener).onGetWriteModelIdResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      isSuccess: isSuccess
+    }); // this.deviceEventListener && this.deviceEventListener.onGetWriteModelIdResult(success)
+
+    if (isSuccess) {
+      this.startWifiConfig();
+    } else {
+      this.setModelIdDataResult(false);
+    }
+  }; // 开始配置wifi
+
+
+  ModelProductFlow.prototype.startWifiConfig = function () {
+    if (this.bleDevice.type == QNBleDeviceType.NORMAL_BLE_SCALE) {
+      // 普通蓝牙称配网直接成功
+      this.listener.onGetWifiResult({
+        isSuccess: true
+      });
+      this.setModelIdDataResult(true);
+    } else {
+      if (this.isSupportQuickPair) {
+        this.checkScaleWifiStatus();
+      } else {
+        this.setWifiSsidTotalPackData();
+      }
+    }
+  }; // 准备wifi数据
+
+
+  ModelProductFlow.prototype.prepareWifiData = function () {
+    var _a = this.operation,
+        _b = _a.wifiSsid,
+        wifiSsid = _b === void 0 ? '' : _b,
+        _c = _a.wifiPwd,
+        wifiPwd = _c === void 0 ? '' : _c,
+        _d = _a.dataServerUrl,
+        dataServerUrl = _d === void 0 ? 'http://wifi.yolanda.hk:80/wifi_api/wsps?code=' : _d,
+        _e = _a.otaServerUrl,
+        otaServerUrl = _e === void 0 ? 'https://ota.yolanda.hk' : _e,
+        _f = _a.encryptKey,
+        encryptKey = _f === void 0 ? 'yolandakitnewhdr' : _f; // eslint-disable-next-line no-console
+
+    this.log('ssid:', wifiSsid, 'pwd:', wifiPwd, 'dataServerUrl', dataServerUrl, 'otaServerUrl', otaServerUrl, 'encryptKey', encryptKey);
+    var ssidByteArray = stringToByteArray(gBase64.encode(wifiSsid));
+    var pwdByteArray = stringToByteArray(wifiPwd);
+    var dataServerUrlByteArray = stringToByteArray(dataServerUrl);
+    var otaServerUrlByteArray = stringToByteArray(otaServerUrl);
+    this.ssidCmdData = splitArray(ssidByteArray);
+    this.pwdCmdData = splitArray(pwdByteArray);
+    this.dataServerUrlData = splitArray(dataServerUrlByteArray);
+    this.otaServerUrlData = splitArray(otaServerUrlByteArray);
+    this.encryptKeyCmdData = stringToByteArray(encryptKey);
+  }; // 0x76 获取wifi状态
+
+
+  ModelProductFlow.prototype.checkScaleWifiStatus = function () {
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x76, [0x02]);
+  };
+
+  ModelProductFlow.prototype.getScaleWifiStatusResult = function (byteList) {
+    var _a, _b;
+
+    if (byteList.length < 4) {
+      return;
+    }
+
+    var isSuccess = byteList[2] == 0x02;
+
+    if (isSuccess) {
+      (_b = (_a = this.listener).onGetWifiResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
+        isSuccess: isSuccess
+      });
+      this.setModelIdDataResult(true); // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(isSuccess)
+    } else {
+      this.setWifiSsidTotalPackData();
+    }
+  }; // 0x60
+
+
+  ModelProductFlow.prototype.setWifiSsidTotalPackData = function () {
+    var _this = this;
+
+    this.prepareWifiData();
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x60, [this.ssidCmdData.length]);
+    this.timerId = setTimeout(function () {
+      _this.wifiPairFailNum += 1;
+
+      if (_this.wifiPairFailNum >= 4) {
+        _this.setModelIdDataResult(false);
+      } else {
+        _this.setWifiSsidTotalPackData();
+      }
+    }, 500);
+  }; // 0x61
+
+
+  ModelProductFlow.prototype.getSsidTotalPackResult = function (byteList) {
+    this.timerId && clearTimeout(this.timerId);
+    this.timerId = undefined;
+
+    if (byteList[2] === 0x00) {
+      this.setModelIdDataResult(false);
+    } else {
+      this.setWifiSsidData(1);
+    }
+  }; // 0x62
+
+
+  ModelProductFlow.prototype.setWifiSsidData = function (index) {
+    var byteList = this.ssidCmdData[index - 1];
+    byteList.unshift(index);
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x62, byteList);
+  }; // 0x63
+
+
+  ModelProductFlow.prototype.getWifiSsidDataResult = function (byteList) {
+    var curPack = byteList[2];
+
+    if (curPack == this.ssidCmdData.length) {
+      this.setWifiPwdTotalPackData();
+    } else {
+      this.setWifiSsidData(curPack + 1);
+    }
+  }; // 0x64
+
+
+  ModelProductFlow.prototype.setWifiPwdTotalPackData = function () {
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x64, [this.pwdCmdData.length]);
+  }; // 0x65
+
+
+  ModelProductFlow.prototype.getWifiPwdTotalPackDataResult = function (byteList) {
+    if (byteList[2] == 0) {
+      this.setModelIdDataResult(false);
+    } else {
+      this.setWifiPwdData(1);
+    }
+  }; // 0x66
+
+
+  ModelProductFlow.prototype.setWifiPwdData = function (index) {
+    if (this.pwdCmdData.length == 0) {
+      this.setWifiServerUrlTotalPackData();
+    } else {
+      var byteList = this.pwdCmdData[index - 1];
+      byteList.unshift(index);
+      this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x66, byteList);
+    }
+  }; // 0x67
+
+
+  ModelProductFlow.prototype.getWifiPwdDataResult = function (byteList) {
+    var curPack = byteList[2];
+
+    if (curPack == this.pwdCmdData.length) {
+      this.setWifiServerUrlTotalPackData();
+    } else {
+      this.setWifiPwdData(curPack + 1);
+    }
+  }; // 0x68
+
+
+  ModelProductFlow.prototype.setWifiServerUrlTotalPackData = function () {
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x68, [this.dataServerUrlData.length]);
+  }; // 0x69
+
+
+  ModelProductFlow.prototype.getServerUrlTotalPackDataResult = function (byteList) {
+    if (byteList[2] === 0) {
+      this.setModelIdDataResult(false);
+    } else {
+      this.setWifiServerUrlData(1);
+    }
+  }; // 0x6A
+
+
+  ModelProductFlow.prototype.setWifiServerUrlData = function (index) {
+    var byteList = this.dataServerUrlData[index - 1];
+    byteList.unshift(index);
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x6a, byteList);
+  }; // 0x6B
+
+
+  ModelProductFlow.prototype.getServerUrlDataResult = function (byteList) {
+    var curPack = byteList[2];
+
+    if (curPack == this.dataServerUrlData.length) {
+      this.setWifiOtaTotalPackData();
+    } else {
+      this.setWifiServerUrlData(curPack + 1);
+    }
+  }; // 0x6E
+
+
+  ModelProductFlow.prototype.setWifiOtaTotalPackData = function () {
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x6e, [this.otaServerUrlData.length]);
+  }; // 0x6F
+
+
+  ModelProductFlow.prototype.getWifiOtaTotalPackDataResult = function (byteList) {
+    if (byteList[2] == 0) {
+      this.setModelIdDataResult(false);
+    } else {
+      this.setWifiOtaData(1);
+    }
+  }; // 0x70
+
+
+  ModelProductFlow.prototype.setWifiOtaData = function (index) {
+    var byteList = this.otaServerUrlData[index - 1];
+    byteList.unshift(index);
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x70, byteList);
+  }; // 0x71
+
+
+  ModelProductFlow.prototype.getWifiOtaDataResult = function (byteList) {
+    var curPack = byteList[2];
+
+    if (curPack == this.otaServerUrlData.length) {
+      this.setWifiEncryptData();
+    } else {
+      this.setWifiOtaData(curPack + 1);
+    }
+  }; // 0x72
+
+
+  ModelProductFlow.prototype.setWifiEncryptData = function () {
+    var byteList = this.encryptKeyCmdData;
+    byteList.unshift(byteList.length);
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x72, byteList);
+  }; // 0x73
+
+
+  ModelProductFlow.prototype.getWifiEncryptDataResult = function (byteList) {
+    if (byteList[2] == 0) {
+      this.setModelIdDataResult(false);
+    }
+  }; // 0x74
+
+
+  ModelProductFlow.prototype.getWifiConnectNetResult = function (byteList) {
+    this.writeCmd(this.uuids.wifi.serviceUUID, this.uuids.wifi.writeUUID, 0x75, [0x01]);
+
+    if (byteList[2] == 0) {
+      // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(false)
+      this.setModelIdDataResult(false);
+    }
+  }; // 0x78
+
+
+  ModelProductFlow.prototype.getWifiConnectServerResult = function (byteList) {
+    var _a, _b;
+
+    this.writeCmd(this.uuids.produce.serviceUUID, this.bleDevice.type === QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE ? WspDualScaleMesProfle.EIGHT_UUID_WIFI_WRITE : WspDualScaleMesProfle.UUID_WRITE, 0x79, [0x01]);
+    var isSuccess = byteList[2] == 0x01;
+    (_b = (_a = this.listener).onGetWifiResult) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      isSuccess: isSuccess
+    }); // this.deviceEventListener && this.deviceEventListener.onGetWifiResult(success)
+
+    if (this.bleDevice.type !== QNBleDeviceType.HEIGHTWEIGHT) {
+      this.setModelIdDataResult(isSuccess);
+    }
+  };
+  /**
+   * 身高体重秤设置信息(型号写入) 0x48
+   */
+
+
+  ModelProductFlow.prototype.startHeightWeightConfig = function () {
+    var _a, _b, _c, _d, _e, _f;
+
+    console.log('开始写入配置', this.operation);
+    var byteList = [this.deviceType, 0x00, 0x00, 0x00];
+    var modeIdByteList = hex2Array(this.operation.modelId);
+    var minWeightList = hex2Array(this.operation.minWeight);
+    var maxWeightList = hex2Array(this.operation.maxWeight);
+    byteList.push((_a = modeIdByteList[0]) !== null && _a !== void 0 ? _a : 0, (_b = modeIdByteList[1]) !== null && _b !== void 0 ? _b : 0);
+    byteList.push((_c = minWeightList[0]) !== null && _c !== void 0 ? _c : 0, (_d = minWeightList[1]) !== null && _d !== void 0 ? _d : 0);
+    byteList.push((_e = maxWeightList[0]) !== null && _e !== void 0 ? _e : 0, (_f = maxWeightList[1]) !== null && _f !== void 0 ? _f : 0);
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x48, byteList);
+  };
+  /**
+   * 身高体重秤型号写入结果 0x49
+   */
+
+
+  ModelProductFlow.prototype.getHeightWeightConfigResult = function (byteList) {
+    var isSuccess = byteList[3] === 1;
+    this.listener.onGetWriteModelIdResult({
+      isSuccess: isSuccess
+    });
+    this.setModelIdDataResult(isSuccess);
+  };
+  /**
+   * 型号写入结果 0x51
+   */
+
+
+  ModelProductFlow.prototype.setModelIdDataResult = function (success) {
+    this.modelIdResult = success;
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x51, success ? 0x01 : 0x00]);
+  };
+
+  ModelProductFlow.prototype.getModelIdDataResult = function (byteList) {
+    var _this = this;
+
+    var _a, _b;
+
+    var isSuccess = byteList[3] === 1 && this.modelIdResult;
+    (_b = (_a = this.listener).onReviewCodeStatus) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      isSuccess: isSuccess
+    });
+
+    if (isSuccess) {
+      // setTimeout(() => {
+      this.setDeviceSleepMode();
+      setTimeout(function () {
+        var _a, _b;
+
+        (_b = (_a = _this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
+          behavior: MesBehavior.STOP_MODEL_ID
+        });
+      }, 1000); // }, 200);
+    }
+  }; // 0x50
+
+
+  ModelProductFlow.prototype.setDeviceSleepMode = function () {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0x50, [this.deviceType]);
+  };
+
+  return ModelProductFlow;
+}(QNBleActionFlow);
+
+var PartialWeightFlow$1 =
+/** @class */
+function (_super) {
+  __extends(PartialWeightFlow, _super);
+
+  function PartialWeightFlow(protocol, uuids) {
+    var _this = _super.call(this, protocol) || this;
+
+    _this.acceptActions = [QNBleAction.MES_PARTIAL];
+    _this.uuids = uuids;
+    return _this;
+  } //需要做
+
+
+  PartialWeightFlow.prototype.execute = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x31, 0x01]);
+        this.listener.onDeviceStateChange({
+          behavior: MesBehavior.START_PARTIAL
+        });
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  PartialWeightFlow.prototype.decode = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, characteristicId, type;
+      return __generator(this, function (_a) {
+        data = payload.data, characteristicId = payload.characteristicId;
+
+        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        if (data[0] != 0xfd) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        type = data[2];
+
+        switch (type) {
+          case 0x32:
+            //收到偏载数据值
+            this.getPartialWeightData(data);
+            break;
+
+          case 0x33:
+            //收到偏载标识保存结果
+            this.getPartialWeightDataResult(data);
+            break;
+
+          case 0x41:
+            //删除工位
+            this.getPartialWeightData(data);
+            break;
+        }
+
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+  /**
+   * 偏载锁定重量 0x32
+   */
+
+
+  PartialWeightFlow.prototype.getPartialWeightData = function (byteList) {
+    this.setPartialWeightDataResult(1);
+    var weight = this.decodeWeight(byteList[3], byteList[4]);
+    this.listener.onGetPartialWeightData({
+      weight: weight
+    }); // const success = this.deviceEventListener && this.deviceEventListener.onGetPartialWeightData(weight)
+  }; //1收到数据 2 偏载成功 3 偏载失败
+
+
+  PartialWeightFlow.prototype.setPartialWeightDataResult = function (state) {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xfd, [0x32, state]);
+  };
+  /**
+   * 收到偏载标示保存结果 0x33
+   */
+
+
+  PartialWeightFlow.prototype.getPartialWeightDataResult = function (byteList) {
+    var isSuccess = byteList[3] === 0x01;
+    this.listener.onPartialCodeStatus({
+      isSuccess: isSuccess
+    }); // this.deviceEventListener && this.deviceEventListener.onPartialCodeStatus(success)
+
+    this.listener.onDeviceStateChange({
+      behavior: MesBehavior.STOP_PARTIAL
+    });
+  };
+
+  return PartialWeightFlow;
+}(QNBleActionFlow);
+
+var ReviewFlow =
+/** @class */
+function (_super) {
+  __extends(ReviewFlow, _super);
+
+  function ReviewFlow(protocol, uuids) {
+    var _this = _super.call(this, protocol) || this;
+
+    _this.acceptActions = [QNBleAction.MES_REVIEW];
+    _this.uuids = uuids;
+    return _this;
+  } //需要做
+
+
+  ReviewFlow.prototype.execute = function () {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_c) {
+        this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x21, 0x01]);
+        (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
+          behavior: MesBehavior.START_BACKHOE
+        });
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  ReviewFlow.prototype.decode = function (payload) {
+    return __awaiter(this, void 0, void 0, function () {
+      var data, characteristicId, type;
+      return __generator(this, function (_a) {
+        data = payload.data, characteristicId = payload.characteristicId;
+
+        if (characteristicId === WspDualScaleMesProfle.UUID_SN) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        if (data[0] != 0xFD) {
+          return [2
+          /*return*/
+          ];
+        }
+
+        type = data[2];
+
+        switch (type) {
+          case 0x22:
+            //收到回检数据值
+            this.getReviewWeightData(data);
+            break;
+
+          case 0x23:
+            //收到回检标识保存结果
+            this.getReviewWeightDataResult(data);
+            break;
+        }
+
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+  /**
+     * 进入回检 0x21
+     */
+
+
+  ReviewFlow.prototype.enterReview = function () {
+    var _a, _b;
+
+    (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      behavior: MesBehavior.START_BACKHOE
+    }); // this.listener.onDeviceStateChange({behavior:MesBehavior.START_BACKHOE)
+
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x21, 0x01]);
+  };
+  /**
+   * 收到回检重量 0x22
+   */
+
+
+  ReviewFlow.prototype.getReviewWeightData = function (byteList) {
+    var _a, _b;
+
+    this.setReviewWeightDataResult(1);
+    var weight = this.decodeWeight(byteList[3], byteList[4]);
+    (_b = (_a = this.listener).onGetReviewWeightData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      weight: weight
+    }); // const success = this.deviceEventListener && this.deviceEventListener.onGetReviewWeightData(weight)
+  }; //1 收到重量值 2 回检成功 3 回检失败
+
+
+  ReviewFlow.prototype.setReviewWeightDataResult = function (state) {
+    this.writeCmd(this.uuids.produce.serviceUUID, this.uuids.produce.writeUUID, 0xFD, [0x22, state]);
+  };
+  /**
+   * 收到回检标示保存结果 0x23
+   */
+
+
+  ReviewFlow.prototype.getReviewWeightDataResult = function (byteList) {
+    var _a, _b, _c, _d;
+
+    var isSuccess = byteList[3] == 0x01 && byteList[3] == 0x01;
+    (_b = (_a = this.listener).onReviewCodeStatus) === null || _b === void 0 ? void 0 : _b.call(_a, {
+      isSuccess: isSuccess
+    }); // this.deviceEventListener && this.deviceEventListener.onReviewCodeStatus(success)
+
+    (_d = (_c = this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
+      behavior: MesBehavior.STOP_BACKHOE
+    });
+  };
+
+  return ReviewFlow;
+}(QNBleActionFlow);
+
+var WspMes = {
+  WspDualScaleMesProfle: WspDualScaleMesProfle,
+  CalibrationFlow: CalibrationFlow,
+  ModuleTestFlow: PartialWeightFlow,
+  ModelProductFlow: ModelProductFlow,
+  PartialWeightFlow: PartialWeightFlow$1,
+  ReviewFlow: ReviewFlow
+};
+
+var WspDualScaleMesProfle$1 = WspMes.WspDualScaleMesProfle,
+    CalibrationFlow$1 = WspMes.CalibrationFlow,
+    ReviewFlow$1 = WspMes.ReviewFlow,
+    PartialWeightFlow$2 = WspMes.PartialWeightFlow,
+    ModuleTestFlow = WspMes.ModuleTestFlow,
+    ModelProductFlow$1 = WspMes.ModelProductFlow;
+
+var WspDualScaleMesProtocol =
+/** @class */
+function (_super) {
+  __extends(WspDualScaleMesProtocol, _super);
+
+  function WspDualScaleMesProtocol() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+  /**
+   * 准备工作，在此接收所有的特征值
+   *
+   * @memberof WspDualScaleMesProtocol
+   */
+
+
+  WspDualScaleMesProtocol.prototype.prepare = function () {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var uuids;
+      return __generator(this, function (_c) {
+        switch (_c.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , this.bleNative.findService(this.bleDevice.deviceId)];
+
+          case 1:
+            _c.sent();
+
+            uuids = {
+              produce: {
+                serviceUUID: WspDualScaleMesProfle$1.UUID_TIME_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.UUID_WRITE
+              },
+              wifi: {
+                serviceUUID: WspDualScaleMesProfle$1.UUID_TIME_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.UUID_WRITE
+              }
+            };
+            if (!(this.bleDevice.type === QNBleDeviceType.WSP_EIGHT_DUAL_MODE_SCALE)) return [3
+            /*break*/
+            , 4]; // 八电极
+
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.EIGHT_UUID_NOTIFY)];
+
+          case 2:
+            // 八电极
+            _c.sent();
+
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.EIGHT_UUID_WIFI_NOTIFY)];
+
+          case 3:
+            _c.sent();
+
+            uuids = {
+              produce: {
+                serviceUUID: WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.EIGHT_UUID_WRITE
+              },
+              wifi: {
+                serviceUUID: WspDualScaleMesProfle$1.EIGHT_UUID_DEVICE_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.EIGHT_UUID_WIFI_WRITE
+              }
+            };
+            return [3
+            /*break*/
+            , 6];
+
+          case 4:
+            if (!(this.bleDevice.type === QNBleDeviceType.HEIGHTWEIGHT)) return [3
+            /*break*/
+            , 6]; // 身高体重秤 CP30B
+
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_NOTIFY)];
+
+          case 5:
+            // 身高体重秤 CP30B
+            _c.sent();
+
+            uuids = {
+              produce: {
+                serviceUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_DEVICE_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_WRITE
+              },
+              wifi: {
+                serviceUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_DEVICE_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_UUID_WRITE
+              }
+            };
+            _c.label = 6;
+
+          case 6:
+            if (!(this.bleDevice.type === QNBleDeviceType.HEIGHTWEIGHT_SINGLE_BLE)) return [3
+            /*break*/
+            , 8]; // 身高体重单蓝牙秤 CP30A
+
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.HEIGHTWEIGHT_SINGLE_BLE_UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.HEIGHTWEIGHT_SINGLE_BLE_UUID_NOTIFY)];
+
+          case 7:
+            // 身高体重单蓝牙秤 CP30A
+            _c.sent();
+
+            uuids = {
+              produce: {
+                serviceUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_SINGLE_BLE_UUID_DEVICE_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_SINGLE_BLE_UUID_WRITE
+              },
+              wifi: {
+                serviceUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_SINGLE_BLE_UUID_DEVICE_SERVICES,
+                writeUUID: WspDualScaleMesProfle$1.HEIGHTWEIGHT_SINGLE_BLE_UUID_WRITE
+              }
+            };
+            return [3
+            /*break*/
+            , 10];
+
+          case 8:
+            // 普通秤
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, WspDualScaleMesProfle$1.UUID_TIME_SERVICES, WspDualScaleMesProfle$1.UUID_NOTIFY)];
+
+          case 9:
+            // 普通秤
+            _c.sent();
+
+            _c.label = 10;
+
+          case 10:
+            if (this.operation.action === QNBleAction.MES_READ_SN) {
+              (_b = (_a = this.listener).onDeviceStateChange) === null || _b === void 0 ? void 0 : _b.call(_a, {
+                behavior: MesBehavior.STOP_READ_SN
+              });
+            }
+
+            return [4
+            /*yield*/
+            , this.bleNative.readBleCharacteristicValue(this.bleDevice.deviceId, WspDualScaleMesProfle$1.UUID_DEVICE_SERVICES, WspDualScaleMesProfle$1.UUID_SN)];
+
+          case 11:
+            _c.sent();
+
+            this.actionFlows.push(new CalibrationFlow$1(this, uuids));
+            this.actionFlows.push(new ReviewFlow$1(this, uuids));
+            this.actionFlows.push(new PartialWeightFlow$2(this, uuids));
+            this.actionFlows.push(new ModuleTestFlow(this, uuids));
+            this.actionFlows.push(new ModelProductFlow$1(this, uuids));
+            this.applyFlow();
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  WspDualScaleMesProtocol.prototype.applyFlow = function () {
+    var e_1, _a;
+
+    try {
+      for (var _b = __values(this.actionFlows), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var flow = _c.value;
+
+        if (flow.accept(this.operation.action)) {
+          flow.action = this.operation.action;
+          this.currentFlow = flow;
+          break;
+        }
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+
+    if (this.currentFlow) {
+      this.currentFlow.execute();
+    }
+  };
+  /**
+   * 解析命令
+   * @param {Partial<QNBleTypings.TypedCharacteristicValueChangePayload>} payload
+   */
+
+
+  WspDualScaleMesProtocol.prototype.decode = function (payload) {
+    var _a, _b, _c, _d;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var data, characteristicId, sn, _e, _f, num, item;
+
+      var e_2, _g;
+
+      return __generator(this, function (_h) {
+        switch (_h.label) {
+          case 0:
+            data = payload.data, characteristicId = payload.characteristicId;
+
+            if (characteristicId === WspDualScaleMesProfle$1.UUID_SN) {
+              sn = '';
+
+              try {
+                // eslint-disable-next-line no-restricted-syntax
+                for (_e = __values(payload.data), _f = _e.next(); !_f.done; _f = _e.next()) {
+                  num = _f.value;
+                  item = String.fromCharCode(num);
+                  sn += item;
+                }
+              } catch (e_2_1) {
+                e_2 = {
+                  error: e_2_1
+                };
+              } finally {
+                try {
+                  if (_f && !_f.done && (_g = _e["return"])) _g.call(_e);
+                } finally {
+                  if (e_2) throw e_2.error;
+                }
+              }
+
+              (_b = (_a = this.listener).onGetSnCode) === null || _b === void 0 ? void 0 : _b.call(_a, {
+                sn: sn
+              });
+
+              if (this.operation.action === QNBleAction.MES_READ_SN) {
+                (_d = (_c = this.listener).onDeviceStateChange) === null || _d === void 0 ? void 0 : _d.call(_c, {
+                  behavior: MesBehavior.STOP_READ_SN
+                });
+              }
+            }
+
+            if (!this.currentFlow) return [3
+            /*break*/
+            , 2];
+            return [4
+            /*yield*/
+            , this.currentFlow.decode(payload)];
+
+          case 1:
+            _h.sent();
+
+            _h.label = 2;
+
+          case 2:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /************  删除工位  *************/
+
+  /**
+   * 删除工位 0x41
+   * 0x00 所有工位 0x01 模块测试 0x02 半成品
+   * 0x04 标定工位 0x08 重量回检 0x10 偏载  0x02 写型号
+   */
+
+
+  WspDualScaleMesProtocol.prototype.resetStation = function (station) {// this.writeCmd(this.getProduceUUID().serviceUUID, this.getProduceUUID().writeUUID, 0xFD, [0x41, station])
+  };
+
+  WspDualScaleMesProtocol.prototype.getCurrentFlow = function () {
+    return this.currentFlow;
+  };
+
+  WspDualScaleMesProtocol.bleProfile = new WspDualScaleMesProfle$1();
+  WspDualScaleMesProtocol.WspMes = WspMes;
+  return WspDualScaleMesProtocol;
+}(QNBleProtocol);
+
+var SECOND_2000_YEAR$1 = 946656000;
+/**
+ * 是否是心率秤
+ * @param {number} scaleType
+ */
+
+function isHeartRateScale$1(scaleType) {
+  return scaleType === 0x21;
+}
+
+function buildCmd$2(cmd, deviceType) {
+  var data = [];
+
+  for (var _i = 2; _i < arguments.length; _i++) {
+    data[_i - 2] = arguments[_i];
+  }
+
+  var cmdData = __spread([cmd, data.length + 4, deviceType], data); // writeData会自动添加和计算校验位
+  // return addChecksum(cmdData);
+
+
+  return cmdData;
+}
+
+var NormalBleScaleBleProfle =
+/** @class */
+function () {
+  function NormalBleScaleBleProfle() {
+    this.defaultAction = QNBleAction.MEASURE_WEIGHT;
+    this.type = QNBleDeviceType.NORMAL_BLE_SCALE;
+    this.transferType = QNBleTransferType.BLE;
+  }
+
+  NormalBleScaleBleProfle.prototype.isTargetDevice = function (nativeDevice) {
+    var bleName = nativeDevice.bluetoothName;
+
+    if (bleName === 'QN-Scale' || bleName === 'QN-Scale1' || bleName === 'ZT-Scale1' || // 接入华为运动健康和智慧生活的秤
+    // 华为hilink的秤的蓝牙名都以Hi-开头
+    /^Hi-/.test(bleName)) {
+      return nativeDevice.manufacturer.length < 19;
+    }
+
+    return false;
+  };
+
+  NormalBleScaleBleProfle.prototype.buildTargetDevice = function (nativeDevice) {
+    if (!this.isTargetDevice(nativeDevice)) {
+      return null;
+    }
+
+    var manufacturer = nativeDevice.manufacturer;
+
+    if (manufacturer.length === 0) {
+      return {};
+    }
+
+    var macs = [number2hex(manufacturer[12]), number2hex(manufacturer[11]), number2hex(manufacturer[10]), number2hex(manufacturer[9]), number2hex(manufacturer[8]), number2hex(manufacturer[7])];
+    return {
+      isScreenOn: manufacturer[5] !== 1,
+      modelId: number2hex(manufacturer[2]) + number2hex(manufacturer[3]),
+      mac: macs.join(':')
+    };
+  };
+
+  return NormalBleScaleBleProfle;
+}();
+
+var NormalBleScaleProtocol$1 =
+/** @class */
+function (_super) {
+  __extends(NormalBleScaleProtocol, _super);
+
+  function NormalBleScaleProtocol() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.UUID_IBT_SERVICE = 'FFE0';
+    _this.UUID_IBT_READ = 'FFE1';
+    _this.UUID_IBT_WRITE = 'FFE3';
+    _this.UUID_IBT_SERVICES_1 = 'FFF0';
+    _this.UUID_IBT_READ_1 = 'FFF1';
+    _this.UUID_IBT_WRITE_1 = 'FFF2';
+    _this.hasReceived = false;
+    _this.lastWeightTime = 0;
+    _this.isHoltk = false;
+    return _this;
+  }
+
+  Object.defineProperty(NormalBleScaleProtocol.prototype, "serviceId", {
+    get: function get() {
+      return this.isHoltk ? this.UUID_IBT_SERVICES_1 : this.UUID_IBT_SERVICE;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(NormalBleScaleProtocol.prototype, "characteristicReadId", {
+    get: function get() {
+      return this.isHoltk ? this.UUID_IBT_READ_1 : this.UUID_IBT_READ;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(NormalBleScaleProtocol.prototype, "characteristicWriteId", {
+    get: function get() {
+      return this.isHoltk ? this.UUID_IBT_WRITE_1 : this.UUID_IBT_WRITE;
+    },
+    enumerable: false,
+    configurable: true
+  });
+
+  NormalBleScaleProtocol.prototype.prepare = function () {
+    var _this = this; // 集成业务类
+
+
+    this.instanceScaleBiz();
+    var deviceId = this.bleDevice.deviceId;
+    return this.bleNative.findService(deviceId).then(function (services) {
+      _this.log('获取到蓝牙服务列表', services); // 查找服务特征值方案
+
+
+      services.some(function (service) {
+        if (service.characteristicId === _this.UUID_IBT_SERVICES_1) {
+          _this.isHoltk = true;
+          return true;
+        }
+
+        return false;
+      });
+
+      _this.log('deviceId', deviceId, 'serviceId', _this.serviceId);
+
+      return timeoutPromise(100).then(function () {
+        return _this.bleNative.findBleDeviceCharacteristics(deviceId, _this.serviceId);
+      });
+    }).then(function () {
+      _this.log('发现特征值成功'); // 使能特征值
+
+
+      return _this.bleNative.enableNotify(deviceId, _this.serviceId, _this.characteristicReadId)["catch"](function (err) {
+        // 如果是华为运动健康的hilink，则再尝试使用另一套serviceId
+        // 后续华为可能会支持返回service的uuid列表
+        if (_this.bleNative.name === 'QNBleNativeHuaWeiHilink') {
+          _this.isHoltk = true;
+          return _this.bleNative.enableNotify(deviceId, _this.serviceId, _this.characteristicReadId);
+        }
+
+        throw err;
+      });
+    })["catch"](function (err) {
+      _this.log('prepare出错', err);
+
+      throw err;
+    });
+  };
+  /**
+   * @override
+   * @param {QNBleTypings.TypedCharacteristicValueChangePayload} payload
+   */
+
+
+  NormalBleScaleProtocol.prototype.decode = function (payload) {
+    var _a, _b, _c, _d;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var data, scaleType, _e, isSupportJin, isSupportSt, unitByte, weight, differ, timeData, i;
+
+      return __generator(this, function (_f) {
+        switch (_f.label) {
+          case 0:
+            data = payload.data;
+            scaleType = data[2];
+            _e = data[0];
+
+            switch (_e) {
+              case 0x12:
+                return [3
+                /*break*/
+                , 1];
+
+              case 0x10:
+                return [3
+                /*break*/
+                , 3];
+
+              case 0x14:
+                return [3
+                /*break*/
+                , 11];
+            }
+
+            return [3
+            /*break*/
+            , 13];
+
+          case 1:
+            this.scaleBizImp.weightScale = (data[10] & 0x01) === 1 ? 100 : 10;
+            this.lastWeightTime = 0;
+            isSupportJin = (data[10] >> 1 & 3) > 0;
+            isSupportSt = (data[10] >> 1 & 3) === 2;
+            unitByte = 1;
+
+            switch (this.operation.unit) {
+              case QNBleUnit.LB:
+                unitByte = 2;
+                break;
+
+              case QNBleUnit.JIN:
+                unitByte = isSupportJin ? 4 : 1;
+                break;
+
+              case QNBleUnit.ST:
+                unitByte = isSupportSt ? 8 : 2;
+                break;
+            }
+
+            (_b = (_a = this.listener).onGetDeviceInfo) === null || _b === void 0 ? void 0 : _b.call(_a, {
+              deviceId: this.bleDevice.deviceId,
+              info: {
+                fwVersion: data[9],
+                bleVersion: data[11]
+              }
+            });
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: buildCmd$2(0x13, scaleType, unitByte, 0x10, 0x00, 0x00, 0x00)
+            })];
+
+          case 2:
+            _f.sent();
+
+            return [3
+            /*break*/
+            , 14];
+
+          case 3:
+            weight = this.scaleBizImp.decodeWeight(data[3], data[4]);
+            if (!(data[5] === 0)) return [3
+            /*break*/
+            , 4];
+            this.log('收到不稳数据', weight);
+            this.lastWeightTime = weight === 0 ? 0 : new Date().getTime();
+            (_d = (_c = this.listener).onGetUnsteadyWeight) === null || _d === void 0 ? void 0 : _d.call(_c, {
+              weight: weight
+            }); // 重置是否有测量数据的标识
+
+            this.hasReceived = false;
+            return [3
+            /*break*/
+            , 10];
+
+          case 4:
+            if (!(data[5] === 1)) return [3
+            /*break*/
+            , 8];
+            if (!isHeartRateScale$1(scaleType)) return [3
+            /*break*/
+            , 5];
+            return [3
+            /*break*/
+            , 7];
+
+          case 5:
+            return [4
+            /*yield*/
+            , this.dispatchSteadyData(weight, data)];
+
+          case 6:
+            _f.sent();
+
+            _f.label = 7;
+
+          case 7:
+            return [3
+            /*break*/
+            , 10];
+
+          case 8:
+            if (!(data[5] === 2)) return [3
+            /*break*/
+            , 10];
+            return [4
+            /*yield*/
+            , this.dispatchSteadyData(weight, data)];
+
+          case 9:
+            _f.sent();
+
+            _f.label = 10;
+
+          case 10:
+            return [3
+            /*break*/
+            , 14];
+
+          case 11:
+            if (!this.isHoltk) {
+              return [2
+              /*return*/
+              ];
+            }
+
+            differ = Date.now() / 1000 - SECOND_2000_YEAR$1;
+            timeData = [];
+
+            for (i = 0; i < 4; i += 1) {
+              timeData.push(differ >> i * 8);
+            }
+
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: buildCmd$2(0x20, scaleType, timeData[0], timeData[1], timeData[2], timeData[3])
+            })];
+
+          case 12:
+            _f.sent();
+
+            return [3
+            /*break*/
+            , 14];
+
+          case 13:
+            return [3
+            /*break*/
+            , 14];
+
+          case 14:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  NormalBleScaleProtocol.prototype.dispatchSteadyData = function (weight, data) {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var scaleType, sendCmd, testTime, hasResistance, resistance50, resistance500, scaleData;
+      return __generator(this, function (_c) {
+        switch (_c.label) {
+          case 0:
+            scaleType = data[2];
+            sendCmd = buildCmd$2(0x1f, scaleType, 0x10);
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: sendCmd
+            })];
+
+          case 1:
+            _c.sent();
+
+            if (this.hasReceived) {
+              // 已经收到稳定数据，不再处理
+              return [2
+              /*return*/
+              , Promise.resolve()];
+            }
+
+            this.hasReceived = true;
+            testTime = new Date().getTime() - this.lastWeightTime;
+            hasResistance = Number(testTime > 4000);
+            resistance50 = decodeInteger(data[6], data[7]);
+            resistance500 = decodeInteger(data[8], data[9]);
+            scaleData = {
+              weight: weight,
+              resistance50: resistance50,
+              resistance500: resistance500,
+              hasResistance: hasResistance
+            };
+
+            if (data[5] === 2) {
+              Object.assign(scaleData, {
+                heartRate: data[10]
+              });
+            }
+
+            this.log('称重结束', scaleData);
+            (_b = (_a = this.listener).onGetScaleData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+              scaleData: scaleData
+            });
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  NormalBleScaleProtocol.bleProfle = new NormalBleScaleBleProfle();
+  return NormalBleScaleProtocol;
+}(QNBleBaseScaleProtocol);
+
+var ThermometerProtocolProfile =
+/** @class */
+function () {
+  function ThermometerProtocolProfile() {
+    this.defaultAction = QNBleAction.MEASURE;
+    this.type = QNBleDeviceType.THERMOMETER;
+    this.transferType = QNBleTransferType.BLE;
+  }
+
+  ThermometerProtocolProfile.prototype.isTargetDevice = function (nativeDevice) {
+    return nativeDevice.bluetoothName === 'QN-Thermo';
+  };
+
+  ThermometerProtocolProfile.prototype.buildTargetDevice = function (nativeDevice) {
+    if (!this.isTargetDevice(nativeDevice)) {
+      return null;
+    }
+
+    var manufacturer = nativeDevice.manufacturer;
+    var macs = [number2hex(manufacturer[9]), number2hex(manufacturer[8]), number2hex(manufacturer[7]), number2hex(manufacturer[6]), number2hex(manufacturer[5]), number2hex(manufacturer[4])];
+    return {
+      modelId: number2hex(manufacturer[2]) + number2hex(manufacturer[3]),
+      mac: macs.join(':')
+    };
+  };
+
+  return ThermometerProtocolProfile;
+}();
+
+var ThermometerProtocol =
+/** @class */
+function (_super) {
+  __extends(ThermometerProtocol, _super);
+
+  function ThermometerProtocol() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.UUID_IBT_SERVICE = '0000FFF0-0000-1000-8000-00805F9B34FB';
+    _this.UUID_IBT_READ = '0000FFF1-0000-1000-8000-00805F9B34FB';
+    _this.UUID_IBT_WRITE = '0000FFF2-0000-1000-8000-00805F9B34FB'; // 蓝牙配对
+
+    _this.UUID_COMPAIRE_READ = '0000FFF3-0000-1000-8000-00805F9B34FB';
+    _this.UUID_COMPAIRE_WRITE = '0000FFF4-0000-1000-8000-00805F9B34FB'; // 配对状态
+
+    _this.blePaireStatus = 0; // 历史数据总数
+
+    _this.historyCount = 0; // 记录收到的上一条历史数据。做去重对比
+
+    _this.lastReceivedHistoryData = {}; // 是否取消了数据同步，一旦取消就不再接收后续数据
+
+    _this.isCancelHistoryData = false; // 当前已接收的历史数据序号
+
+    _this.currentRecivedHistoryDataNo = 0;
+    _this.wifiInfoCache = {
+      rssi: 0,
+      ssid: []
+    }; // 上一次收到的完整的wifi ssid数据包
+
+    _this.lastReceivedWifiIno = {}; // 上一包接受的wifi ssid序号
+
+    _this.lastReceivedWifiSsidPackNo = 0; // 当前执行配网命令的包的序号
+
+    _this.currentSetWifiCmdNo = 0; // wifi账号指令数据
+
+    _this.ssidCmdData = []; // wifi密码指令数据
+
+    _this.pwdCmdData = []; // 数据服务地址指令数据
+
+    _this.dataServerUrlData = []; // OTA升级地址指令数据
+
+    _this.otaServerUrlData = []; // 秘钥指令数据
+
+    _this.encryptKeyCmdData = [];
+    return _this;
+  }
+
+  Object.defineProperty(ThermometerProtocol.prototype, "action", {
+    get: function get() {
+      return this.operation.action || ThermometerProtocol.bleProfile.defaultAction;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  /**
+   * @override
+   */
+
+  ThermometerProtocol.prototype.prepare = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      var deviceId, services;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            deviceId = this.bleDevice.deviceId;
+            return [4
+            /*yield*/
+            , timeoutPromise(200)];
+
+          case 1:
+            _a.sent();
+
+            return [4
+            /*yield*/
+            , this.bleNative.findService(deviceId)];
+
+          case 2:
+            services = _a.sent();
+            return [4
+            /*yield*/
+            , timeoutPromise(200)];
+
+          case 3:
+            _a.sent();
+
+            this.log('获取到蓝牙服务列表', services);
+            return [4
+            /*yield*/
+            , this.bleNative.findBleDeviceCharacteristics(deviceId, this.serviceId)];
+
+          case 4:
+            _a.sent(); // if ([
+            //   QNBleAction.SP_SYNC_CURRENT_DATA,
+            //   QNBleAction.SP_SYNC_HISTORY_DATA,
+            // ].includes(this.operation.action)) {
+            // }
+
+
+            this.log('发现特征值成功，使能特征值', 'deviceId', deviceId, 'serviceId', this.serviceId, 'characteristicId', this.characteristicReadId);
+            return [4
+            /*yield*/
+            , timeoutPromise(200)];
+
+          case 5:
+            _a.sent();
+
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(deviceId, this.serviceId, this.characteristicReadId)];
+
+          case 6:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /**
+   * @override
+   * @param {QNBleTypings.TypedCharacteristicValueChangePayload} payload
+   */
+
+
+  ThermometerProtocol.prototype.decode = function (payload) {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var data, _c, status_1;
+
+      return __generator(this, function (_d) {
+        switch (_d.label) {
+          case 0:
+            data = payload.data;
+            _d.label = 1;
+
+          case 1:
+            _d.trys.push([1,, 14, 15]);
+
+            _c = data[0];
+
+            switch (_c) {
+              case 0x12:
+                return [3
+                /*break*/
+                , 2];
+
+              case 0x10:
+                return [3
+                /*break*/
+                , 6];
+
+              case 0xA0:
+                return [3
+                /*break*/
+                , 10];
+            }
+
+            return [3
+            /*break*/
+            , 12];
+
+          case 2:
+            if (!(this.lastCmd !== 0x12)) return [3
+            /*break*/
+            , 4];
+            return [4
+            /*yield*/
+            , this.getDeviceInfo(data)];
+
+          case 3:
+            _d.sent();
+
+            return [3
+            /*break*/
+            , 5];
+
+          case 4:
+            this.log('收到重复的0x12命令数据，舍弃');
+            _d.label = 5;
+
+          case 5:
+            return [3
+            /*break*/
+            , 13];
+
+          case 6:
+            if (!(this.lastCmd !== 0x10)) return [3
+            /*break*/
+            , 8];
+            return [4
+            /*yield*/
+            , this.onRecieveCurrentData(data)];
+
+          case 7:
+            _d.sent();
+
+            return [3
+            /*break*/
+            , 9];
+
+          case 8:
+            this.log('收到重复的0x10命令数据，舍弃');
+            _d.label = 9;
+
+          case 9:
+            return [3
+            /*break*/
+            , 13];
+
+          case 10:
+            status_1 = data[2];
+            this.blePaireStatus = status_1;
+            (_b = (_a = this.listener).onGetBlePaireStatus) === null || _b === void 0 ? void 0 : _b.call(_a, status_1);
+            return [4
+            /*yield*/
+            , this.writeData({
+              characteristicId: this.UUID_COMPAIRE_WRITE,
+              cmdData: [0xA1, 4, 1]
+            })];
+
+          case 11:
+            _d.sent();
+
+            return [3
+            /*break*/
+            , 13];
+
+          case 12:
+            return [3
+            /*break*/
+            , 13];
+
+          case 13:
+            return [3
+            /*break*/
+            , 15];
+
+          case 14:
+            this.lastCmd = data[0];
+            return [7
+            /*endfinally*/
+            ];
+
+          case 15:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  ThermometerProtocol.prototype.getDeviceInfo = function (data) {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var macs, modelId, modeByte;
+      return __generator(this, function (_c) {
+        switch (_c.label) {
+          case 0:
+            macs = [number2hex(data[10]), number2hex(data[9]), number2hex(data[8]), number2hex(data[7]), number2hex(data[6]), number2hex(data[5])];
+            modelId = number2hex(data[11]) + number2hex(data[12]);
+            modeByte = data[2];
+            (_b = (_a = this.listener).onGetDeviceInfo) === null || _b === void 0 ? void 0 : _b.call(_a, {
+              deviceId: this.bleDevice.deviceId,
+              info: {
+                mac: macs.join(':'),
+                modelId: modelId,
+                deviceStatus: {
+                  unit: modeByte >> 3 & 1,
+                  mode: modeByte >> 4 & 15
+                },
+                historyCount: 0,
+                softwareVersion: data[13],
+                bleVersion: data[14],
+                bleProtocolVersion: data[15]
+              }
+            }); // 准备回复13命令
+
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x13, 0x04, 0x01]
+            })];
+
+          case 1:
+            // 准备回复13命令
+            _c.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /**
+   * 同步当前数据
+   */
+
+
+  ThermometerProtocol.prototype.onRecieveCurrentData = function (data) {
+    var _a, _b;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var modeByte, value;
+      return __generator(this, function (_c) {
+        switch (_c.label) {
+          case 0:
+            modeByte = data[2];
+            value = Number.parseInt(number2hex(data[3]) + number2hex(data[4]), 16) / 10;
+            return [4
+            /*yield*/
+            , (_b = (_a = this.listener).onGetCurrentData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+              value: value,
+              unit: modeByte >> 3 & 1,
+              mode: modeByte >> 4 & 15
+            })];
+
+          case 1:
+            _c.sent();
+
+            return [4
+            /*yield*/
+            , this.writeData({
+              cmdData: [0x1F, 0x04, 0x10]
+            })];
+
+          case 2:
+            _c.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+  /**
+   * 准备蓝牙配对
+   */
+
+
+  ThermometerProtocol.prototype.prepareBlePaire = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            this.log('使能蓝牙配对');
+            return [4
+            /*yield*/
+            , this.bleNative.enableNotify(this.bleDevice.deviceId, this.UUID_IBT_SERVICE, this.UUID_COMPAIRE_READ)];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  ThermometerProtocol.bleProfile = new ThermometerProtocolProfile();
+  return ThermometerProtocol;
 }(QNBleProtocol);
 
 var QNBleProtocols = {
@@ -9073,8 +11118,11 @@ var QNBleProtocols = {
   ShareScaleProtocol: ShareScaleProtocol,
   WspDualScaleMesProtocol: WspDualScaleMesProtocol,
   SphygmomanometerProtocol: SphygmomanometerProtocol,
-  bleKitchenScaleProtocol: BleKitchenScaleProtocol,
-  broadcastKitchenScaleProtocol: BroadcastKitchenScaleProtocol
+  ThermometerProtocol: ThermometerProtocol,
+  BleKitchenScaleProtocol: BleKitchenScaleProtocol,
+  BroadcastKitchenScaleProtocol: BroadcastKitchenScaleProtocol,
+  FasciaGunMCUProtocol: FasciaGunMCUProtocol,
+  NormalBleScaleMesProtocol: NormalBleScaleProtocol$1
 };
 
 var QNEvent =
@@ -9349,10 +11397,10 @@ function () {
     this.isWspScale = false;
     this.Protocol = protocol;
     this.nativeDevice = nativeDevice;
-    var moreData = protocol.bleProfle.buildTargetDevice(nativeDevice);
+    var moreData = protocol.bleProfile.buildTargetDevice(nativeDevice);
     Object.assign(this, {
-      type: (_a = moreData.type) !== null && _a !== void 0 ? _a : protocol.bleProfle.type,
-      transferType: protocol.bleProfle.transferType,
+      type: (_a = moreData.type) !== null && _a !== void 0 ? _a : protocol.bleProfile.type,
+      transferType: protocol.bleProfile.transferType,
       manufacturer: nativeDevice.manufacturer,
       rssi: nativeDevice.rssi,
       name: nativeDevice.bluetoothName,
@@ -9388,7 +11436,7 @@ function () {
     return this.records.get(deviceId) || null;
   };
 
-  QNProtocolManager.prototype.addProtocol = function (protocolImp) {
+  QNProtocolManager.prototype.setProtocol = function (protocolImp) {
     return this.records.set(protocolImp.bleDevice.deviceId, protocolImp);
   };
 
@@ -9415,7 +11463,202 @@ function () {
   return QNProtocolManager;
 }();
 
-var version$1 = '0.1.0';
+var version$1 = '1.1.0';
+
+/* eslint-disable max-len */
+var http = {
+  /**
+   * js封装ajax请求
+   * >>使用new XMLHttpRequest 创建请求对象,所以不考虑低端IE浏览器(IE6及以下不支持XMLHttpRequest)
+   * >>使用es6语法,如果需要在正式环境使用,则可以用babel转换为es5语法 https://babeljs.cn/docs/setup/#installation
+   *  @param settings 请求参数模仿jQuery ajax
+   *  调用该方法,data参数需要和请求头Content-Type对应
+   *  Content-Type                        data                                     描述
+   *  application/x-www-form-urlencoded   'name=哈哈&age=12'或{name:'哈哈',age:12}  查询字符串,用&分割
+   *  application/json                     name=哈哈&age=12'                        json字符串
+   *  multipart/form-data                  new FormData()                           FormData对象,当为FormData类型,不要手动设置Content-Type
+   *  注意:请求参数如果包含日期类型.是否能请求成功需要后台接口配合
+   */
+  ajax: function ajax(settings) {
+    var e_1, _a;
+
+    if (settings === void 0) {
+      settings = {};
+    } // 初始化请求参数
+
+
+    var _s = __assign({
+      url: '',
+      type: 'GET',
+      responseType: 'json',
+      async: true,
+      data: null,
+      headers: {},
+      timeout: 20000,
+      beforeSend: function beforeSend(_xhr) {},
+      success: function success(_result, _status, _xhr) {},
+      error: function error(_xhr, _status, _error) {},
+      complete: function complete(_xhr, _status) {}
+    }, settings); // 参数验证
+
+
+    if (!_s.url || !_s.type || !_s.responseType) {
+      // eslint-disable-next-line no-alert
+      alert('参数有误');
+      return;
+    } // 创建XMLHttpRequest请求对象
+
+
+    var xhr = new XMLHttpRequest(); // 请求开始回调函数
+
+    xhr.addEventListener('loadstart', function (_e) {
+      _s.beforeSend(xhr);
+    }); // 请求成功回调函数
+
+    xhr.addEventListener('load', function (e) {
+      var status = xhr.status;
+
+      if (status >= 200 && status < 300 || status === 304) {
+        var result = void 0;
+
+        if (xhr.responseType === 'text') {
+          result = xhr.responseText;
+        } else if (xhr.responseType === 'document') {
+          result = xhr.responseXML;
+        } else {
+          result = xhr.response;
+        } // 注意:状态码200表示请求发送/接受成功,不表示业务处理成功
+
+
+        _s.success(result, status, xhr);
+      } else {
+        _s.error(xhr, status, e);
+      }
+    }); // 请求结束
+
+    xhr.addEventListener('loadend', function (_e) {
+      _s.complete(xhr, xhr.status);
+    }); // 请求出错
+
+    xhr.addEventListener('error', function (e) {
+      _s.error(xhr, xhr.status, e);
+    }); // 请求超时
+
+    xhr.addEventListener('timeout', function (e) {
+      _s.error(xhr, 408, e);
+    });
+    var useUrlParam = false;
+
+    var sType = _s.type.toUpperCase(); // 如果是"简单"请求,则把data参数组装在url上
+
+
+    if (sType === 'GET' || sType === 'DELETE') {
+      useUrlParam = true;
+      _s.url += http.getUrlParam(_s.url, _s.data);
+    }
+
+    if (sType === 'POST' || sType === 'PUT') {
+      _s.headers = __assign({
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      }, _s.headers);
+    } // 初始化请求
+
+
+    xhr.open(_s.type, _s.url, _s.async); // 设置期望的返回数据类型
+
+    xhr.responseType = _s.responseType;
+
+    try {
+      // 设置请求头
+      // eslint-disable-next-line no-restricted-syntax
+      for (var _b = __values(Object.keys(_s.headers)), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var key = _c.value; // @ts-ignore
+
+        xhr.setRequestHeader(key, _s.headers[key]);
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    } // 设置超时时间
+
+
+    if (_s.async && _s.timeout) {
+      xhr.timeout = _s.timeout;
+    } // sysConsole({ type: 'log', label: 'http::ajax' }, _s);
+    // 发送请求.如果是简单请求,请求参数应为null.否则,请求参数类型需要和请求头Content-Type对应
+
+
+    xhr.send(useUrlParam ? null : http.getQueryData(_s.data));
+  },
+  ajaxPromise: function ajaxPromise(settings) {
+    if (settings === void 0) {
+      settings = {};
+    }
+
+    return new Promise(function (resolve, reject) {
+      http.ajax(__assign(__assign({}, settings), {
+        success: function success(res) {
+          resolve(res);
+        },
+        error: function error(_xhr, _status, _error2) {
+          // eslint-disable-next-line prefer-promise-reject-errors
+          reject({
+            xhr: _xhr,
+            status: _status,
+            detail: _error2
+          });
+        }
+      }));
+    });
+  },
+  // 把参数data转为url查询参数
+  getUrlParam: function getUrlParam(url, data) {
+    if (!data) {
+      return '';
+    }
+
+    var paramsStr = data instanceof Object ? http.getQueryString(data) : data;
+    return url.indexOf('?') !== -1 ? paramsStr : "?" + paramsStr;
+  },
+  // 获取ajax请求参数
+  getQueryData: function getQueryData(data) {
+    if (!data) {
+      return null;
+    }
+
+    if (typeof data === 'string') {
+      return data;
+    }
+
+    if (data instanceof FormData) {
+      return data;
+    }
+
+    return http.getQueryString(data);
+  },
+  // 把对象转为查询字符串
+  getQueryString: function getQueryString(data) {
+    var paramsArr = [];
+
+    if (data instanceof Object) {
+      Object.keys(data).forEach(function (key) {
+        // @ts-ignore
+        var val = data[key]; // todo 参数Date类型需要根据后台api酌情处理
+
+        paramsArr.push(encodeURIComponent(key) + "=" + encodeURIComponent(val));
+      });
+    }
+
+    return paramsArr.join('&');
+  }
+};
 
 function createError(err, type) {
   if (type === void 0) {
@@ -9521,7 +11764,7 @@ function (_super) {
 
     _this.bleNativeListener = {
       onNativeBluetoothEnableChange: function onNativeBluetoothEnableChange(available) {
-        _this.onbleEnableChange(available);
+        _this.onBleEnableChange(available);
       },
       onNativeStartDiscoveryDevice: function onNativeStartDiscoveryDevice() {
         _this.onStartScan();
@@ -9543,11 +11786,16 @@ function (_super) {
           var bleDevice = _this.protocolManager.getProtocol(deviceId).bleDevice;
 
           _this.onDisconnected(bleDevice);
+        } else {
+          _this.onDisconnected(null);
         }
       },
       onNativeConnectOverTime: function onNativeConnectOverTime(deviceId) {
         var _a, _b; // this.dispatch('connect_overtime', deviceId);
+        // 卸载协议，否则重连会有问题
 
+
+        _this.unmountProtocol(deviceId);
 
         (_b = (_a = _this.bleEventListener).onConnectOverTime) === null || _b === void 0 ? void 0 : _b.call(_a, {
           deviceId: deviceId
@@ -9721,6 +11969,21 @@ function (_super) {
       });
     });
   };
+  /**
+   * 释放蓝牙相关资源，调用该方法后，再使用蓝牙时，需要重新调用init
+   */
+
+
+  QNBle.prototype.releaseBleSource = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        this.bleNative.release && this.bleNative.release();
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
 
   QNBle.prototype._onError = function (error) {
     // this.dispatch('error', error);
@@ -9833,7 +12096,11 @@ function (_super) {
    */
 
 
-  QNBle.prototype.startBleDeviceDiscovery = function () {
+  QNBle.prototype.startBleDeviceDiscovery = function (params) {
+    if (params === void 0) {
+      params = {};
+    }
+
     return __awaiter(this, void 0, void 0, function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
@@ -9869,7 +12136,7 @@ function (_super) {
           case 4:
             return [4
             /*yield*/
-            , this.bleNative.startScan()];
+            , this.bleNative.startScan(params)];
 
           case 5:
             _a.sent();
@@ -9963,6 +12230,11 @@ function (_super) {
             }
 
             p = this.prepareProtocol(bleDevice, operation, listener);
+
+            if (!bleDevice.transferType) {
+              throw new Error('协议缺少transferType');
+            }
+
             if (!(bleDevice.transferType === QNBleTransferType.BLE)) return [3
             /*break*/
             , 9];
@@ -10004,18 +12276,21 @@ function (_super) {
           case 8:
             error_1 = _a.sent(); // 卸载协议
 
-            this.protocolManager.removeProtocol(bleDevice.deviceId);
+            this.unmountProtocol(bleDevice.deviceId);
             throw error_1;
 
           case 9:
             if (!(bleDevice.transferType === QNBleTransferType.BROADCAST)) return [3
             /*break*/
-            , 15];
+            , 16];
             _a.label = 10;
 
           case 10:
-            _a.trys.push([10, 12,, 13]);
+            _a.trys.push([10, 13,, 14]);
 
+            if (!!this.bleScannerState) return [3
+            /*break*/
+            , 12];
             return [4
             /*yield*/
             , this.startBleDeviceDiscovery()];
@@ -10023,29 +12298,32 @@ function (_super) {
           case 11:
             _a.sent();
 
-            return [3
-            /*break*/
-            , 13];
+            _a.label = 12;
 
           case 12:
-            error_2 = _a.sent(); // 卸载协议
-
-            this.protocolManager.removeProtocol(bleDevice.deviceId);
-            throw error_2;
+            return [3
+            /*break*/
+            , 14];
 
           case 13:
+            error_2 = _a.sent(); // 卸载协议
+
+            this.unmountProtocol(bleDevice.deviceId);
+            throw error_2;
+
+          case 14:
             // 这里就当做广播秤连接了
             return [4
             /*yield*/
             , this.onConnected(bleDevice.deviceId)];
 
-          case 14:
+          case 15:
             // 这里就当做广播秤连接了
             _a.sent();
 
-            _a.label = 15;
+            _a.label = 16;
 
-          case 15:
+          case 16:
             // @ts-ignore
             return [2
             /*return*/
@@ -10056,7 +12334,7 @@ function (_super) {
   };
 
   QNBle.prototype.prepareProtocol = function (bleDevice, operation, listener) {
-    this.log('prepareProtocol', bleDevice, operation); // 添加蓝牙协议实例
+    this.log('[QNBle] prepareProtocol', bleDevice, operation); // 添加蓝牙协议实例
 
     var protocolImp = new bleDevice.Protocol({
       bleNative: this.bleNative,
@@ -10066,8 +12344,8 @@ function (_super) {
       listener: listener,
       eventManager: this.eventManager
     });
-    this.protocolManager.addProtocol(protocolImp);
-    this.log('protocolManager', this.protocolManager);
+    this.protocolManager.setProtocol(protocolImp);
+    this.log('[QNBle] protocolManager', this.protocolManager);
     return protocolImp;
   };
   /**
@@ -10091,12 +12369,16 @@ function (_super) {
 
             if (!(bleDevice.transferType === QNBleTransferType.BLE)) return [3
             /*break*/
-            , 2];
+            , 2]; // 在这里卸载协议吧，有时并不一定会收到 onDisconnectd 回调
+            // this.unmountProtocol(bleDevice.deviceId);
+
             return [4
             /*yield*/
             , this.bleNative.closeBleConnection(bleDevice)];
 
           case 1:
+            // 在这里卸载协议吧，有时并不一定会收到 onDisconnectd 回调
+            // this.unmountProtocol(bleDevice.deviceId);
             _a.sent();
 
             return [3
@@ -10170,7 +12452,7 @@ function (_super) {
             /*break*/
             , 8];
             protocolImp = _b.value;
-            this.log("\u5728stop\u4E2D\u65AD\u5F00(" + protocolImp.bleDevice.deviceId + ":" + protocolImp.bleDevice.name + ")\u8FDE\u63A5"); // eslint-disable-next-line no-await-in-loop
+            this.log("\u5728stop\u4E2D\u65AD\u5F00(" + protocolImp.bleDevice.deviceId + "-" + protocolImp.bleDevice.name + ")\u8FDE\u63A5"); // eslint-disable-next-line no-await-in-loop
 
             return [4
             /*yield*/
@@ -10231,7 +12513,7 @@ function (_super) {
     });
   };
 
-  QNBle.prototype.onbleEnableChange = function (available) {
+  QNBle.prototype.onBleEnableChange = function (available) {
     var _a, _b;
 
     this.log('[QNBle]: 蓝牙状态发生了变化', available); // this.createConnectionOperationMap.clear();
@@ -10304,52 +12586,63 @@ function (_super) {
 
 
   QNBle.prototype.onConnected = function (deviceId) {
-    var _a, _b;
+    var _a, _b, _c;
 
     return __awaiter(this, void 0, void 0, function () {
       var protocolImp, err_1;
-      return __generator(this, function (_c) {
-        switch (_c.label) {
+      return __generator(this, function (_d) {
+        switch (_d.label) {
           case 0:
             // 蓝牙秤的连接处理
             this.log('设备连接成功', deviceId);
             protocolImp = this.protocolManager.getProtocol(deviceId);
-            this.log('protocolImp', this.protocolManager);
-            _c.label = 1;
+            return [4
+            /*yield*/
+            , (_a = this.protocolInterceptor) === null || _a === void 0 ? void 0 : _a.call(this, {
+              bleNative: this.bleNative,
+              ctx: this,
+              protocolImp: protocolImp
+            })];
 
           case 1:
-            _c.trys.push([1, 4,, 5]);
+            // 替换协议实例
+            protocolImp = _d.sent() || protocolImp;
+            _d.label = 2;
+
+          case 2:
+            _d.trys.push([2, 5,, 6]);
 
             if (!protocolImp) return [3
             /*break*/
-            , 3];
-            (_b = (_a = this.bleEventListener).onConnected) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            , 4];
+            this.protocolManager.setProtocol(protocolImp);
+            (_c = (_b = this.bleEventListener).onConnected) === null || _c === void 0 ? void 0 : _c.call(_b, {
               deviceId: deviceId
             });
             return [4
             /*yield*/
             , protocolImp.prepare()];
 
-          case 2:
-            _c.sent();
-
-            _c.label = 3;
-
           case 3:
-            return [3
-            /*break*/
-            , 5];
+            _d.sent();
+
+            _d.label = 4;
 
           case 4:
-            err_1 = _c.sent();
+            return [3
+            /*break*/
+            , 6];
+
+          case 5:
+            err_1 = _d.sent();
 
             this._onError(new QNBleError(QNBleErrorType.UNKNOW_ERROR, err_1));
 
             return [3
             /*break*/
-            , 5];
+            , 6];
 
-          case 5:
+          case 6:
             return [2
             /*return*/
             ];
@@ -10364,15 +12657,22 @@ function (_super) {
 
 
   QNBle.prototype.onDisconnected = function (bleDevice) {
-    var _a, _b;
+    var _a, _b, _c, _d;
 
-    this.log('设备已断开', bleDevice); // this.dispatch('disconnected', bleDevice);
-    // 卸载协议
+    this.log('设备已断开', bleDevice);
 
-    this.protocolManager.removeProtocol(bleDevice.deviceId);
-    (_b = (_a = this.bleEventListener).onDisconnected) === null || _b === void 0 ? void 0 : _b.call(_a, {
-      deviceId: bleDevice.deviceId
-    });
+    if (bleDevice) {
+      // this.dispatch('disconnected', bleDevice);
+      // 卸载协议
+      this.unmountProtocol(bleDevice.deviceId);
+      (_b = (_a = this.bleEventListener).onDisconnected) === null || _b === void 0 ? void 0 : _b.call(_a, {
+        deviceId: bleDevice.deviceId
+      });
+    } else {
+      (_d = (_c = this.bleEventListener).onDisconnected) === null || _d === void 0 ? void 0 : _d.call(_c, {
+        deviceId: ''
+      });
+    }
   };
   /**
    * 秤的特征值变化监听回调
@@ -10399,7 +12699,29 @@ function (_super) {
 
   QNBle.prototype.getWhatProtocolToApply = function (nativeDevice) {
     return this.config.protocols.find(function (protocol) {
-      return protocol.bleProfle.isTargetDevice(nativeDevice);
+      return protocol.bleProfile.isTargetDevice(nativeDevice);
+    });
+  };
+
+  QNBle.prototype.sendHttpRequest = function (request) {
+    var _this = this;
+
+    this.log('[QNBle::sendHttpRequest]');
+    return http.ajaxPromise({
+      url: request.url,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      data: request.data,
+      type: request.method || 'GET',
+      responseType: request.dataType || 'json'
+    }).then(function (res) {
+      _this.log('网络请求成功', request, res, _typeof(res)); // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+
+      return typeof res === 'string' ? JSON.parse(res) : res;
+    })["catch"](function (err) {
+      _this.log('请求失败', err);
+
+      throw err;
     });
   };
   /**
@@ -10409,7 +12731,7 @@ function (_super) {
 
   QNBle.prototype.fetchSdkConfig = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var appId, params, request, res;
+      var appId, params, request, httpRequestHandler, res;
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
@@ -10423,9 +12745,10 @@ function (_super) {
               url: this.config.sdkUrl
             };
             this.log('请求SDK配置', request);
+            httpRequestHandler = this.bleNative.useDefaultHttpRequest ? this.sendHttpRequest.bind(this) : this.bleNative.sendHttpRequest.bind(this.bleNative);
             return [4
             /*yield*/
-            , this.bleNative.sendHttpRequest(request)];
+            , httpRequestHandler(request)];
 
           case 1:
             res = _a.sent();
@@ -10517,12 +12840,21 @@ function (_super) {
       });
     });
   };
+  /**
+   * 卸载协议
+   * @param {string} deviceId
+   */
+
+
+  QNBle.prototype.unmountProtocol = function (deviceId) {
+    return this.protocolManager.removeProtocol(deviceId);
+  };
 
   var _a;
 
   __decorate([log(QNBleErrorType.INIT_FAILED), __metadata("design:type", Function), __metadata("design:paramtypes", [QNBleNative, Object]), __metadata("design:returntype", Promise)], QNBle.prototype, "init", null);
 
-  __decorate([log(QNBleErrorType.START_BLEDEVICE_DISCOVERY_FAILED), __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", Promise)], QNBle.prototype, "startBleDeviceDiscovery", null);
+  __decorate([log(QNBleErrorType.START_BLEDEVICE_DISCOVERY_FAILED), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", Promise)], QNBle.prototype, "startBleDeviceDiscovery", null);
 
   __decorate([log(QNBleErrorType.STOP_BLEDEVICE_DISCOVERY_FAILED), __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", Promise)], QNBle.prototype, "stopBleDeviceDiscovery", null);
 
@@ -10558,16 +12890,22 @@ var QNBleNativeMP =
 function (_super) {
   __extends(QNBleNativeMP, _super);
 
-  function QNBleNativeMP() {
-    var _this = _super !== null && _super.apply(this, arguments) || this;
+  function QNBleNativeMP(mpwx) {
+    var _this = _super.call(this) || this;
 
-    _this.name = 'QNBleNativeMP'; // 蓝牙状态
+    _this.name = 'QNBleNativeMP'; // 是否使用默认的http请求方法
+    // 例如像小程序就必需使用小程序的接口请求api，那么就需要将此值设置为false，并实现 sendHttpRequest 方法
+
+    _this.useDefaultHttpRequest = false; // 蓝牙状态
 
     _this.bleState = {
       available: false,
       discovering: false
     };
+    _this.mpwx = null; //微信小程序的wx对象，用来创建bleServer
+
     _this.inited = false;
+    _this.mpwx = mpwx;
     return _this;
   }
   /**
@@ -10578,37 +12916,39 @@ function (_super) {
 
   QNBleNativeMP.prototype.init = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var ret;
-      return __generator(this, function (_a) {
-        switch (_a.label) {
+      var _a, ret, e_1;
+
+      return __generator(this, function (_b) {
+        switch (_b.label) {
           case 0:
+            _b.trys.push([0, 3,, 4]);
+
             wx.onBluetoothDeviceFound(this.onDeviceFound.bind(this));
             wx.onBLEConnectionStateChange(this.onDeviceConnectStateChange.bind(this));
             wx.onBLECharacteristicValueChange(this.onDeviceValueChange.bind(this));
             wx.onBluetoothAdapterStateChange(this.onBluetoothAdapterStateChange.bind(this)); // 为了解决小程序中切换页面时并未及时关闭连接（因为这是异步的）
-
-            this.log('在[QNBleNativeMP::init]中尝试先关闭蓝牙适配器');
-            return [4
-            /*yield*/
-            , this.closeBluetoothAdapter()];
-
-          case 1:
-            _a.sent();
+            // this.log('在[QNBleNativeMP::init]中尝试先关闭蓝牙适配器');
+            // await this.closeBluetoothAdapter();
 
             return [4
             /*yield*/
             , this.openBluetoothAdapter()];
 
-          case 2:
-            _a.sent();
+          case 1:
+            // 为了解决小程序中切换页面时并未及时关闭连接（因为这是异步的）
+            // this.log('在[QNBleNativeMP::init]中尝试先关闭蓝牙适配器');
+            // await this.closeBluetoothAdapter();
+            _b.sent(); // await this.checkBleAvailable();
 
+
+            _a = this;
             return [4
             /*yield*/
-            , this.checkBleAvailable()];
+            , this.getBluetoothAdapterState()];
 
-          case 3:
-            _a.sent();
-
+          case 2:
+            // await this.checkBleAvailable();
+            _a.bleState = _b.sent();
             ret = __assign({
               bleEnableState: this.bleState.available
             }, this.bleState);
@@ -10616,7 +12956,38 @@ function (_super) {
             return [2
             /*return*/
             , ret];
+
+          case 3:
+            e_1 = _b.sent();
+            this.inited = true;
+            console.log("出现错误", e_1);
+            return [3
+            /*break*/
+            , 4];
+
+          case 4:
+            return [2
+            /*return*/
+            , {
+              bleEnableState: false,
+              available: false,
+              discovering: false
+            }];
         }
+      });
+    });
+  };
+
+  QNBleNativeMP.prototype.release = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        wx.offBluetoothDeviceFound(this.onDeviceFound.bind(this));
+        wx.offBLEConnectionStateChange(this.onDeviceConnectStateChange.bind(this));
+        wx.offBLECharacteristicValueChange(this.onDeviceValueChange.bind(this));
+        wx.offBluetoothAdapterStateChange(this.onBluetoothAdapterStateChange.bind(this));
+        return [2
+        /*return*/
+        ];
       });
     });
   };
@@ -10765,28 +13136,19 @@ function (_super) {
   QNBleNativeMP.prototype.startScan = function () {
     return __awaiter(this, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this.checkBleAvailable()];
-
-          case 1:
-            _a.sent();
-
-            if (this.bleState.discovering) {
-              this.log('当前正在扫描');
-              return [2
-              /*return*/
-              , Promise.resolve(this.bleState)];
-            }
-
-            return [2
-            /*return*/
-            , wxPromise(wx.startBluetoothDevicesDiscovery)({
-              allowDuplicatesKey: true
-            })];
+        // await this.checkBleAvailable();
+        if (this.bleState.discovering) {
+          this.log('当前正在扫描');
+          return [2
+          /*return*/
+          , Promise.resolve(this.bleState)];
         }
+
+        return [2
+        /*return*/
+        , wxPromise(wx.startBluetoothDevicesDiscovery)({
+          allowDuplicatesKey: true
+        })];
       });
     });
   };
@@ -10797,14 +13159,8 @@ function (_super) {
 
 
   QNBleNativeMP.prototype.stopScan = function () {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        this.log('调用停止扫描');
-        return [2
-        /*return*/
-        , wxPromise(wx.stopBluetoothDevicesDiscovery)()];
-      });
-    });
+    this.log('调用停止扫描');
+    return wxPromise(wx.stopBluetoothDevicesDiscovery)();
   };
   /**
    * 创建蓝牙连接
@@ -10823,19 +13179,13 @@ function (_super) {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            return [4
-            /*yield*/
-            , this.checkBleAvailable()];
-
-          case 1:
-            _a.sent();
-
+            // await this.checkBleAvailable();
             this.log('调用原生的连接方法', bleDevice);
             deviceId = bleDevice.deviceId;
-            _a.label = 2;
+            _a.label = 1;
 
-          case 2:
-            _a.trys.push([2, 4,, 5]); // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          case 1:
+            _a.trys.push([1, 3,, 4]); // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
 
             return [4
@@ -10845,15 +13195,15 @@ function (_super) {
               timeout: connectOverTime
             })];
 
-          case 3:
+          case 2:
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             _a.sent();
 
             return [3
             /*break*/
-            , 5];
+            , 4];
 
-          case 4:
+          case 3:
             err_1 = _a.sent();
             error = err_1; // 0为成功，-1为已连接
 
@@ -10867,9 +13217,9 @@ function (_super) {
 
             return [3
             /*break*/
-            , 5];
+            , 4];
 
-          case 5:
+          case 4:
             return [2
             /*return*/
             , bleDevice];
@@ -10888,34 +13238,25 @@ function (_super) {
     return __awaiter(this, void 0, void 0, function () {
       var error;
       return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this.checkBleAvailable()];
+        // await this.checkBleAvailable();
+        try {
+          return [2
+          /*return*/
+          , wxPromise(wx.closeBLEConnection)({
+            deviceId: bleDevice.deviceId
+          })];
+        } catch (err) {
+          error = err; // 0为成功，10006为已断开
 
-          case 1:
-            _a.sent();
-
-            try {
-              return [2
-              /*return*/
-              , wxPromise(wx.closeBLEConnection)({
-                deviceId: bleDevice.deviceId
-              })];
-            } catch (err) {
-              error = err; // 0为成功，10006为已断开
-
-              if (hasOwnProperty(error, 'code') && [0, 10006].includes(error.code)) ; else {
-                // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                throw error;
-              }
-            }
-
-            return [2
-            /*return*/
-            , bleDevice];
+          if (hasOwnProperty(error, 'code') && [0, 10006].includes(error.code)) ; else {
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw error;
+          }
         }
+
+        return [2
+        /*return*/
+        , bleDevice];
       });
     });
   };
@@ -10935,18 +13276,11 @@ function (_super) {
             this.log('findService', deviceId);
             return [4
             /*yield*/
-            , this.checkBleAvailable()];
-
-          case 1:
-            _a.sent();
-
-            return [4
-            /*yield*/
             , wxPromise(wx.getBLEDeviceServices)({
               deviceId: deviceId
             })];
 
-          case 2:
+          case 1:
             services = _a.sent().services; // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
             return [2
@@ -10974,23 +13308,14 @@ function (_super) {
   QNBleNativeMP.prototype.findBleDeviceCharacteristics = function (deviceId, serviceId) {
     return __awaiter(this, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            this.log('[findBleDeviceCharacteristics]', 'deviceId', deviceId, 'serviceId', serviceId);
-            return [4
-            /*yield*/
-            , this.checkBleAvailable()];
+        this.log('[findBleDeviceCharacteristics]', 'deviceId', deviceId, 'serviceId', serviceId); // await this.checkBleAvailable();
 
-          case 1:
-            _a.sent();
-
-            return [2
-            /*return*/
-            , wxPromise(wx.getBLEDeviceCharacteristics)({
-              deviceId: deviceId,
-              serviceId: serviceId
-            })];
-        }
+        return [2
+        /*return*/
+        , wxPromise(wx.getBLEDeviceCharacteristics)({
+          deviceId: deviceId,
+          serviceId: serviceId
+        })];
       });
     });
   };
@@ -11006,25 +13331,16 @@ function (_super) {
   QNBleNativeMP.prototype.enableNotify = function (deviceId, serviceId, characteristicId) {
     return __awaiter(this, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this.checkBleAvailable()];
-
-          case 1:
-            _a.sent();
-
-            this.log('使能特征值', deviceId, serviceId, characteristicId);
-            return [2
-            /*return*/
-            , wxPromise(wx.notifyBLECharacteristicValueChange)({
-              deviceId: deviceId,
-              serviceId: serviceId,
-              characteristicId: characteristicId,
-              state: true
-            })];
-        }
+        // await this.checkBleAvailable();
+        this.log('使能特征值', deviceId, serviceId, characteristicId);
+        return [2
+        /*return*/
+        , wxPromise(wx.notifyBLECharacteristicValueChange)({
+          deviceId: deviceId,
+          serviceId: serviceId,
+          characteristicId: characteristicId,
+          state: true
+        })];
       });
     });
   };
@@ -11040,24 +13356,15 @@ function (_super) {
   QNBleNativeMP.prototype.readBleCharacteristicValue = function (deviceId, serviceId, characteristicId) {
     return __awaiter(this, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this.checkBleAvailable()];
-
-          case 1:
-            _a.sent();
-
-            this.log('读取特征值', deviceId, serviceId, characteristicId);
-            return [2
-            /*return*/
-            , wxPromise(wx.readBLECharacteristicValue)({
-              deviceId: deviceId,
-              serviceId: serviceId,
-              characteristicId: characteristicId
-            })];
-        }
+        // await this.checkBleAvailable();
+        this.log('读取特征值', deviceId, serviceId, characteristicId);
+        return [2
+        /*return*/
+        , wxPromise(wx.readBLECharacteristicValue)({
+          deviceId: deviceId,
+          serviceId: serviceId,
+          characteristicId: characteristicId
+        })];
       });
     });
   };
@@ -11088,45 +13395,21 @@ function (_super) {
   };
 
   QNBleNativeMP.prototype.onBluetoothAdapterStateChange = function (newBleState) {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            if (!(this.bleState.available !== newBleState.available)) return [3
-            /*break*/
-            , 2];
-            this.listener.onNativeBluetoothEnableChange(newBleState.available);
-            if (!newBleState.available) return [3
-            /*break*/
-            , 2];
-            this.log('蓝牙开启时打开兰蓝牙适配器');
-            return [4
-            /*yield*/
-            , this.openBluetoothAdapter()];
+    // 蓝牙状态已变化
+    if (this.inited && this.bleState.available !== newBleState.available) {
+      this.listener.onNativeBluetoothEnableChange(newBleState.available);
+    } // NOTE 没有必要的回调，这里由startDiscovery和stopDiscovery去维护状态
+    // if (this.bleState.discovering !== newBleState.discovering) {
+    //   // 扫描状态变化，回调开始扫描和停止扫描
+    //   if (newBleState.discovering) {
+    //     this.listener.onNativeStartDiscoveryDevice();
+    //   } else {
+    //     this.listener.onNativeStopDiscoveryDevice();
+    //   }
+    // }
 
-          case 1:
-            _a.sent();
 
-            _a.label = 2;
-
-          case 2:
-            // NOTE 没有必要的回调，这里由startDiscovery和stopDiscovery去维护状态
-            if (this.bleState.discovering !== newBleState.discovering) {
-              // 扫描状态变化，回调开始扫描和停止扫描
-              if (newBleState.discovering) {
-                this.listener.onNativeStartDiscoveryDevice();
-              } else {
-                this.listener.onNativeStopDiscoveryDevice();
-              }
-            }
-
-            this.bleState = newBleState;
-            return [2
-            /*return*/
-            ];
-        }
-      });
-    });
+    this.bleState = newBleState;
   };
   /**
    * 蓝牙设备的回调
@@ -11197,16 +13480,24 @@ function (_super) {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            this.log('创建原生蓝牙服务端');
+            this.log('创建原生蓝牙服务端', this.mpwx != null);
+            if (!(this.mpwx != null)) return [3
+            /*break*/
+            , 2];
             return [4
             /*yield*/
-            , wxPromise(wx.createBLEPeripheralServer)()];
+            , wxPromise(this.mpwx.createBLEPeripheralServer)()];
 
           case 1:
             server = _a.sent().server;
             return [2
             /*return*/
             , server];
+
+          case 2:
+            return [2
+            /*return*/
+            , null];
         }
       });
     });
@@ -11427,7 +13718,7 @@ function (_super) {
   };
 
   QNBleNativeQN.prototype.findBleDeviceCharacteristics = function (deviceId, serviceId) {
-    throw new Error('findBleDeviceCharacteristics Method not implemented.');
+    return Promise.resolve();
   };
 
   QNBleNativeQN.prototype.sendHttpRequest = function (request) {
@@ -11703,10 +13994,16 @@ function (_super) {
 
   QNBleNativeQN.prototype.enableNotify = function (deviceId, serviceId, characteristicId) {
     return __awaiter(this, void 0, void 0, function () {
+      var e_2;
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
             this.log('使能特征值', deviceId, serviceId, characteristicId);
+            _a.label = 1;
+
+          case 1:
+            _a.trys.push([1, 3,, 4]);
+
             return [4
             /*yield*/
             , this.callMethod('notifyBLECharacteristicValueChange', {
@@ -11714,14 +14011,24 @@ function (_super) {
               serviceId: serviceId,
               characteristicId: characteristicId,
               state: true
-            })["catch"](function (e) {
-              console.log('出现错误了', e);
             })];
 
-          case 1:
+          case 2:
             return [2
             /*return*/
             , _a.sent()];
+
+          case 3:
+            e_2 = _a.sent();
+            console.log('出现错误了', e_2);
+            return [3
+            /*break*/
+            , 4];
+
+          case 4:
+            return [2
+            /*return*/
+            ];
         }
       });
     });
@@ -11823,7 +14130,7 @@ function (_super) {
         advertisData = payload.advertisData,
         advertisServiceUUIDs = payload.advertisServiceUUIDs;
 
-    if (advertisData.length == 0) {
+    if (!advertisData) {
       return;
     }
 
@@ -11892,7 +14199,7 @@ var genereteCallMethods$1 = function genereteCallMethods(isAndroid, jsbridge) {
         if (jsbridge[method]) {
           console.log("\u5C1D\u8BD5\u8C03\u7528\u65B9\u6CD5: " + method, '参数: ', data);
           (_a = jsbridge[method]) === null || _a === void 0 ? void 0 : _a.call(jsbridge, data, function (res) {
-            console.log("\u8C03\u7528\u65B9\u6CD5: " + method, '返回值', res); // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            console.log("\u8C03\u7528\u65B9\u6CD5: " + method, '参数: ', data, '返回值', res); // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
             var result = typeof res === 'string' ? JSON.parse(res) : res; // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 
@@ -11902,7 +14209,8 @@ var genereteCallMethods$1 = function genereteCallMethods(isAndroid, jsbridge) {
               resolve(result);
             }
           }, function (err) {
-            reject(new Error(typeof err === 'string' ? JSON.parse(err) : err));
+            console.error("\u8C03\u7528\u65B9\u6CD5: " + method + "\u5931\u8D25", '参数: ', data, '错误信息:' + err);
+            reject(typeof err === 'string' ? JSON.parse(err) : err);
           });
         } else {
           reject(new Error("not exists method " + method));
@@ -11920,7 +14228,7 @@ var genereteCallMethods$1 = function genereteCallMethods(isAndroid, jsbridge) {
       console.log("\u5C1D\u8BD5\u8C03\u7528\u65B9\u6CD5: " + method, '参数: ', data); // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
 
       jsbridge.callHandler(method, data, function (res) {
-        console.log("\u8C03\u7528\u65B9\u6CD5: " + method, '返回值', res); // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+        console.log("\u8C03\u7528\u65B9\u6CD5: " + method, '参数: ', data, '返回值', res); // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
 
         var code = res.error_code || 0;
 
@@ -11931,8 +14239,8 @@ var genereteCallMethods$1 = function genereteCallMethods(isAndroid, jsbridge) {
           resolve(res);
         }
       }, function (res) {
-        console.log("\u8C03\u7528\u65B9\u6CD5: " + method + "\u5931\u8D25", '错误信息:' + res);
-        reject(new Error(res));
+        console.error("\u8C03\u7528\u65B9\u6CD5: " + method + "\u5931\u8D25", '参数: ', data, '错误信息:' + res);
+        reject(res);
       });
     });
   };
@@ -12154,7 +14462,11 @@ function (_super) {
   }; // 启动蓝牙扫描
 
 
-  QNBleNativeMultiPages.prototype.startScan = function () {
+  QNBleNativeMultiPages.prototype.startScan = function (params) {
+    if (params === void 0) {
+      params = {};
+    }
+
     return __awaiter(this, void 0, void 0, function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
@@ -12175,7 +14487,7 @@ function (_super) {
 
             return [2
             /*return*/
-            , this.callMethod('startBleDevicesDiscovery')];
+            , this.callMethod('startBleDevicesDiscovery', params)];
         }
       });
     });
@@ -12403,6 +14715,7 @@ function (_super) {
     return __awaiter(this, void 0, void 0, function () {
       var newBleState, available;
       return __generator(this, function (_a) {
+        this.log('onBluetoothAdapterStateChange', res);
         newBleState = typeof res === 'string' ? JSON.parse(res) : res;
         available = newBleState.bleEnableState === 'poweredOn' && newBleState.locationSwitchOpened !== false;
         this.listener.onNativeBluetoothEnableChange(available);
@@ -12575,42 +14888,20 @@ var index = {
 
 var QNMPPlugin =
 /** @class */
-function () {
-  function QNMPPlugin() {
-    this._qnble = new QNBle();
+function (_super) {
+  __extends(QNMPPlugin, _super);
+
+  function QNMPPlugin(config) {
+    return _super.call(this, {
+      bleNative: new QNBleNativeMP(config.mpwx || wx),
+      config: __assign(__assign({}, config), {
+        protocols: [QNBleProtocols.NormalBleScaleProtocol, QNBleProtocols.OneToOneBroadcastScaleProtocol, QNBleProtocols.OneToMultiBroadcastScaleProtocol, QNBleProtocols.WspDualScaleProtocol, QNBleProtocols.HeightWeightScaleProtocol]
+      })
+    }) || this;
   }
 
-  QNMPPlugin.prototype.init = function (config) {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this._qnble.init(new QNBleNativeMP(), __assign(__assign({}, config), {
-              protocols: [QNBleProtocols.NormalBleScaleProtocol, QNBleProtocols.OneToOneBroadcastScaleProtocol, QNBleProtocols.OneToMultiBroadcastScaleProtocol, QNBleProtocols.WspDualScaleProtocol]
-            })) // return this.qnble
-            ];
-
-          case 1:
-            return [2
-            /*return*/
-            , _a.sent() // return this.qnble
-            ];
-        }
-      });
-    });
-  };
-
-  Object.defineProperty(QNMPPlugin.prototype, "bleApi", {
-    get: function get() {
-      return this._qnble;
-    },
-    enumerable: false,
-    configurable: true
-  });
   return QNMPPlugin;
-}();
+}(QNBle);
 
 var QNMPPlugin$1 =
 /** @class */
@@ -12624,7 +14915,7 @@ function () {
     return this._qnble.init(new QNBleNativeQN(config.jsbridge, {
       isAndroid: config.isAndroid
     }), __assign(__assign({}, config), {
-      protocols: [QNBleProtocols.WspDualScaleMesProtocol]
+      protocols: [QNBleProtocols.NormalBleScaleMesProtocol, QNBleProtocols.FasciaGunMCUProtocol, QNBleProtocols.WspDualScaleMesProtocol]
     }));
   };
 
@@ -12666,6 +14957,15 @@ function () {
         }
       });
     });
+  };
+
+  QNMultiPagesPlugin.prototype.buildNativeDevice = function (deviceId) {
+    if (!this.connectedDeviceIds.includes(deviceId)) {
+      return null;
+    } // 构建一个满足QNNativeDevice结构的对象
+
+
+    return this.nativeApi.onDeviceFound(this.nativeApi.connectedDevices[deviceId], true);
   }; // 模拟重连实际已连接设备 需要根据业务手动调用
 
 
@@ -12681,7 +14981,7 @@ function () {
               , Promise.resolve()];
             }
 
-            qnBleNativeDevice = this.nativeApi.onDeviceFound(this.nativeApi.connectedDevices[deviceId], true);
+            qnBleNativeDevice = this.buildNativeDevice(deviceId);
             qnBleDevice = new QNBleDevice(qnBleNativeDevice, this.bleApi.getWhatProtocolToApply(qnBleNativeDevice)); // 模拟蓝牙库重连
 
             return [4

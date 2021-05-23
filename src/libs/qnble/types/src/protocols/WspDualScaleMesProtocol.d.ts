@@ -1,7 +1,7 @@
 import QNBleProtocol from '../QNBleProtocol';
 import QNBleTypings from '../typings';
 export default class WspDualScaleMesProtocol extends QNBleProtocol<QNBleTypings.QNMesEventLisenter> {
-    static bleProfle: import("./wspmes/WspDualScaleMesProfle").default;
+    static bleProfile: import("./wspmes/WspDualScaleMesProfle").default;
     static WspMes: {
         WspDualScaleMesProfle: typeof import("./wspmes/WspDualScaleMesProfle").default;
         CalibrationFlow: typeof import("./wspmes/CalibrationFlow").default;

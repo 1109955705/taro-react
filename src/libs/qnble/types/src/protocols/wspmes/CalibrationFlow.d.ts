@@ -20,7 +20,8 @@ export default class CalibrationFlow extends QNBleActionFlow<QNBleTypings.QNMesE
      */
     getCalibrationResultData(byteList: number[]): void;
     setQuickPairWifiSSID(): void;
-    getQuickPairWifiSSIDResult(byteList: number[]): void;
+    getQuickPairWifiSSIDResult(): void;
     setQuickPairWifiPWD(): void;
-    getQuickPairWifiPWDResult(byteList: number[]): void;
+    getQuickPairWifiPWDResult(): void;
+    setCalibrationResult(): void;
 }

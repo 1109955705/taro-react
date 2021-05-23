@@ -17,6 +17,11 @@ export default class QNBle extends QNEventSystem<QNBle> {
     config: QNBleTypings.QNBleConfig;
     sdkConfig: QNBleTypings.QNBleTypedSdkConfig;
     operation?: QNBleTypings.QNBleOperation;
+    protocolInterceptor: (params: {
+        bleNative: QNBleNative;
+        ctx: QNBle;
+        protocolImp: QNBleProtocol<any>;
+    }) => Promise<QNBleProtocol<any> | null>;
     private bleNativeListener;
     private bleEventListener;
     private static getStaticConfig;
@@ -39,6 +44,10 @@ export default class QNBle extends QNEventSystem<QNBle> {
      * @returns {Promise<QNBleTypings.InitFuncReturnValue>}
      */
     init(bleNative?: QNBleNative, config?: Partial<QNBleTypings.QNBleConfig>): Promise<QNBleTypings.InitFuncReturnValue>;
+    /**
+     * 释放蓝牙相关资源，调用该方法后，再使用蓝牙时，需要重新调用init
+     */
+    releaseBleSource(): Promise<any>;
     _onError(error: QNBleError): void;
     /**
      * 可重写此方法来接收错误
@@ -84,7 +93,7 @@ export default class QNBle extends QNEventSystem<QNBle> {
      * 开始扫描蓝牙设备，只返回轻牛的设备。遇到错误或蓝牙关闭则自动停止。
      * @returns {Promise<void>}
      */
-    startBleDeviceDiscovery(): Promise<void>;
+    startBleDeviceDiscovery(params?: any): Promise<void>;
     /**
      * 停止扫描
      * @param {boolean} [force = false] - 是否强制停止
@@ -97,7 +106,7 @@ export default class QNBle extends QNEventSystem<QNBle> {
      * @returns {Promise<any>}
      */
     createBleConnection<T>(bleDevice: QNBleDevice, listener: T, operation?: Partial<QNBleTypings.QNBleOperation>): Promise<QNBleProtocol<T> | null>;
-    private prepareProtocol;
+    prepareProtocol<T extends Partial<QNBleTypings.QNDeviceEventListener>>(bleDevice: QNBleDevice, operation: Partial<QNBleTypings.QNBleOperation>, listener: T): QNBleProtocol<Partial<QNBleTypings.QNDeviceEventListener>>;
     /**
      * 断开蓝牙连接
      * @param {QNBleDevice} bleDevice - 轻牛蓝牙对象
@@ -109,7 +118,7 @@ export default class QNBle extends QNEventSystem<QNBle> {
      * @returns {Promise<any>}
      */
     stop(): Promise<any>;
-    private onbleEnableChange;
+    private onBleEnableChange;
     private onStartScan;
     private onStopScan;
     /**
@@ -137,6 +146,12 @@ export default class QNBle extends QNEventSystem<QNBle> {
      * @returns {typeof QNBleBaseScaleProtocol}
      */
     getWhatProtocolToApply(nativeDevice: QNBleNativeDevice): typeof QNBleProtocol;
+    sendHttpRequest(request: {
+        url: string;
+        data: unknown;
+        method?: string;
+        dataType?: string;
+    }): Promise<unknown>;
     /**
      * 获取服务器配置
      */
@@ -157,4 +172,9 @@ export default class QNBle extends QNEventSystem<QNBle> {
      * @returns {Promise<any>}
      */
     callProtocolMethodAsync(deviceId: string, fn: string, args: any[]): Promise<any>;
+    /**
+     * 卸载协议
+     * @param {string} deviceId
+     */
+    unmountProtocol(deviceId: string): boolean;
 }

@@ -35,7 +35,7 @@ export default class QNBleProtocol<T extends Partial<QNBleTypings.QNDeviceEventL
     /**
      * 对该设备的定义
      */
-    static bleProfle: QNBleProtocolProfile;
+    static bleProfile: QNBleProtocolProfile;
     bleServer: QNBleTypings.QNBleServer;
     UUID_IBT_SERVICE: string;
     UUID_IBT_READ: string;
@@ -98,6 +98,13 @@ export default class QNBleProtocol<T extends Partial<QNBleTypings.QNDeviceEventL
      */
     writeData({ cmdData, serviceId, characteristicId, needSum, }: {
         cmdData: number[];
+        serviceId?: string;
+        characteristicId?: string;
+        needSum?: boolean;
+    }): Promise<any>;
+    writeCmd({ header, cmd, serviceId, characteristicId, }: {
+        header: number;
+        cmd: Array<number>;
         serviceId?: string;
         characteristicId?: string;
         needSum?: boolean;

@@ -3,7 +3,7 @@ import QNBleNativeDevice from '../QNBleNativeDevice';
 import QNBleDevice from '../QNBleDevice';
 import { QNBleDeviceType, QNBleTransferType, QNBleAction } from '../consts';
 import QNBleTypings from '../typings';
-declare class ShareCLScaleProfle implements QNBleProtocolProfile {
+declare class ShareCLScaleProfile implements QNBleProtocolProfile {
     defaultAction: QNBleAction;
     type: QNBleDeviceType;
     transferType: QNBleTransferType;
@@ -11,7 +11,7 @@ declare class ShareCLScaleProfle implements QNBleProtocolProfile {
     buildTargetDevice(nativeDevice: QNBleNativeDevice): Partial<QNBleDevice>;
 }
 export default class ShareCLScaleProtocol extends QNBleProtocol<QNBleTypings.QNHeightScaleEventListener> {
-    static bleProfle: ShareCLScaleProfle;
+    static bleProfile: ShareCLScaleProfile;
     UUID_IBT_SERVICE: string;
     UUID_IBT_READ: string;
     UUID_IBT_WRITE: string;
