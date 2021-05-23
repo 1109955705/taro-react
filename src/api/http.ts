@@ -1,12 +1,17 @@
 import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "@/utils/constants/status";
 import { logError } from "@/utils/error";
-import theme from '@/static/biz/theme';
-import configStore from '@/store/index';
+// import theme from '@/static/biz/theme';
+import theme from '@/static/biz/themeMock';
 
-const { store } = configStore()
-const baseUrl = "http://sit.third-api.yolanda.hk/open_api";
 const { appid } = theme
+
+let sessionKey = ''
+export const setToken = (token) => {
+  console.log('setToken', token)
+  sessionKey = token
+}
+
 export default {
   baseOptions(params, method = "GET") {
     let { url, data = {} } = params;
@@ -19,21 +24,24 @@ export default {
       data?: object | string;
       method?: any;
       header: object;
-      // mode: string,
       success: any;
       error: any;
     };
-    const sessionKey = store.getState().sessionKey
-    
+
+    // store.subscribe(() => {
+    //   console.log('subscribe')
+    //   sessionKey = store.getState().sessionKey; //使用subscribe，当数据更改时会重新获取
+    // });
+
     // 接口需要的appid参数不一致
-    data.app_id = theme.appid
-    data.appid = theme.appid
+    data.app_id = appid
+    data.appid = appid
 
     if (sessionKey) {
       data.terminal_user_session_key = sessionKey
     }
     const option: OptionType = {
-      url: url.indexOf("http") !== -1 ? url : baseUrl + url,
+      url: url.indexOf("http") !== -1 ? url : SERVICE_URL + url,
       data: data,
       method: method,
       header: {

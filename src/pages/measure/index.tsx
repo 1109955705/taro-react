@@ -63,9 +63,14 @@ const Measure: FC = (props, context) => {
     const params = { iv, encryptedData, code }
     const res = await login(params)
     // const res = await sendHttpRequest(ApiLogin,{}, {useMock: true})
-    // console.log('getUserProfile', res)
-    const { random_code } = res
-    setRandomCode(random_code)
+    const { terminal_user_session, user_info, code: resCode, random_code } = res
+    console.log('getUserProfile', res)
+    if (resCode === '20005') {
+      setRandomCode(random_code)
+    } else {
+      dispatch(set_session_key(terminal_user_session));
+      dispatch(set_userinfo(user_info));
+    }
   };
 
   const handGetPhone = async (e: any) => {

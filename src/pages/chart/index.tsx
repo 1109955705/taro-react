@@ -12,18 +12,25 @@ const Chart: FC = () => {
   const selected = useSelector((state: ReduxRootState) => state)
   // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
   // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
-  const { userinfo, sessionKey} = useSelector((state: ReduxRootState) => state)
+  const { userinfo, sessionKey } = useSelector((state: ReduxRootState) => state)
   const [test, setTest] = useState<any>('test')
   useEffect(() => {
-    console.log("userinfo", sessionKey)
+    console.log("userinfo", userinfo)
     const params = {
       user_id: userinfo.id,
       key: sessionKey,
       is_main_user: 1,
       themeColor: '#01ca9e',
-      hostName: 'http://sit.third-api.yolanda.hk',
+      hostName: '',
     }
-    let webViewSrc = `http://xcx-h5-preview.glb.qnniu.com/xcxChartViewThird.html?${objToStr(params, true)}&enviornment=test`
+    let hostName: string
+    if (process.env.NODE_ENV === 'development') {
+      hostName = 'http://sit.third-api.yolanda.hk'
+    } else {
+      hostName = 'https://third-api.yolanda.hk'
+    }
+    params.hostName = hostName
+    let webViewSrc = `${H5_URL}/xcxChartViewThird.html?${objToStr(params, true)}&enviornment=test`
     console.log('webViewSrc', webViewSrc)
     setSrc(webViewSrc)
   }, [])

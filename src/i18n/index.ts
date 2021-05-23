@@ -3,9 +3,9 @@ import { initReactI18next } from "react-i18next";
 import Taro from "@tarojs/taro";
 import resources from './langPack';
 
-let systemInfo = Taro.getSystemInfoSync()
-const { language } = systemInfo
-console.log('xxxxxxx111x')
+const { language } = Taro.getSystemInfoSync()
+
+console.log('i18n')
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({

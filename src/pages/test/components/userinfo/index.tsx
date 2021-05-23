@@ -26,7 +26,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
         <View className={style.weight}>{lastMeasure.weight}kg</View>
         {
           isLogin &&
-            <View className={`${style.measureBtn} themeColor`} onClick={()=>Taro.navigateTo({ url: '/pages/ble/index'})}>{t('login')}</View> 
+            <View className={`${style.measureBtn} themeColor`} onClick={()=>Taro.navigateTo({ url: '/pages/ble/index'})}>{t('click_measure')}</View> 
         }
       </View>
       <View className={style.indexWrap}>

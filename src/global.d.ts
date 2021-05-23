@@ -28,11 +28,15 @@ declare const process: {
   }
 }
 
+declare const SERVICE_URL : string;
 declare global {
   interface test {
     text: string
   }
   type ReduxRootState = RootState
+
+  const SERVICE_URL : string; // 请求的服务器域名
+  const H5_URL : string; // 请求的H5域名
 }
 
 

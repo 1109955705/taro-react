@@ -3,6 +3,9 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
+    // 必须加JSON.stringify包裹 https://webpack.js.org/plugins/define-plugin/
+    SERVICE_URL: JSON.stringify('https://third-api.yolanda.hk/open_api'),
+    H5_URL: JSON.stringify('https://xcx.runcobo.com'),
   },
   mini: {},
   h5: {

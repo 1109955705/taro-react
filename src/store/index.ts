@@ -3,6 +3,8 @@ import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from '@/static/sys/storage'
+import api from '@/api/http'
+import { SET_SESSION_KEY } from './constants/userinfo'
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -11,8 +13,20 @@ const composeEnhancers =
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     }) : compose
 
+
+const saveAuthToken = store => next => action => {
+  if(action.type === SET_SESSION_KEY) {
+    // after a successful login, update the token in the API
+    let setToken = require('../api/http').setToken
+    setToken(action.session_key);
+  }
+
+  // continue processing this action
+  return next(action);
+}
 const middlewares = [
-  thunkMiddleware
+  thunkMiddleware,
+  saveAuthToken,
 ]
 
 if (process.env.NODE_ENV === 'development' && process.env.TARO_ENV !== 'quickapp') {
