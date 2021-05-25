@@ -2,10 +2,10 @@ import React, { FC } from 'react'
 import { View } from '@tarojs/components'
 import style from './index.module.scss'
 
-const @pascalName: FC = () => {
+const aaa: FC = () => {
   return (
     <View className={style.main}></View>
   )
 }
 
-export default @pascalName
+export default aaa

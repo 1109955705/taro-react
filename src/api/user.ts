@@ -1,4 +1,5 @@
 import http from '@/api/http'
+
 export const login = (data = {}) => {
   return http.post('/third/xcx_third_login', data)
 }

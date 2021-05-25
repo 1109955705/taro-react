@@ -1,12 +1,11 @@
 import React, { FC, useState, useEffect } from 'react'
-import { View, Button, Text } from '@tarojs/components'
-import { useDispatch } from 'react-redux'
+import { View, Button } from '@tarojs/components'
 import QNBleTypings from '@/libs/qnble/types/src/typings';
 import {
-  QNBleDevice, QNMPPlugin, QNConsts, QNBleProtocols, QNBleError,
+  QNMPPlugin, QNConsts, 
 } from '@/libs/qnble';
 import './index.scss'
-import { wxPromise } from '@/utils/wxPromise';
+
 
 const qnble = new QNMPPlugin({
   appId: "wx5a0ab9c88eab843e",
@@ -25,7 +24,7 @@ qnble.onReady = ({
 };
 
 function noop() {}
-// eslint-disable-next-line no-shadow
+
 enum BleOpStatusEnum {
   // 初始状态，未init前
   NOOP,
@@ -62,8 +61,6 @@ enum BleOpStatusEnum {
 }
 
 const Ble: FC = () => {
-  const [ userId ] = useState<number>(111)
-  const dispatch = useDispatch()
   const [ bleOpStatus, setBleOpStatus ] = useState(BleOpStatusEnum.NOOP)
   const [ qnbleDevice, setQnbleDevice ] = useState<any>()
   const [ unsteadyWeight, setUnsteadyWeight ] = useState<Number>(0)
@@ -82,8 +79,7 @@ const Ble: FC = () => {
     // 体脂秤测量完成
     onGetScaleData(data) {
       console.log('测量完成', data)
-      const { measure: { weight} } = data
-      setSteadyWeight(weight)
+      setSteadyWeight(data!.measure!.weight)
     },
     onGetUnsteadyWeight(data) {
       console.log('不稳定数据', data)
@@ -145,7 +141,7 @@ const Ble: FC = () => {
     qnble.createBleConnection(bleDevice, deviceEventListener, operation)
       .catch(noop);
   }
-  function onError(e: QNBleError) {}
+  function onError() {}
   qnble.setBleEventListener(bleEventListener);
   qnble.onError = onError;
 

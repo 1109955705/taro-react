@@ -27,7 +27,7 @@
 		"dev:qq": "npm run build:qq -- --watch",
 		"dev:jd": "npm run build:jd -- --watch",
 		"dev:quickapp": "npm run build:quickapp -- --watch",
-		"create:template": "node build/genTemplate.js"
+		"page": "node build/genTemplate.js"
 	},
 	"browserslist": [
 		"last 3 versions",

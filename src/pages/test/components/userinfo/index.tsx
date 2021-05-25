@@ -1,7 +1,7 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC } from 'react'
 import { View } from '@tarojs/components'
 import { useSelector } from "react-redux";
-import { AtButton, AtAvatar } from 'taro-ui'
+import { AtAvatar } from 'taro-ui'
 import Taro from '@tarojs/taro'
 import { useTranslation } from 'react-i18next';
 import style from './index.module.scss'

@@ -6,7 +6,11 @@ const inquirer = require('inquirer');
 const path = require('path');
 const dayjs = require('dayjs');
 const execSync = require('child_process').execSync;
-const { pascalCase, camelCase } = require('./util');
+const { 
+  pascalCase,
+  camelCase,
+  mkdirsSync,
+} = require('./util');
 
 async function run() {
   const answers = await inquirer
@@ -66,7 +70,7 @@ async function run() {
     camel: camelName,
    } } = names;
 
-  const templateFiles = glob.sync(`./build/templates/${(srcType || distType)}/**/*.{ts,tsx,css,less,sass}`);
+  const templateFiles = glob.sync(`./build/templates/${(srcType || distType)}/**/*.{ts,tsx,css,less,sass,scss}`);
 
   let gitName = '';
   let gitEmail = '';
@@ -82,26 +86,20 @@ async function run() {
   } catch (error) {
     //
   }
-  console.log('xxx', templateFiles, gitName, gitEmail)
-  return
+
   templateFiles.forEach((file) => {
     const fileRelativePath = file
       .replace(
         `./build/templates/${(srcType || distType)}`,
         `../src/${distType}s/${names.map((p) => p.kebab).join('/')}`,
       );
+      console.log('file', file)
     let fileString = fs.readFileSync(file).toString();
     // 做替换
     fileString = fileString
       .replace(/@pascalName/g, pascalName)
       .replace(/@camelName/g, camelName)
       .replace(/@kebabName/g, kebabName)
-      .replace(/@filePath/g, fileRelativePath.replace('../', ''))
-      .replace(/@dateTime/g, dayjs().format('YYYY-MM-DD HH:mm:ss'));
-
-    fileString = fileString.replace(/@authorName/g, `${gitName}<${gitEmail}>`);
-
-    fileString = fileString.replace(/@scoped/g, scoped ? ` ${scoped}` : '');
 
     // 路径为 kebabCase 命名格式
     const distPath = path.resolve(
@@ -119,6 +117,13 @@ async function run() {
 
     fs.writeFileSync(distPath, fileString);
   });
+
+  const appConfigDir = './src/app.config.ts';
+  let fileString = fs.readFileSync(appConfigDir).toString();
+  let arr = fileString.split(']');
+  arr[0] += `    'pages/${kebabName}/index',\n`
+  const result = arr.join(']');
+  fs.writeFileSync(appConfigDir, result);
 }
 
 run();

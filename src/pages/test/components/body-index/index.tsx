@@ -2,9 +2,7 @@ import React, { FC } from 'react'
 import { View } from '@tarojs/components'
 import useMain from './service/useMain'
 import style from './index.module.scss'
-// eslint-disable-next-line import/no-commonjs
 // const style = require('./index.module.scss')
-
 interface BodyIndexTypes {
   lastMeasure: any,
 }

@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { View, Button } from "@tarojs/components";
 import { AtButton, AtToast } from 'taro-ui'
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { set_tabbar_index } from "@/store/actions/tabbar";
 import { set_userinfo, change_userName} from '@/store/actions/userinfo'
 import { set_session_key } from "@/store/actions/sessionKey";
@@ -10,30 +10,16 @@ import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
 import eventBus from "@/static/biz/eventBus";
 import theme from "@/static/biz/theme";
-import { sendHttpRequest } from "@/static/sys/http";
-import { ApiLogin } from "@/static/biz/apis/users";
 import { useTranslation } from 'react-i18next';
-// import theme from '@/static/biz/theme'
 import "./index.scss";
 
-interface loginCallBackResultType {
-  code: string,
-  errMsg: string,
-}
-
-interface LoginTypeOne {
-  code: string,
-  iv: string,
-  encryptedData: string,
-}
 interface LoginTypeTwo {
   iv: string,
   encryptedData: string,
   random_code: string,
 }
-type LoginType = LoginTypeOne | LoginTypeTwo
 
-const Measure: FC = (props, context) => {
+const Measure: FC = () => {
   const dispatch = useDispatch();
   const [randomCode, setRandomCode] = useState<string>('')
   const [test, setTest] = useState<any>('test')
@@ -100,18 +86,6 @@ const Measure: FC = (props, context) => {
     dispatch(set_tabbar_index(2));
   }
   
-  const myView = function (){
-    // 只能用map， 无法使用foreach
-    return (
-    <View>
-      <View>111</View>
-      <View>2222</View>
-      {[1,2,3,4].map(item=>{
-        return <view>{item}</view>
-      })}
-    </View>
-    )
-  } 
   return (
     <View className='template_container'>
       Measure

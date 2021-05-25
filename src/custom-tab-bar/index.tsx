@@ -1,5 +1,5 @@
 import { switchTab } from '@tarojs/taro'
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { CoverView, CoverImage } from '@tarojs/components'
 import './index.scss'

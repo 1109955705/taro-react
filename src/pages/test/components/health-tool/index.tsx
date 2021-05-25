@@ -16,7 +16,7 @@ const HealthTool: FC = () => {
                 <View className={style.bannersList}>
                     {
                       list.map((item: any) => {
-                        return <Image className={style.imgBanner} src={item.tool_banner} />
+                        return <Image className={style.imgBanner} src={item.tool_banner} key={item.tool_banner} />
                       })
                     }
                 </View>

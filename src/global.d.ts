@@ -1,4 +1,5 @@
 import { RootState } from '@/store/index'
+import { compose } from 'redux';
 
 declare module "*.png";
 declare module "*.gif";
@@ -10,15 +11,11 @@ declare module "*.less";
 declare module "*.styl";
 
 // 引入css module 需要按以下声明
-declare module ".scss" {
-  const content: any;
-  export default content;
-}
 
-declare module "*.sass" {
-  const classes: any;
-  export default classes
-}
+// declare module '*.scss' {
+//   const content: any;
+//   export default content;
+// }
 
 // @ts-ignore
 declare const process: {
@@ -27,8 +24,6 @@ declare const process: {
     [key: string]: any;
   }
 }
-
-declare const SERVICE_URL : string;
 declare global {
   interface test {
     text: string
@@ -37,7 +32,14 @@ declare global {
 
   const SERVICE_URL : string; // 请求的服务器域名
   const H5_URL : string; // 请求的H5域名
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+  
 }
-
+declare module '*.module.scss' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
 
 export {}
