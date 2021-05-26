@@ -76,6 +76,7 @@ export default {
       Taro.request({
         ...option,
         success: res => {
+          console.log('reponse', res)
           resolve(res.data)
         },
         fail: err => {

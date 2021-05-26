@@ -7,3 +7,6 @@ taro build --type weapp --watch
 
 自动更新并压缩 正式服 自动更新会比较慢
 NODE_ENV=production taro build --type weapp --watch
+
+ahook 
+https://ahooks.js.org/zh-CN/hooks/async

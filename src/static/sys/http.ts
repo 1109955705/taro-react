@@ -110,7 +110,7 @@ export const sendHttpRequest = (
   data: object = {},
   config: TypedHttpConfig = { showLoading: true },
 ) => {
-  console.log('xxxxxxx', i18n.t('login'))
+
   if (config.showLoading) {
     // showLoadingToast(config.loadingText);
   }

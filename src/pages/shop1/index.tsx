@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { View , Checkbox, CheckboxGroup } from '@tarojs/components'
 import { useChecked } from './use-checked'
 import './index.scss'
@@ -26,16 +26,9 @@ const list = [
   }
 ]
 
-type CheckedMap = {
-  [id: number]: boolean
-}
-
-
-
 const Shop1: FC = () => {
 
   const {
-    all,
     checkedAll,
     checkedMap,
     onCheckedAllChange,
@@ -51,10 +44,9 @@ const Shop1: FC = () => {
 
   const cardList = () => {
     return (list.map(item =>{
-      const checked = checkedMap[item.id]
       return  <View className='item' key={item.id}>
                 <CheckboxGroup onChange={()=>onCheckedChange(item, checkedMap[item.id])}>
-                  <Checkbox className='check-box' value={item.id} checked={checkedMap[item.id]} />
+                  <Checkbox className='check-box' value={''+item.id} checked={checkedMap[item.id]} />
                 </CheckboxGroup>
                 <View className='item-deatil'>
                   <View>{item.name}</View>

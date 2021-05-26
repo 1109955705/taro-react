@@ -117,7 +117,7 @@ async function run() {
 
     fs.writeFileSync(distPath, fileString);
   });
-
+  if(type != 'type') return
   const appConfigDir = './src/app.config.ts';
   let fileString = fs.readFileSync(appConfigDir).toString();
   let arr = fileString.split(']');

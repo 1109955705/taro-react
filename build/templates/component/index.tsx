@@ -2,14 +2,10 @@ import React, { FC } from 'react'
 import { View } from '@tarojs/components'
 import style from './index.module.scss'
 
-interface @pascalNamePropsType {}
-
-const @pascalName: FC<@pascalNamePropsType> = () => {
+const @pascalName: FC = () => {
   return (
     <View className={style.main}></View>
   )
 }
-
-@pascalName.defaultProps = {}
 
 export default @pascalName

@@ -10,6 +10,7 @@ import style from './index.module.scss'
 const Test: FC = () => {
 
   const { isLogin, lastMeasure } = useMain()
+  console.log('index刷新了', isLogin)
 
   return (
     <View className={style.main}>

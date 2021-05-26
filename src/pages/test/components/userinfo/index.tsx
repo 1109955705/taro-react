@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { View } from '@tarojs/components'
+import Taro from "@tarojs/taro";
 import { useSelector } from "react-redux";
 import { AtAvatar } from 'taro-ui'
-import Taro from '@tarojs/taro'
 import { useTranslation } from 'react-i18next';
 import style from './index.module.scss'
 
@@ -18,7 +18,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
   })
 
   const { userinfo } = useSelector((state: ReduxRootState) => state)
-
+  console.log('Usernfo刷新了')
   return (
     <View className={style.main}>
       <AtAvatar className={style.avatar} circle image={userinfo.avatar}></AtAvatar>
@@ -26,7 +26,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
         <View className={style.weight}>{lastMeasure.weight}kg</View>
         {
           isLogin &&
-            <View className={`${style.measureBtn} themeColor`} onClick={()=>Taro.navigateTo({ url: '/pages/ble/index'})}>{t('click_measure')}</View> 
+            <View className={`${style.measureBtn} themeColor`} onClick={()=>Taro.navigateTo({ url: '/pages/blexxx/index'})}>{t('click_measure')}</View> 
         }
       </View>
       <View className={style.indexWrap}>

@@ -3,16 +3,27 @@ import storage from '@/static/sys/storage'
 import { persistStore, persistReducer } from 'redux-persist'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
-import { SET_SESSION_KEY } from './constants/userinfo'
+import { SET_SESSION_KEY, RE_SET_PERSIST } from './constants/userinfo'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const saveAuthToken = () => next => action => {
-  if(action.type === SET_SESSION_KEY) {
-    // 数据更改时通知其它ts文件
+  // 数据更改时通知其它ts文件
+  // 登陆时设置session_key
+  console.log('RE_SET_PERSIST',action)
+  if(action.type === SET_SESSION_KEY ) {
     let setToken = require('../api/http').setToken
     setToken(action.session_key);
   }
+  // 刷新时设置session_key
+  if(action.type === RE_SET_PERSIST ) {
+    if (action.payload?.sessionKey) {
+      let setToken = require('../api/http').setToken
+      setToken(action.payload.sessionKey);
+    }
+  }
+
+
 
   // continue processing this action
   return next(action);

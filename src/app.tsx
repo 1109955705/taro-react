@@ -1,36 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { useDidShow } from "@tarojs/taro";
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import theme from '@/static/biz/theme'
+import { init } from '@/static/biz/init'
 import '@/i18n/index'
+// import theme from '@/static/biz/theme'
 import configStore from './store'
 import './app.scss'
 
 const { store, persistor} = configStore()
 
-class App extends Component {
-  componentDidMount () {
-    console.log('app:didmount', theme )
-    console.log('SERVICE_URL', SERVICE_URL )
-  }
+const App = (props) => {
 
-  componentDidShow () {}
+  useDidShow(() => {
+    init()
+  })
 
-  componentDidHide () {}
-
-  componentDidCatchError () {}
-
-  // 在 App 类中的 render() 函数没有实际作用
-  // 请勿修改此函数
-  render () {
-    return (
-      <Provider store={store}>
-        <PersistGate loading={this.props.children} persistor={persistor}>
-          {this.props.children}
-        </PersistGate> 
-      </Provider>
-    )
-  }
+  return (
+    <Provider store={store}>
+      <PersistGate loading={props.children} persistor={persistor}>
+        {props.children}
+      </PersistGate> 
+    </Provider>
+  )
 }
 
 export default App

@@ -6,6 +6,7 @@ interface FeaturesTypes {
   showDeepReport: boolean,
 }
 const Features: FC<FeaturesTypes> = ({showDeepReport}) => {
+  console.log('Features刷新了')
   return (
     <View className={style.main}>
       {

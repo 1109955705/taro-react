@@ -1,5 +1,5 @@
 import React, { FC, useState, useCallback, useRef } from 'react'
-import { View as view, Image, Button, View } from '@tarojs/components'
+import { View, Button } from '@tarojs/components'
 import { set_tabbar_index} from '@/store/actions/tabbar'
 import { useDidShow } from '@tarojs/taro'
 import { useDispatch, useSelector } from "react-redux";

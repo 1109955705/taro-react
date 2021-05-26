@@ -1,11 +1,10 @@
 import React, { FC } from 'react'
 import { View } from '@tarojs/components'
-import './index.scss'
+import style from './index.module.scss'
 
 const Toast: FC = () => {
-
   return (
-    <View>toast</View>
+    <View className={style.main}></View>
   )
 }
 

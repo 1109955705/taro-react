@@ -9,7 +9,6 @@ import './index.scss'
 const Chart: FC = () => {
   const [src, setSrc] = useState<string>('')
   const dispatch = useDispatch()
-  const selected = useSelector((state: ReduxRootState) => state)
   // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
   // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
   const { userinfo, sessionKey } = useSelector((state: ReduxRootState) => state)

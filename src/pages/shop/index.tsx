@@ -54,7 +54,7 @@ const Shop: FC = () => {
 
   // 商品总价
   const sumPrice = (cartItems: CartItem[]) => {
-    return cartItems.reduce((sum, cur) => sum + cur.price, 0)
+    return cartItems!.reduce((sum, cur) => sum + cur.price, 0)
   }
 
   // 返回已选中的所有cartItems
@@ -84,10 +84,9 @@ const Shop: FC = () => {
   
   const cardList = () => {
     return (list.map(item =>{
-      const checked = checkedMap[item.id]
       return  <View className='item' key={item.id}>
                 <CheckboxGroup onChange={()=>onCheckedChange(item, checkedMap[item.id])}>
-                  <Checkbox className='check-box' value={item.id} checked={checkedMap[item.id]} />
+                  <Checkbox className='check-box' value={''+item.id} checked={checkedMap[item.id]} />
                 </CheckboxGroup>
                 <View className='item-deatil'>
                   <View>{item.name}</View>

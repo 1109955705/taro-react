@@ -5,7 +5,6 @@ import resources from './langPack';
 
 const { language } = Taro.getSystemInfoSync()
 
-console.log('i18n')
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
