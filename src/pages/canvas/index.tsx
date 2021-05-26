@@ -1,19 +1,38 @@
-import React, { FC, useState, useEffect } from 'react'
-import { View } from '@tarojs/components'
-import { useDispatch } from 'react-redux'
+import React, { FC, useEffect } from 'react'
+import { View, Canvas } from '@tarojs/components'
+import Taro from "@tarojs/taro";
 import './index.scss'
 
-const Canvas: FC = () => {
-  const [ userId ] = useState<number>(111)
-  const dispatch = useDispatch()
-  useEffect(() => {
-  })
+const CanvasTest: FC = () => {
+
+  useEffect(()=> {
+    const ctx = Taro.createCanvasContext('myCanvas');
+    console.log('xxxx', ctx)
+    ctx.rect(10, 10, 100, 30)
+    ctx.setFillStyle('yellow')
+    ctx.fill()
+    
+    // begin another path
+    ctx.beginPath()
+    ctx.rect(10, 40, 100, 30)
+    
+    // only fill this rect, not in current path
+    ctx.setFillStyle('blue')
+    ctx.fillRect(10, 70, 100, 30)
+    
+    ctx.rect(10, 100, 100, 30)
+    
+    // it will fill current path
+    ctx.setFillStyle('red')
+    ctx.fill()
+    ctx.draw()
+  }, [])
 
   return (
     <View className='template_container'>
-      canvas
+      <Canvas style='width: 300px; height: 200px;' canvasId='myCanvas' id='myCanvas' />
     </View>
   )
 }
 
-export default Canvas
+export default CanvasTest
