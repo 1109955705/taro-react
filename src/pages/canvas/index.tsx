@@ -3,11 +3,11 @@ import { View, Canvas } from '@tarojs/components'
 import Taro from "@tarojs/taro";
 import './index.scss'
 
-const CanvasTest: FC = () => {
+const CanvasTest: FC = (props) => {
 
   useEffect(()=> {
     const ctx = Taro.createCanvasContext('myCanvas');
-    console.log('xxxx', ctx)
+   
     ctx.rect(10, 10, 100, 30)
     ctx.setFillStyle('yellow')
     ctx.fill()

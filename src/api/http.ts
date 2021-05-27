@@ -106,7 +106,7 @@ export default {
         },
         fail: err => {
           logError("api", "请求失败");
-          reject(err)
+          resolve(err)
         },
         complete: ()=> {
           console.log('请求完成')

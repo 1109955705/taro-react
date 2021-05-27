@@ -33,6 +33,7 @@ const config = {
   framework: 'react',
   alias: {
     '@/pages': path.resolve(__dirname, '..', 'src/pages'),
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
     '@/store': path.resolve(__dirname, '..', 'src/store'),
     '@/api': path.resolve(__dirname, '..', 'src/api'),

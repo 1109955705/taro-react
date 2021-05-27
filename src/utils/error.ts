@@ -11,7 +11,7 @@ export const logError = (name: string, action: string, info?: string | object ) 
     info = 'empty'
   }
   let time = dayjs().format('YYYY/MM/DD HH:mm:ss')
-  console.error(time, name, action, info)
+  console.warn(time, name, action, info)
   if (typeof info === 'object') {
     info = JSON.stringify(info)
   }

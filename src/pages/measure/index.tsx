@@ -43,8 +43,10 @@ const Measure: FC = () => {
   });
 
   const handClickLogin = async () => {
-    const { iv, encryptedData } = await wxPromise(Taro.getUserProfile)({desc:'xxxx'})
-
+    const { iv, encryptedData, errMsg } = await wxPromise(Taro.getUserProfile)({desc:'xxxx'})
+    console.log('11111111', errMsg)
+    if (errMsg.includes('fail')) return
+    console.log('wwwwww')
     const { code } = await wxPromise(Taro.login)()
     const params = { iv, encryptedData, code }
     const res = await login(params)
