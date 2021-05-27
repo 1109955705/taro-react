@@ -76,17 +76,46 @@ export default {
       Taro.request({
         ...option,
         success: res => {
-          console.log('reponse', res)
-          resolve(res.data)
+          console.log('response', res)
+          const code = res.data.code
+          if (code == HTTP_STATUS.NOT_FOUND) {
+            logError("api", "请求资源不存在");
+            reject(res)
+          } else if (code == HTTP_STATUS.BAD_GATEWAY) {
+            logError("api", "服务端出现了问题");
+            reject(res)
+          } else if (code == HTTP_STATUS.FORBIDDEN) {
+            logError("api", "没有权限访问");
+            reject(res)
+          } else if (code == HTTP_STATUS.AUTHENTICATE) {
+            logError("api", "请先登录");
+            reject(res)
+            Taro.clearStorage();
+            Taro.navigateTo({
+              url: "/pages/measure/index",
+            });
+          } else if (code == HTTP_STATUS.UNREGISTER) {
+            logError("api", "未注册");
+            reject(res.data)
+          } else if (code == HTTP_STATUS.SUCCESS) {
+            resolve(res.data)
+          } else {
+            logError("api", "未知状态码");
+            reject(res)
+          }
         },
         fail: err => {
+          logError("api", "请求失败");
           reject(err)
         },
         complete: ()=> {
           console.log('请求完成')
-        }
+        },
       });
-    })
+    }).catch( e =>{
+        return e
+      }
+    )
   },
   get(url, data?: object) {
     let option = { url, data };

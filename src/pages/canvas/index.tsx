@@ -25,6 +25,13 @@ const CanvasTest: FC = () => {
     // it will fill current path
     ctx.setFillStyle('red')
     ctx.fill()
+
+    ctx.moveTo(200, 50)
+    ctx.lineTo(300, 100)
+    ctx.lineTo(150, 100)
+    ctx.closePath()
+    ctx.stroke()
+
     ctx.draw()
   }, [])
 

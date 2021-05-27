@@ -50,7 +50,7 @@ const Measure: FC = () => {
     const res = await login(params)
     // const res = await sendHttpRequest(ApiLogin,{}, {useMock: true})
     const { terminal_user_session, user_info, code: resCode, random_code } = res
-    console.log('getUserProfile', res)
+    console.log('getUserProfile', resCode)
     if (resCode === '20005') {
       setRandomCode(random_code)
     } else {
