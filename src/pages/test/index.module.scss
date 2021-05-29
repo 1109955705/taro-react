@@ -1,4 +1,3 @@
-$myColor: red;
 .main {
   background: #F7F7F7;
   padding: 0 32px 20px 32px;
@@ -6,11 +5,10 @@ $myColor: red;
 
 .test {
   border: 1px solid $color;
-  width: 100px;
-  height: 100px;
+  font-size: $T1;
+
 }
 
-.test-one {
-  width: 200px;
-  height: 200px;
+.testOne {
+  color: var(--apple);
 }

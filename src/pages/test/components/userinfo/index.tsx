@@ -19,7 +19,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
 
   const { userinfo } = useSelector((state: ReduxRootState) => state)
   console.log('Usernfo刷新了')
-  throw new Error("调试用途");
+  // throw new Error("userinfo:调试用途");
   return (
     <View className={style.main}>
       <AtAvatar className={style.avatar} circle image={userinfo.avatar}></AtAvatar>
@@ -27,7 +27,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
         <View className={style.weight}>{lastMeasure.weight}kg</View>
         {
           isLogin &&
-            <View className={`${style.measureBtn} themeColor`} onClick={()=>Taro.navigateTo({ url: '/pages/blexxx/index'})}>{t('click_measure')}</View> 
+            <View className={`${style.measureBtn}`} onClick={()=>Taro.navigateTo({ url: '/pages/blexxx/index'})}>{t('click_measure')}</View> 
         }
       </View>
       <View className={style.indexWrap}>

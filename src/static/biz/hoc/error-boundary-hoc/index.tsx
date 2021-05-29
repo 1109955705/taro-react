@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { View } from '@tarojs/components'
+import { logError } from "@/utils/error";
+import { $ } from '@tarojs/extend'
 
 export default EBWrapComponent => {
-  console.log('111111111', EBWrapComponent)
   return class ErrorBoundary extends Component {
+    // eslint-disable-next-line react/sort-comp
     state = {
       error: null,
     };
@@ -14,17 +16,25 @@ export default EBWrapComponent => {
       return { error: error };
     }
 
-    componentDidCatch(error, info) {
-      // 错误上报
-      console.log('componentDidCatch:hoc')
+    componentDidMount () {
+      console.log('componentDidMount')
+      let elem = $(`.banner`)  
+      elem.css('background-color', '#369') 
+      elem.css('--apple', 'orange')
     }
- 
+
+    componentDidCatch(error, info) {
+      logError('run', error, info.componentStack)
+    }
+
     render() {
       if (this.state.error) {
           // 渲染出错时的 UI
           return <View>Something broke</View>;
       }
-      return <EBWrapComponent />;
+      return <View className='banner'>
+        <EBWrapComponent />
+        </View>
     }
   }
 }

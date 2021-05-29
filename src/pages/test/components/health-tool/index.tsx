@@ -7,7 +7,7 @@ import style from './index.module.scss'
 const HealthTool: FC = () => {
 
   const { data, error, loading } = useRequest(getHealthToolList);
-  console.log('HealthTool刷新了')
+  console.log('HealthTool刷新了', data)
   if (error) {
     return <View>failed to load</View>;
   }
@@ -20,7 +20,7 @@ const HealthTool: FC = () => {
       <View>健康工具</View>
       <View className={style.bannersList}>
           {
-            data.data.health_tools.map((item: any) => {
+            data.data.data.health_tools.map((item: any) => {
               return <Image className={style.imgBanner} src={item.tool_banner} key={item.tool_banner} />
             })
           }
