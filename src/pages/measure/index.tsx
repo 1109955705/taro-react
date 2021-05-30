@@ -9,7 +9,6 @@ import { set_session_key } from "@/store/actions/sessionKey";
 import { login } from "@/api/user";
 import { wxPromise } from "@/utils/wxPromise";
 import eventBus from "@/static/biz/eventBus";
-import theme from "@/static/biz/theme";
 import { useTranslation } from 'react-i18next';
 import "./index.scss";
 
@@ -24,13 +23,13 @@ const Measure: FC = () => {
   const [randomCode, setRandomCode] = useState<string>('')
   const [test, setTest] = useState<any>('test')
   const [isOpened, showToast] = useState<boolean>(false)
-  const selected = useSelector(state => state)
+  const allState = useSelector(state => state)
   const { account_name } = useSelector((state: ReduxRootState) => state.userinfo)
-  const index = useSelector((state: ReduxRootState) => state.tabbar.index)
+  const index = useSelector((state: ReduxRootState) => state.tabbar)
+  const themeColor = useSelector((state: ReduxRootState) => state.themeColor)
   const { t } = useTranslation();
 
   useEffect(() => {
-    console.log('measure: theme', theme)
     // console.log("userId",userId)
     eventBus.on('test', res =>{
       setTest(res)  
@@ -38,15 +37,24 @@ const Measure: FC = () => {
     })
   }, []);
 
+  useEffect(()=>{
+    Taro.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: themeColor,
+    })
+  }, [themeColor])
+
+  useEffect(() => {
+    console.log('measure: index', index)
+  }, [index]);
+
   useDidShow(() => {
     dispatch(set_tabbar_index(0));
   });
 
   const handClickLogin = async () => {
     const { iv, encryptedData, errMsg } = await wxPromise(Taro.getUserProfile)({desc:'xxxx'})
-    console.log('11111111', errMsg)
     if (errMsg.includes('fail')) return
-    console.log('wwwwww')
     const { code } = await wxPromise(Taro.login)()
     const params = { iv, encryptedData, code }
     const res = await login(params)
@@ -75,7 +83,7 @@ const Measure: FC = () => {
   };
 
   const handleStore = ()=> {
-    console.log('detail', selected);
+    console.log('detail', allState);
   }
 
   const changeName = ()=> {
@@ -83,8 +91,6 @@ const Measure: FC = () => {
   }
 
   const changeIndex = ()=> {
-    // console.log('detail', userInfo.account_name);
-    // dispatch(change_userName('222222'))
     dispatch(set_tabbar_index(2));
   }
   
@@ -139,19 +145,20 @@ const Measure: FC = () => {
         className='btn'
         plain
         onClick={()=>changeName()}
-      >change</Button>
+      >changeName</Button>
       <View>{account_name}</View>
       <Button
         className='btn'
         plain
         onClick={()=>changeIndex()}
-      >change{index}</Button>
+      >changeIndex{index}</Button>
       {/* {myView()} */}
       <Button
         className='btn'
         plain
         onClick={()=>Taro.navigateTo({url: '/pages/test/index'})}
       >{t('home')}</Button>
+      <View className='tabbarHeight'></View>
     </View>
   );
 };

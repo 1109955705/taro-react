@@ -31,7 +31,6 @@ const Mine: FC = () => {
   // const [all, setAll] = useState(1)
   const [num, setNum] = useState(0);
   const userInfo = useSelector((state: ReduxRootState) => state.userinfo)
-  const index = useSelector((state: ReduxRootState) => state.tabbar.index)
   const [isOn, setIsOn] = useState(false);
   console.log('reducer')
   const {
@@ -83,9 +82,8 @@ const Mine: FC = () => {
           }}
         >+</Button>
       </View>
-        <View>{index}</View>
-        <View>{isOn ? "On" : "Off"}</View>
-        <ChildButton handleClick={handleClick}></ChildButton>
+      <View>{isOn ? "On" : "Off"}</View>
+      <ChildButton handleClick={handleClick}></ChildButton>
     </View>
   )
 }

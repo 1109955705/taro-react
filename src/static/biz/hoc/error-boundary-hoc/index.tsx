@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import { View } from '@tarojs/components'
+import React, { Component, Fragment } from 'react'
+import { View, PageMeta, NavigationBar } from '@tarojs/components'
 import { logError } from "@/utils/error";
-import { $ } from '@tarojs/extend'
 
 export default EBWrapComponent => {
   return class ErrorBoundary extends Component {
@@ -17,10 +16,6 @@ export default EBWrapComponent => {
     }
 
     componentDidMount () {
-      console.log('componentDidMount')
-      let elem = $(`.banner`)  
-      elem.css('background-color', '#369') 
-      elem.css('--apple', 'orange')
     }
 
     componentDidCatch(error, info) {
@@ -32,9 +27,14 @@ export default EBWrapComponent => {
           // 渲染出错时的 UI
           return <View>Something broke</View>;
       }
-      return <View className='banner'>
-        <EBWrapComponent />
-        </View>
+      return (
+        <Fragment>
+          <PageMeta>
+            <NavigationBar backgroundColor='#ffb600'></NavigationBar>
+          </PageMeta>
+          <EBWrapComponent />
+        </Fragment>
+      )
     }
   }
 }

@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux";
 import { getLastMeasure } from '@/api/user'
@@ -9,7 +10,7 @@ const useMain = () => {
   const isLogin = useSelector((state: ReduxRootState) => {
     return state.sessionKey ? true : false
   })
-
+  const themeColor = useSelector((state: ReduxRootState) => state.themeColor)
   useEffect(()=> {
     // 判断是否登录
     if (isLogin) {
@@ -28,6 +29,12 @@ const useMain = () => {
 
   }, [isLogin])
 
+  useEffect(()=>{
+    Taro.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: themeColor,
+    })
+  }, [themeColor])
   return {
     isLogin,
     lastMeasure,

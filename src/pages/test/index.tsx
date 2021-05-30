@@ -1,7 +1,6 @@
 import React, { FC, Fragment } from 'react'
 import { View } from '@tarojs/components'
 import boot from '@/static/biz/hoc/boot'
-import { $ } from '@tarojs/extend'
 import useMain from './service/useMain'
 import BodyIndex from './components/body-index'
 import Features from './components/features'
@@ -14,7 +13,6 @@ const Test: FC = () => {
 
   const { isLogin, lastMeasure } = useMain()
   console.log('index刷新了', isLogin)
-
   // throw new Error("调试用途xxx");
   return (
     <View className={style.main}>

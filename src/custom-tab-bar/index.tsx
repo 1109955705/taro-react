@@ -5,7 +5,6 @@ import { CoverView, CoverImage } from '@tarojs/components'
 import './index.scss'
 
 const data =  {
-  color: '#CCCCCC',
   list: [
     {
       "pagePath": "/pages/measure/index",
@@ -24,14 +23,13 @@ const data =  {
     }
   ]
 }
-const selectedColor = '#9ACD32'
-const Tabbar: FC = () => {
-  const selected = useSelector((state: any) => state.tabbar.index)
- 
-  useEffect(() => {
-    console.log("selected",selected)
-  }, [])
 
+const defaultColor = '#CCCCCC'
+
+const Tabbar: FC = () => {
+  const selected = useSelector((state: ReduxRootState) => state.tabbar)
+  const selectedColor = useSelector((state: ReduxRootState) => state.themeColor)
+ 
   const handleSwitchTab = (path: string) => {
     switchTab({
       url: path
@@ -43,10 +41,10 @@ const Tabbar: FC = () => {
       {   
         data.list.map((item, index)=>(
           <CoverView className='tab-bar-item' key={index}  onClick={()=>handleSwitchTab(item.pagePath)}>
-            <CoverView className='itme-img_bg' style={{background: index === selected ? selectedColor : data.color}}>
-              <CoverImage className='itme_icon' src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}></CoverImage>
+            <CoverView className='tab-bar-itme-img_bg' style={{background: index === selected ? selectedColor : defaultColor}}>
+              <CoverImage className='tab-bar-itme_icon' src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}></CoverImage>
             </CoverView>
-            <CoverView className='item_text' style={{color: index === selected ? selectedColor : data.color}}>{item.text}</CoverView>
+            <CoverView className='tab-bar-item_text' style={{color: index === selected ? selectedColor : defaultColor}}>{item.text+index}</CoverView>
           </CoverView>
         ))
       }

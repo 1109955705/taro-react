@@ -5,6 +5,6 @@ import {
 export const set_tabbar_index = (index) => {
   return {
     type: SET_TABBAR_INDEX,
-    index: index,
+    index,
   }
 }
