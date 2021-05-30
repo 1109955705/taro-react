@@ -7,7 +7,7 @@ import { set_tabbar_index } from "@/store/actions/tabbar";
 import { set_userinfo, change_userName} from '@/store/actions/userinfo'
 import { set_session_key } from "@/store/actions/sessionKey";
 import { login } from "@/api/user";
-import { wxPromise } from "@/utils/wxPromise";
+import wxPromise from "@/static/biz/wxPromise";
 import eventBus from "@/static/biz/eventBus";
 import { useTranslation } from 'react-i18next';
 import "./index.scss";

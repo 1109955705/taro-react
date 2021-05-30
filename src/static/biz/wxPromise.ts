@@ -7,8 +7,9 @@ interface taroRequest {
   complete?: (res: any) => void;
   data?: Record<string, unknown>
   desc?: string,
+  url? : string,
 }
-export const wxPromise = (fn) => {
+export default (fn) => {
   return (obj: taroRequest = {}) => {
     return new Promise<any>((resolve, reject) => {
       obj.success = (res) => {
@@ -16,7 +17,7 @@ export const wxPromise = (fn) => {
         resolve(res);
       };
       obj.fail = err => {
-        logError('wxPromise', 'xxx', err)
+        logError('wxPromise', '未知', err)
         resolve(err);
       };
       fn(obj).catch(e => {}); // 防止报错
