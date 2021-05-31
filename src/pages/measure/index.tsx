@@ -6,12 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { set_tabbar_index } from "@/store/actions/tabbar";
 import { set_userinfo, change_userName} from '@/store/actions/userinfo'
 import { set_session_key } from "@/store/actions/sessionKey";
-import { login } from "@/api/user";
 import wxPromise from "@/static/biz/wxPromise";
 import eventBus from "@/static/biz/eventBus";
 import { useTranslation } from 'react-i18next';
 import { sendHttpRequest } from '@/static/sys/http'
-import { ApiLogin } from '@/static/biz/apis'
+import { ApiLogin } from '@/static/biz/apis/users'
 import "./index.scss";
 
 interface LoginTypeTwo {
@@ -60,9 +59,9 @@ const Measure: FC = () => {
     const { code } = await wxPromise(Taro.login)()
     const params = { iv, encryptedData, code }
     // const res = await login(params)
-    const res = await sendHttpRequest(ApiLogin,{ params }, {useMock: true})
-    const { terminal_user_session, user_info, code: resCode, random_code } = res
-    console.log('getUserProfile', resCode)
+    const res = await sendHttpRequest(ApiLogin, params, {})
+    const { terminal_user_session, user_info, code: resCode, random_code } = res.data
+ 
     if (resCode === '20005') {
       setRandomCode(random_code)
     } else {
@@ -79,8 +78,8 @@ const Measure: FC = () => {
       iv,
       random_code: randomCode,
     }
-    const res = await login(params)
-    const { terminal_user_session, user_info } = res
+    const res = await sendHttpRequest(ApiLogin, params, {})
+    const { terminal_user_session, user_info } = res.data
     dispatch(set_session_key(terminal_user_session));
     dispatch(set_userinfo(user_info));
   };

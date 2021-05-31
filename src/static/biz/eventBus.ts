@@ -20,15 +20,15 @@ class EventBus {
     this.list[key].push(fn);
   }
   // 触发事件
-  emit() {  
-    let key = [].shift.call(arguments),
+  emit(...args) {  
+    let key = [].shift.call(args),
         fns = this.list[key];
 
     if (!fns || fns.length === 0) {
         return false;
     }
     fns.forEach(fn => {
-        fn.apply(this, arguments);
+        fn.apply(this, args);
     });
   }
 }

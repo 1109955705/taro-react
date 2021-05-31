@@ -6,6 +6,7 @@ import { logError } from "@/static/sys/error";
 import { systemInfo } from '@/static/sys/system'
 import theme from '@/static/biz/themeMock'
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
+import logger from "@/static/sys/realTimeLogger";
 import configStore from '@/store/index';
 
 interface TypedHttpConfig {
@@ -48,13 +49,13 @@ const transformUrl = (url: string, params: Record<string, unknown>) => {
   return transformedUrl;
 }
 
-const httpInstance = (option) => {
+const httpInstance: any = (option) => {
   return new Promise(( resolve, reject ) => {
     Taro.request({
       ...option,
       success: res => {
         console.log('success', res)
-        resolve(res.data)
+        resolve(res)
       },
       error: err => {
         console.log('error', err)
@@ -63,7 +64,7 @@ const httpInstance = (option) => {
       complete: ()=> {
         console.log('请求完成')
       }
-    });
+    })
   })
 }
 
@@ -124,19 +125,40 @@ type TypedHttpResponse = { data: any; [x: string]: any };
 const responseInterceptor = ({
   response,
   api,
+  config,
 }: {
   response: TypedHttpResponse;
   api: TypedApiScheme;
   config: TypedHttpConfig;
 })=> {
-  console.warn('responseInterceptor', response, api)
-  const { responseDataPropName = 'data', responseRules } = api;
+
+  logger.info(api.url, response.data, config)
+  const { responseDataPropName, responseRules } = api;
   const responseData = response.data;
-  let responseBizData = response.data[responseDataPropName];
-  const {
-    responseStruct = {
+  let responseBizData: any
+  if (responseDataPropName) {
+    responseBizData = response.data[responseDataPropName]
+  } else {
+    responseBizData = response
+  }
+
+  const defaultResponseStruct = {};
+  Object.assign(defaultResponseStruct, {
+    code: {
+      validator(value: any) {
+        if (![
+          '200',
+          '2000',
+          '20000',
+        ].includes(`${value}`)) {
+          return new Error(responseData?.msg || `request failed. code: ${value}`);
+        }
+        return true;
+      },
     },
-  } = api;
+  });
+
+  const responseStruct = undefined
 
   try {
     // 校验返回的结构
@@ -155,6 +177,7 @@ const responseInterceptor = ({
     error.request = api;
     error.response = response;
     logError('api', '请求校验出错', error)
+    throw console.error();
   }
 
   return Promise.resolve({
@@ -166,16 +189,11 @@ const responseInterceptor = ({
 export const sendHttpRequest = (
   api: TypedApiScheme,
   data: object = {},
-  config: TypedHttpConfig,
-): Promise<{
+  config: TypedHttpConfig = {},
+) : Promise<{
   data: any;
   response: TypedHttpResponse;
 }>  => {
-
-  if (config.showLoading) {
-    showLoadingToast(config.loadingText);
-  }
-
   const cloneApi = cloneDeep(api);
   const cloneData = cloneDeep(data);
 
@@ -200,11 +218,10 @@ export const sendHttpRequest = (
   } as TypedRequestInterceptorParamteter)
     .then((request) => {
       // 使用mock数据
-      const { useMock } = config
-      if (useMock) {
-        return Promise.resolve(api.responseMock)
-      }
-
+      // const { useMock } = config
+      // if (useMock) {
+      //   return Promise.resolve(api.responseMock)
+      // }
       return httpInstance({
         method: request.api.method,
         url: request.api.url,
@@ -220,6 +237,7 @@ export const sendHttpRequest = (
     }))
     .catch((err) => {
       logError('api', '请求出错', err)
+      throw new Error(err);
     })
     .finally(() => {
       closeLoadingToast();

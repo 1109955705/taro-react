@@ -1,7 +1,7 @@
-import React, { FC, useState, useCallback, useRef } from 'react'
+import React, { FC, useEffect, useState, useCallback, useRef } from 'react'
 import { View, Button } from '@tarojs/components'
 import { set_tabbar_index} from '@/store/actions/tabbar'
-import { useDidShow } from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { useDispatch, useSelector } from "react-redux";
 import eventBus from "@/static/biz/eventBus";
 import { useChecked } from './use-checked'
@@ -31,6 +31,7 @@ const Mine: FC = () => {
   // const [all, setAll] = useState(1)
   const [num, setNum] = useState(0);
   const userInfo = useSelector((state: ReduxRootState) => state.userinfo)
+  const themeColor = useSelector((state: ReduxRootState) => state.themeColor)
   const [isOn, setIsOn] = useState(false);
   console.log('reducer')
   const {
@@ -53,6 +54,14 @@ const Mine: FC = () => {
     setIsOn(!isOn)
     // setIsOn(pre=>!pre)
   }, [isOn]);
+
+  useEffect(()=>{
+    Taro.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: themeColor,
+    })
+  }, [themeColor])
+
   return (
     <View className='template_container'>
       {/* <Image src={require('../../assets/images/tabbar/home_default.png')}></Image> */}

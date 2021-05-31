@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, Fragment } from 'react'
 import { View, WebView} from '@tarojs/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { set_tabbar_index } from '@/store/actions/tabbar'
-import { useDidShow } from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import eventBus from "@/static/biz/eventBus";
 import './index.scss'
 
@@ -12,6 +12,7 @@ const Chart: FC = () => {
   // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
   // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
   const { userinfo, sessionKey } = useSelector((state: ReduxRootState) => state)
+  const themeColor = useSelector((state: ReduxRootState) => state.themeColor)
   const [test, setTest] = useState<any>('test')
   useEffect(() => {
     console.log("userinfo", userinfo)
@@ -19,7 +20,7 @@ const Chart: FC = () => {
       user_id: userinfo.id,
       key: sessionKey,
       is_main_user: 1,
-      themeColor: '#01ca9e',
+      themeColor,
       hostName: '',
     }
     let hostName: string
@@ -41,6 +42,13 @@ const Chart: FC = () => {
       console.log('chart页面测试回调')
     })
   }, []);
+
+  useEffect(()=>{
+    Taro.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: themeColor,
+    })
+  }, [themeColor])
 
   const objToStr = (obj, encode = false) => {
     let str = ""
