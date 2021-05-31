@@ -1,4 +1,4 @@
-import { logError } from "@/utils/error";
+import { logError } from "@/static/sys/error";
 
 interface taroRequest {
   timeout?: number;

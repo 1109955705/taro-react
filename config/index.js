@@ -37,7 +37,6 @@ const config = {
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
     '@/store': path.resolve(__dirname, '..', 'src/store'),
     '@/api': path.resolve(__dirname, '..', 'src/api'),
-    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
     '@/static': path.resolve(__dirname, '..', 'src/static'),
     '@/libs': path.resolve(__dirname, '..', 'src/libs'),
     '@/i18n': path.resolve(__dirname, '..', 'src/i18n'),

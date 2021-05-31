@@ -22,8 +22,7 @@ const App = (props) => {
     setTimeout(()=>{
       console.log('app:setTimeout')
       store.dispatch(set_theme_color('#ffb600'))
-    }, 3000)
-
+    }, 5000)
     // store.dispatch(set_theme_color(theme.themeColor))
   },[])
 

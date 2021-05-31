@@ -16,10 +16,12 @@ const BodyIndex: FC<BodyIndexTypes> = ({ lastMeasure }) => {
       <View className={style.itemWrap}>
         {
           list.map((item: any) => {
-            return  <View className={style.item} key={item.name}>
-                      <View>{item.name}</View>
-                      <View>{item.value}</View>
-                    </View>
+            return (
+              <View className={style.item} key={item.name}>
+                <View>{item.name}</View>
+                <View>{item.value}</View>
+              </View>
+            )
           })
         }
       </View>

@@ -10,6 +10,8 @@ import { login } from "@/api/user";
 import wxPromise from "@/static/biz/wxPromise";
 import eventBus from "@/static/biz/eventBus";
 import { useTranslation } from 'react-i18next';
+import { sendHttpRequest } from '@/static/sys/http'
+import { ApiLogin } from '@/static/biz/apis'
 import "./index.scss";
 
 interface LoginTypeTwo {
@@ -57,8 +59,8 @@ const Measure: FC = () => {
     if (errMsg.includes('fail')) return
     const { code } = await wxPromise(Taro.login)()
     const params = { iv, encryptedData, code }
-    const res = await login(params)
-    // const res = await sendHttpRequest(ApiLogin,{}, {useMock: true})
+    // const res = await login(params)
+    const res = await sendHttpRequest(ApiLogin,{ params }, {useMock: true})
     const { terminal_user_session, user_info, code: resCode, random_code } = res
     console.log('getUserProfile', resCode)
     if (resCode === '20005') {
@@ -70,6 +72,7 @@ const Measure: FC = () => {
   };
 
   const handGetPhone = async (e: any) => {
+    if (!randomCode) return
     const { encryptedData, iv } = e.detail
     const params: LoginTypeTwo = {
       encryptedData,

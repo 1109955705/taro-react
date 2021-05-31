@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
-import { HTTP_STATUS } from "@/utils/constants/status";
-import { logError } from "@/utils/error";
+import { HTTP_STATUS } from "@/static/biz/constants/status";
+import { logError } from "@/static/sys/error";
 // import theme from '@/static/biz/theme';
 import theme from '@/static/biz/themeMock';
 
@@ -100,7 +100,7 @@ export default {
           } else if (code == HTTP_STATUS.SUCCESS) {
             resolve(res.data)
           } else {
-            logError("api", "未知状态码");
+            logError("api", "未知状态码", res);
             reject(res)
           }
         },

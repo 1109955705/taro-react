@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
-import { View, PageMeta, NavigationBar } from '@tarojs/components'
-import { logError } from "@/utils/error";
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+import { logError } from "@/static/sys/error";
 
 export default EBWrapComponent => {
   return class ErrorBoundary extends Component {
@@ -27,14 +27,7 @@ export default EBWrapComponent => {
           // 渲染出错时的 UI
           return <View>Something broke</View>;
       }
-      return (
-        <Fragment>
-          <PageMeta>
-            <NavigationBar backgroundColor='#ffb600'></NavigationBar>
-          </PageMeta>
-          <EBWrapComponent />
-        </Fragment>
-      )
+      return <EBWrapComponent />
     }
   }
 }

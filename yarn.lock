@@ -1501,6 +1501,11 @@
     swiper "4.4.2"
     weui "^1.1.2"
 
+"@tarojs/extend@^3.2.10":
+  version "3.2.10"
+  resolved "https://registry.nlark.com/@tarojs/extend/download/@tarojs/extend-3.2.10.tgz#f39017d32ea5ce68c9e8c589476cd21c9558fd7d"
+  integrity sha1-85AX0y6lzmjJ6MWJR2zSHJVY/X0=
+
 "@tarojs/helper@3.2.0":
   version "3.2.0"
   resolved "https://registry.npm.taobao.org/@tarojs/helper/download/@tarojs/helper-3.2.0.tgz"

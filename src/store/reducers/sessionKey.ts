@@ -5,7 +5,7 @@ const INITIAL_USERINFO: string= ''
 export default function counter (state = INITIAL_USERINFO, action) {
   switch (action.type) {
     case SET_SESSION_KEY:
-      return action.session_key
+      return action.session_key || state
     case CLEAR_SESSION_KEY:
       return ''
     default:
