@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { View } from '@tarojs/components'
-import useMain from './service/useMain'
+import useMain from './useMain'
 import style from './index.module.scss'
 // const style = require('./index.module.scss')
 interface BodyIndexTypes {
@@ -9,7 +9,9 @@ interface BodyIndexTypes {
 const BodyIndex: FC<BodyIndexTypes> = ({ lastMeasure }) => {
 
   const { list } = useMain(lastMeasure)
+
   console.log('BodyIndex刷新了')
+  
   return (
     <View className={style.main}>
       <View className={style.title}>健康工具</View>

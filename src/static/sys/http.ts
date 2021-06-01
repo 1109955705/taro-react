@@ -65,9 +65,7 @@ const httpInstance: any = (option) => {
         console.log('error', err)
         reject(err)
       },
-      complete: ()=> {
-        console.log('请求完成')
-      }
+      complete: ()=> {}
     })
   })
 }

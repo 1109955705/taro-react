@@ -1,4 +1,4 @@
-// 组件通信，一个触发与监听的过程
+// 组件通信，一个触发与监听的过程 Taro.Events有默认实现
 class EventBus {
   list
   static instance: any

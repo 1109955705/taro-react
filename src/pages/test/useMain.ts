@@ -10,6 +10,7 @@ const useMain = () => {
     return state.sessionKey ? true : false
   })
   const themeColor = useSelector((state: ReduxRootState) => state.themeColor)
+
   useEffect(()=> {
     // 判断是否登录
     if (isLogin) {
@@ -28,6 +29,7 @@ const useMain = () => {
       backgroundColor: themeColor,
     })
   }, [themeColor])
+
   return {
     isLogin,
     lastMeasure,

@@ -68,12 +68,12 @@ const useMain = (lastMeasure) => {
         value: bmr,
       },
     ]
-    
+
     setList(indexList)
   }
   
   useEffect(() => {
-
+    if (Object.keys(lastMeasure).length === 0) return
     handleDate(lastMeasure)
 
   }, [lastMeasure])
@@ -83,4 +83,4 @@ const useMain = (lastMeasure) => {
   }
 }
 
-export default  useMain
+export default useMain

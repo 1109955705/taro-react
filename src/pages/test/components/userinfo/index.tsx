@@ -1,10 +1,8 @@
 import React, { FC } from 'react'
 import { View } from '@tarojs/components'
-import Taro from "@tarojs/taro";
 import { useSelector } from "react-redux";
 import { AtAvatar } from 'taro-ui'
 import { useTranslation } from 'react-i18next';
-import wxPromise from "@/static/biz/wxPromise";
 import { navigateTo } from '@/static/biz/common'
 import style from './index.module.scss'
 
@@ -29,7 +27,7 @@ const Usernfo: FC<UserinfoTypes> = ({lastMeasure}) => {
         <View className={style.weight}>{lastMeasure.weight}kg</View>
         {
           isLogin &&
-            <View className={`${style.measureBtn}`} onClick={()=>navigateTo({ url: '/pages/ble/index'})}>{t('click_measure')}</View> 
+            <View className={`${style.measureBtn} g-theme-color g-font-T4`} onClick={()=>navigateTo({ url: '/pages/ble/index'})}>{t('click_measure')}</View> 
         }
       </View>
       <View className={style.indexWrap}>

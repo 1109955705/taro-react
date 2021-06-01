@@ -1,13 +1,73 @@
 @import 'variables.scss';
 
-:global(.testttt) {
-  color: #01ca9e;
+.g-theme-color {
+  background: red !important;
 }
 
-:global(.themeBgColor) {
+.g-bc-theme {
   background: #01ca9e !important;
 }
 
-:global(.themeColor) {
-  background: #01ca9e !important;
+.g-color-B2 {
+  background: $B2 !important;
+}
+
+.g-color-B3 {
+  background: $B3 !important;
+}
+
+.g-color-B4 {
+  color: $B4 !important;
+}
+
+.g-color-B5 {
+  color: $B5 !important;
+}
+
+.g-bc-B2 {
+  background-color: $B2 !important;
+}
+
+.g-bc-B3 {
+  background-color: $B3 !important;
+}
+
+.g-bc-B4 {
+  background-color: $B4 !important;
+}
+
+.g-bc-B5 {
+  background-color: $B5 !important;
+}
+
+.g-font-72 {
+  font-size: $T1 !important;
+}
+
+.g-font-40 {
+  font-size: $T2 !important;
+}
+
+.g-font-32 {
+  font-size: $T3 !important; 
+}
+
+.g-font-30 {
+  font-size: $T4 !important;
+}
+
+.g-font-28 {
+  font-size: $T5 !important;
+}
+
+.g-font-24 {
+  font-size: $T6 !important;
+}
+
+.g-font-22 {
+  font-size: $T7 !important;
+}
+
+.g-font-20 {
+  font-size: $T8 !important;
 }

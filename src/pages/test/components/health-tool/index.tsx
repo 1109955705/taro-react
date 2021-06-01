@@ -18,7 +18,6 @@ const HealthTool: FC = () => {
     return <View>failed to load</View>;
   }
   if (loading) {
-    console.log('HealthTool加载中')
     return <View>loading...</View>;
   }
 

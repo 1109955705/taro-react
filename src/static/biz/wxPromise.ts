@@ -17,7 +17,7 @@ export default (fn) => {
         resolve(res);
       };
       obj.fail = err => {
-        logError('wxPromise', '未知', err)
+        logError('wxPromise:fail', '未知', err)
         resolve(err);
       };
       fn(obj).catch(e => {}); // 防止报错
