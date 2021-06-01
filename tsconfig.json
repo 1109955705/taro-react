@@ -25,7 +25,8 @@
       "@/i18n/*": ["./src/i18n/*"],
     },
     "rootDir": ".",
-    "jsx": "react-jsx",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [

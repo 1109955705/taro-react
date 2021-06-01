@@ -8,7 +8,6 @@ import HealthTool from './components/health-tool'
 import Userinfo from './components/userinfo'
 import style from './index.module.scss'
 
-
 const Test: FC = () => {
 
   const { isLogin, lastMeasure } = useMain()

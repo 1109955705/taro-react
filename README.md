@@ -10,3 +10,6 @@ NODE_ENV=production taro build --type weapp --watch
 
 ahook 
 https://ahooks.js.org/zh-CN/hooks/async
+
+vscode 插件 CSS Modules 提示
+
