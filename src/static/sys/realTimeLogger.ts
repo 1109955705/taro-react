@@ -1,4 +1,4 @@
-import Taro, { pageScrollTo } from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 
 const log = Taro.getRealtimeLogManager()
 
@@ -6,7 +6,7 @@ export default {
   info(...args: any[]) {
     const pages = Taro.getCurrentPages()
     const curePageName = pages[pages.length - 1].route
-    console.log('curPage', curePageName, args)
+    console.warn('realtimeLog', curePageName, args)
     return
     if (!log) return
     log.info(curePageName, ...args)

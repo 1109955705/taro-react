@@ -5,8 +5,8 @@ function getTheme() {
   if (getTheme.instance) {
     return getTheme.instance
   }
-  getTheme.instace = Taro.getExtConfigSync()
-  return getTheme.instace
+  getTheme.instance = Taro.getExtConfigSync()
+  return getTheme.instance
 }
 const theme =  getTheme()
 export default theme

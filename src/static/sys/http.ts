@@ -7,7 +7,12 @@ import { systemInfo } from '@/static/sys/system'
 import theme from '@/static/biz/themeMock'
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
 import logger from "@/static/sys/realTimeLogger";
-import configStore from '@/store/index';
+
+let sessionKey = ''
+export const setToken = (token) => {
+  console.log('setToken', token)
+  sessionKey = token
+}
 
 interface TypedHttpConfig {
   // 是否显示加载状态
@@ -18,7 +23,6 @@ interface TypedHttpConfig {
   loadingText?: string,
 }
 
-const { store } = configStore()
 const { appid } = theme
 const baseUrl = 'http://sit.third-api.yolanda.hk/open_api';
 
@@ -89,7 +93,6 @@ const requestInterceptor = (
   };
   let { url, requestRules } = api;
 
-  const sessionKey = store.getState().sessionKey
   if (sessionKey) {
     Object.assign(commonBodyData, {
       terminal_user_session_key: sessionKey,
@@ -139,7 +142,7 @@ const responseInterceptor = ({
   if (responseDataPropName) {
     responseBizData = response.data[responseDataPropName]
   } else {
-    responseBizData = response
+    responseBizData = responseData
   }
 
   const defaultResponseStruct = {};

@@ -8,6 +8,8 @@ declare module "*.jpeg";
 declare module "*.svg";
 declare module "*.css";
 declare module "*.less";
+declare module '*.scss';
+declare module '*.sass';
 declare module "*.styl";
 
 // 引入css module 需要按以下声明
@@ -36,10 +38,6 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
   
-}
-declare module '*.module.scss' {
-  const classes: { readonly [key: string]: string };
-  export default classes;
 }
 
 export {}

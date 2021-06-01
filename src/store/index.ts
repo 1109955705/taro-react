@@ -11,14 +11,14 @@ const saveAuthToken = () => next => action => {
   // 数据更改时通知其它ts文件
   // 登陆时设置session_key
   console.log('RE_SET_PERSIST',action)
-  if(action.type === SET_SESSION_KEY ) {
-    let setToken = require('../api/http').setToken
+  if(action.type === SET_SESSION_KEY) {
+    let setToken = require('../static/sys/http').setToken
     setToken(action.session_key);
   }
   // 刷新时设置session_key
   if(action.type === RE_SET_PERSIST ) {
     if (action.payload?.sessionKey) {
-      let setToken = require('../api/http').setToken
+      let setToken = require('../static/sys/http').setToken
       setToken(action.payload.sessionKey);
     }
   }

@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux'
 import { $ } from '@tarojs/extend'
 
 export default (ThemeColorComponent) => {
-  return  () => {
-    
+  return () => {
     const themeColor = useSelector((state: ReduxRootState) => state.themeColor)
 
     useEffect(()=>{
@@ -19,6 +18,5 @@ export default (ThemeColorComponent) => {
         <ThemeColorComponent />
       </View>
     )
+  }
 }
-}
-

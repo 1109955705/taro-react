@@ -18,6 +18,7 @@ export const init = () => {
 
   // 错误监听
   Taro.onError((error) => {
+    // 只能监听到throw error 无法监听throw new Error(error); throw new Error是创建错误，创造一个错误类型抛出, throw error 这个是抛出错误。
     console.error('onError:', error)
   })
 

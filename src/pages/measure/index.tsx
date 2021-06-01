@@ -45,10 +45,6 @@ const Measure: FC = () => {
     })
   }, [themeColor])
 
-  useEffect(() => {
-    console.log('measure: index', index)
-  }, [index]);
-
   useDidShow(() => {
     dispatch(set_tabbar_index(0));
   });
@@ -60,6 +56,7 @@ const Measure: FC = () => {
     const params = { iv, encryptedData, code }
     // const res = await login(params)
     const res = await sendHttpRequest(ApiLogin, params, {})
+    console.log('xxxxxxx', res)
     const { terminal_user_session, user_info, code: resCode, random_code } = res.data
  
     if (resCode === '20005') {

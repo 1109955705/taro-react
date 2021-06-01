@@ -18,11 +18,10 @@ const App = (props) => {
   })
 
   useEffect(()=>{
-    console.log('app:onlaunch', store)
-    setTimeout(()=>{
-      console.log('app:setTimeout')
-      store.dispatch(set_theme_color('#ffb600'))
-    }, 5000)
+    // setTimeout(()=>{
+    //   console.log('app:setTimeout')
+    //   store.dispatch(set_theme_color('#ffb600'))
+    // }, 5000)
     // store.dispatch(set_theme_color(theme.themeColor))
   },[])
 
