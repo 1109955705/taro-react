@@ -1,12 +1,12 @@
 // @ts-nocheck
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/taro';
 
 function getTheme() {
   if (getTheme.instance) {
-    return getTheme.instance
+    return getTheme.instance;
   }
-  getTheme.instance = Taro.getExtConfigSync()
-  return getTheme.instance
+  getTheme.instance = Taro.getExtConfigSync();
+  return getTheme.instance;
 }
-const theme =  getTheme()
-export default theme
+const theme = getTheme();
+export default theme;

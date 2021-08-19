@@ -1,22 +1,22 @@
-import { SET_USERINFO, CHANGE_USERNAME } from '../constants/userinfo'
+import { SET_USERINFO, CHANGE_USERNAME } from '../constants/userinfo';
 
 interface UserInfo {
-  [x: string]: any
+  [x: string]: any;
 }
-const INITIAL_USERINFO: UserInfo = {}
+const INITIAL_USERINFO: UserInfo = {};
 
-export default function counter (state = INITIAL_USERINFO, action) {
+export default function counter(state = INITIAL_USERINFO, action) {
   switch (action.type) {
     case SET_USERINFO:
       return {
-       ...action.userinfo
-      }
+        ...action.userinfo,
+      };
     case CHANGE_USERNAME:
       return {
         ...state,
-        account_name: action.username
-      }
+        account_name: action.username,
+      };
     default:
-       return state
+      return state;
   }
 }

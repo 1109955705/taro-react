@@ -1,56 +1,73 @@
-import { switchTab } from '@tarojs/taro'
-import React, { FC, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { CoverView, CoverImage } from '@tarojs/components'
-import './index.scss'
+import { switchTab } from '@tarojs/taro';
+import React, { FC, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { CoverView, CoverImage } from '@tarojs/components';
+import './index.scss';
 
-const data =  {
+const data = {
   list: [
     {
-      "pagePath": "/pages/measure/index",
-      "text": "测量",
-      "iconPath": "home",
+      pagePath: '/pages/measure/index',
+      text: '测量',
+      iconPath: 'home',
     },
     {
-      "pagePath": "/pages/chart/index",
-      "text": "图表",
-      "iconPath": "chart",
+      pagePath: '/pages/chart/index',
+      text: '图表',
+      iconPath: 'chart',
     },
     {
-      "pagePath": "/pages/mine/index",
-      "text": "我的",
-      "iconPath": "mine",
-    }
-  ]
-}
+      pagePath: '/pages/mine/index',
+      text: '我的',
+      iconPath: 'mine',
+    },
+  ],
+};
 
-const defaultColor = '#CCCCCC'
+const defaultColor = '#CCCCCC';
 
 const Tabbar: FC = () => {
-  const selected = useSelector((state: ReduxRootState) => state.tabbar)
-  const selectedColor = useSelector((state: ReduxRootState) => state.themeColor)
- 
+  const selected = useSelector((state: ReduxRootState) => state.tabbar);
+  const selectedColor = useSelector(
+    (state: ReduxRootState) => state.themeColor
+  );
+
   const handleSwitchTab = (path: string) => {
     switchTab({
-      url: path
-    })
-  }
+      url: path,
+    });
+  };
   return (
-    <CoverView className='tab-bar'>
-      <CoverView className='tab-bar-border'></CoverView>
-      {   
-        data.list.map((item, index)=>(
-          <CoverView className='tab-bar-item' key={index}  onClick={()=>handleSwitchTab(item.pagePath)}>
-            <CoverView className='tab-bar-itme-img_bg' style={{background: index === selected ? selectedColor : defaultColor}}>
-              <CoverImage className='tab-bar-itme_icon' src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}></CoverImage>
-            </CoverView>
-            <CoverView className='tab-bar-item_text' style={{color: index === selected ? selectedColor : defaultColor}}>{item.text+index}</CoverView>
+    <CoverView className="tab-bar">
+      <CoverView className="tab-bar-border"></CoverView>
+      {data.list.map((item, index) => (
+        <CoverView
+          className="tab-bar-item"
+          key={index}
+          onClick={() => handleSwitchTab(item.pagePath)}
+        >
+          <CoverView
+            className="tab-bar-itme-img_bg"
+            style={{
+              background: index === selected ? selectedColor : defaultColor,
+            }}
+          >
+            <CoverImage
+              className="tab-bar-itme_icon"
+              src={require(`../assets/images/tabbar/${item.iconPath}_transparent.png`)}
+            ></CoverImage>
           </CoverView>
-        ))
-      }
+          <CoverView
+            className="tab-bar-item_text"
+            style={{ color: index === selected ? selectedColor : defaultColor }}
+          >
+            {item.text + index}
+          </CoverView>
+        </CoverView>
+      ))}
     </CoverView>
-  )
-}
+  );
+};
 
 // 使用Taro.Component<any, any> 或声明StateType和propType， 否则在jsx中使用 this.state.xxx会报错不存在改变量
 // type StateType = {
@@ -80,7 +97,7 @@ const Tabbar: FC = () => {
 //   componentWillReceiveProps (nextProps) {
 //     console.log(this.props, nextProps)
 //   }
-  
+
 //   handleSwitchTab = (path: string) => {
 //     switchTab({
 //       url: path
@@ -91,7 +108,7 @@ const Tabbar: FC = () => {
 //     return (
 //       <CoverView className="tab-bar">
 //         <CoverView className="tab-bar-border"></CoverView>
-//         {   
+//         {
 //           data.list.map((item, index)=>(
 //             <CoverView className="tab-bar-item" key={index}  onClick={this.handleSwitchTab.bind(this, item.pagePath)}>
 //               <CoverView className="itme-img_bg" style={{background: index === this.props.tabbar.index ? selectedColor : data.color}}>
@@ -106,5 +123,4 @@ const Tabbar: FC = () => {
 //   }
 // }
 
-
-export default Tabbar
+export default Tabbar;

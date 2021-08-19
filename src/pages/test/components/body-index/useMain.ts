@@ -1,16 +1,27 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
 const useMain = (lastMeasure) => {
+  const [list, setList] = useState<any>([]);
 
-  const [ list, setList ] = useState<any>([])
-  
   const handleDate = (measure) => {
-    const { 
-      weight, bmi, bodyfat, water, muscle, sinew, bone, fat_free_weight, 
-      protein, subfat, visfat, bodyage, body_shape, bmr,
-    } = measure
+    const {
+      weight,
+      bmi,
+      bodyfat,
+      water,
+      muscle,
+      sinew,
+      bone,
+      fat_free_weight,
+      protein,
+      subfat,
+      visfat,
+      bodyage,
+      body_shape,
+      bmr,
+    } = measure;
 
-    const indexList= [
+    const indexList = [
       {
         name: '体重',
         value: weight,
@@ -67,20 +78,19 @@ const useMain = (lastMeasure) => {
         name: '基础代谢',
         value: bmr,
       },
-    ]
+    ];
 
-    setList(indexList)
-  }
-  
+    setList(indexList);
+  };
+
   useEffect(() => {
-    if (Object.keys(lastMeasure).length === 0) return
-    handleDate(lastMeasure)
-
-  }, [lastMeasure])
+    if (Object.keys(lastMeasure).length === 0) return;
+    handleDate(lastMeasure);
+  }, [lastMeasure]);
 
   return {
     list,
-  }
-}
+  };
+};
 
-export default useMain
+export default useMain;

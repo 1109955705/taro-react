@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 // import { View, Input } from "@tarojs/components";
-import * as echarts from "../ec-canvas/echarts";
-import EcCanvasTaro, { ECObj } from "../ec-canvas";
+import * as echarts from '../ec-canvas/echarts';
+import EcCanvasTaro, { ECObj } from '../ec-canvas';
 
 interface BaseChartState {
   ec: ECObj;

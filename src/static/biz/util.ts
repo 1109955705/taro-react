@@ -1,13 +1,13 @@
 export const objToStr = (obj, encode = false) => {
-  let str = ""
-  for(let key in obj) {
+  let str = '';
+  for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       if (encode) {
-        str += `&${key}=${encodeURIComponent(obj[key])}`
+        str += `&${key}=${encodeURIComponent(obj[key])}`;
       } else {
-        str += `&${key}=${obj[key]}`
+        str += `&${key}=${obj[key]}`;
       }
     }
   }
-  return str.slice(1)
-}
+  return str.slice(1);
+};

@@ -1,29 +1,29 @@
 // http请求封装
-import Taro from "@tarojs/taro";
+import Taro from '@tarojs/taro';
 import cloneDeep from 'lodash/cloneDeep';
 import modelcheck from 'modelcheck';
-import { logError } from "@/static/sys/error";
-import { systemInfo } from '@/static/sys/system'
-import theme from '@/static/biz/themeMock'
+import { logError } from '@/static/sys/error';
+import { systemInfo } from '@/static/sys/system';
+import theme from '@/static/biz/themeMock';
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
-import logger from "@/static/sys/realTimeLogger";
+import logger from '@/static/sys/realTimeLogger';
 
-let sessionKey = ''
+let sessionKey = '';
 export const setToken = (token) => {
-  console.log('setToken', token)
-  sessionKey = token
-}
+  console.log('setToken', token);
+  sessionKey = token;
+};
 
 interface TypedHttpConfig {
   // 是否显示加载状态
   showLoading?: boolean;
   // 是否使用mock。只在开发环境有效
-  useMock?: boolean,
+  useMock?: boolean;
   // 加载文字
-  loadingText?: string,
+  loadingText?: string;
 }
 
-const { appid } = theme
+const { appid } = theme;
 const baseUrl = 'http://sit.third-api.yolanda.hk/open_api';
 
 function showLoadingToast(loadingText = '') {
@@ -33,7 +33,7 @@ function showLoadingToast(loadingText = '') {
 }
 
 function closeLoadingToast() {
-    Taro.hideLoading();
+  Taro.hideLoading();
 }
 
 const transformUrl = (url: string, params: Record<string, unknown>) => {
@@ -51,24 +51,24 @@ const transformUrl = (url: string, params: Record<string, unknown>) => {
     });
   }
   return transformedUrl;
-}
+};
 
 const httpInstance: any = (option) => {
-  return new Promise(( resolve, reject ) => {
+  return new Promise((resolve, reject) => {
     Taro.request({
       ...option,
-      success: res => {
-        console.log('success', res)
-        resolve(res)
+      success: (res) => {
+        console.log('success', res);
+        resolve(res);
       },
-      error: err => {
-        console.log('error', err)
-        reject(err)
+      error: (err) => {
+        console.log('error', err);
+        reject(err);
       },
-      complete: ()=> {}
-    })
-  })
-}
+      complete: () => {},
+    });
+  });
+};
 
 type TypedRequestInterceptorParamteter = {
   api: TypedApiScheme;
@@ -79,11 +79,11 @@ type TypedRequestInterceptorParamteter = {
 
 // 请求拦截器 添加公共参数，和校验参数
 const requestInterceptor = (
-  payload: TypedRequestInterceptorParamteter,
+  payload: TypedRequestInterceptorParamteter
 ): Promise<TypedRequestInterceptorParamteter> => {
-  const { api, config } = payload
+  const { api, config } = payload;
   let { data } = payload;
-  const timestamps = Math.floor(Date.now() / 1000) 
+  const timestamps = Math.floor(Date.now() / 1000);
   const commonBodyData = {
     ...systemInfo,
     timestamps,
@@ -97,8 +97,8 @@ const requestInterceptor = (
     });
   }
 
-  // 校验request数据 
-  if (requestRules) {  
+  // 校验request数据
+  if (requestRules) {
     try {
       data = modelcheck(data, requestRules, { cloneData: false });
     } catch (error) {
@@ -116,9 +116,12 @@ const requestInterceptor = (
   };
 
   return Promise.resolve({
-    api, data: requestData, headers, config,
+    api,
+    data: requestData,
+    headers,
+    config,
   });
-}
+};
 
 type TypedHttpResponse = { data: any; [x: string]: any };
 
@@ -131,54 +134,55 @@ const responseInterceptor = ({
   response: TypedHttpResponse;
   api: TypedApiScheme;
   config: TypedHttpConfig;
-})=> {
-
-  logger.info(api.url, response.data, config)
+}) => {
+  logger.info(api.url, response.data, config);
   const { responseDataPropName, responseRules } = api;
   const responseData = response.data;
-  let responseBizData: any
+  let responseBizData: any;
   if (responseDataPropName) {
-    responseBizData = response.data[responseDataPropName]
+    responseBizData = response.data[responseDataPropName];
   } else {
-    responseBizData = responseData
+    responseBizData = responseData;
   }
 
   const defaultResponseStruct = {};
   Object.assign(defaultResponseStruct, {
     code: {
       validator(value: any) {
-        if (![
-          '200',
-          '2000',
-          '20000',
-        ].includes(`${value}`)) {
-          return new Error(responseData?.msg || `request failed. code: ${value}`);
+        if (!['200', '2000', '20000'].includes(`${value}`)) {
+          return new Error(
+            responseData?.msg || `request failed. code: ${value}`
+          );
         }
         return true;
       },
     },
-
   });
 
-  const responseStruct = undefined
+  const responseStruct = undefined;
 
   try {
     // 校验返回的结构
     if (responseStruct) {
-      modelcheck(responseData, responseStruct, { cloneData: false, onlyModelDesciprtors: false });
+      modelcheck(responseData, responseStruct, {
+        cloneData: false,
+        onlyModelDesciprtors: false,
+      });
     }
-  
+
     // 校验response的data字段数据
     if (responseRules) {
       responseBizData = modelcheck(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        responseBizData, responseRules, { cloneData: false, onlyModelDesciprtors: false },
+        responseBizData,
+        responseRules,
+        { cloneData: false, onlyModelDesciprtors: false }
       );
     }
   } catch (error) {
     error.request = api;
     error.response = response;
-    logError('api', '请求校验出错', error)
+    logError('api', '请求校验出错', error);
     throw console.error();
   }
 
@@ -186,16 +190,16 @@ const responseInterceptor = ({
     response,
     data: responseBizData,
   });
-}
+};
 
 export const sendHttpRequest = (
   api: TypedApiScheme,
   data: object = {},
-  config: TypedHttpConfig = {},
-) : Promise<{
+  config: TypedHttpConfig = {}
+): Promise<{
   data: any;
   response: TypedHttpResponse;
-}>  => {
+}> => {
   const cloneApi = cloneDeep(api);
   const cloneData = cloneDeep(data);
 
@@ -232,16 +236,18 @@ export const sendHttpRequest = (
         params: request.api.method.toUpperCase() === 'GET' ? request.data : {},
       });
     })
-    .then((res) => responseInterceptor({
-      response: res,
-      api: cloneApi,
-      config: cloneConfig,
-    }))
+    .then((res) =>
+      responseInterceptor({
+        response: res,
+        api: cloneApi,
+        config: cloneConfig,
+      })
+    )
     .catch((err) => {
-      logError('api', '请求出错', err)
+      logError('api', '请求出错', err);
       throw new Error(err);
     })
     .finally(() => {
       closeLoadingToast();
     });
-}
+};

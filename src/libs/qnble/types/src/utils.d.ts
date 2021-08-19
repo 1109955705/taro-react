@@ -1,5 +1,8 @@
 import QNBleTypings from './typings';
-export declare function hasOwnProperty(obj: Object, prop: string | number | symbol): boolean;
+export declare function hasOwnProperty(
+  obj: Object,
+  prop: string | number | symbol
+): boolean;
 /**
  * 获取数据类型
  * @param {any} arg
@@ -37,8 +40,13 @@ export declare function formatDateToString(d: Date): string;
 export declare function formatDateFullToString(d: Date): string;
 export declare function logTimeString(): string;
 export declare function times(num: number, radio: number): number;
-export declare function wxPromise(fn: QNBleTypings.WxMiniprogramFunction): (obj?: QNBleTypings.WxMiniprogramFunctionParams) => Promise<any>;
-export declare function timeoutPromise(overtime: number, data?: any): Promise<any>;
+export declare function wxPromise(
+  fn: QNBleTypings.WxMiniprogramFunction
+): (obj?: QNBleTypings.WxMiniprogramFunctionParams) => Promise<any>;
+export declare function timeoutPromise(
+  overtime: number,
+  data?: any
+): Promise<any>;
 /**
  * 一个字节8位，这里解析两个字节的数据
  * @param {number} h
@@ -58,7 +66,11 @@ export declare function sealGenderParam(gender: string | number): 1 | 0;
  * @param {string} [symbol=-] 连接符
  * @param {boolean} [trimHeadKebab=false]
  */
-export declare function kebabCaseAndRemoveOn(str: string, symbol?: string, trimHeadKebab?: boolean): string;
+export declare function kebabCaseAndRemoveOn(
+  str: string,
+  symbol?: string,
+  trimHeadKebab?: boolean
+): string;
 /**
  * 获取wifi信号等级
  * 0级 rssi < -100
@@ -74,27 +86,27 @@ export declare function getWifiRssiLevel(rssi: number): number;
  */
 export declare function equal(o1: object, o2: object): boolean;
 declare const _default: {
-    hasOwnProperty: typeof hasOwnProperty;
-    number2hex: typeof number2hex;
-    array2hex: typeof array2hex;
-    hex2Array: typeof hex2Array;
-    extractManufactureData: typeof extractManufactureData;
-    splitArray: typeof splitArray;
-    ab2hex: typeof ab2hex;
-    ab2Array: typeof ab2Array;
-    formatArrayToHex: typeof formatArrayToHex;
-    stringToByteArray: typeof stringToByteArray;
-    addChecksum: typeof addChecksum;
-    calcAgeWithBirthday: typeof calcAgeWithBirthday;
-    formatTime: typeof formatTime;
-    formatDateToString: typeof formatDateToString;
-    formatDateFullToString: typeof formatDateFullToString;
-    logTimeString: typeof logTimeString;
-    wxPromise: typeof wxPromise;
-    timeoutPromise: typeof timeoutPromise;
-    decodeInteger: typeof decodeInteger;
-    sealGenderParam: typeof sealGenderParam;
-    kebabCaseAndRemoveOn: typeof kebabCaseAndRemoveOn;
-    equal: typeof equal;
+  hasOwnProperty: typeof hasOwnProperty;
+  number2hex: typeof number2hex;
+  array2hex: typeof array2hex;
+  hex2Array: typeof hex2Array;
+  extractManufactureData: typeof extractManufactureData;
+  splitArray: typeof splitArray;
+  ab2hex: typeof ab2hex;
+  ab2Array: typeof ab2Array;
+  formatArrayToHex: typeof formatArrayToHex;
+  stringToByteArray: typeof stringToByteArray;
+  addChecksum: typeof addChecksum;
+  calcAgeWithBirthday: typeof calcAgeWithBirthday;
+  formatTime: typeof formatTime;
+  formatDateToString: typeof formatDateToString;
+  formatDateFullToString: typeof formatDateFullToString;
+  logTimeString: typeof logTimeString;
+  wxPromise: typeof wxPromise;
+  timeoutPromise: typeof timeoutPromise;
+  decodeInteger: typeof decodeInteger;
+  sealGenderParam: typeof sealGenderParam;
+  kebabCaseAndRemoveOn: typeof kebabCaseAndRemoveOn;
+  equal: typeof equal;
 };
 export default _default;

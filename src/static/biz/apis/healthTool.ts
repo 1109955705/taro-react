@@ -1,4 +1,3 @@
-
 // import { TypedApiScheme } from './types.d';
 /**
  * 获取最近一条测量信息

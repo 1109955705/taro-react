@@ -1,26 +1,26 @@
 // import Taro from "@tarojs/taro";
-import React, { Component } from "react";
-import { View } from "@tarojs/components";
-import { EChart } from "../../components/biz/echarts-taro3-react";
-import "./index.scss";
+import React, { Component } from 'react';
+import { View } from '@tarojs/components';
+import { EChart } from '../../components/biz/echarts-taro3-react';
+import './index.scss';
 
 export default class Webview extends Component {
   componentDidMount() {
     const defautOption = {
       xAxis: {
-        type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       },
       yAxis: {
-        type: "value",
+        type: 'value',
       },
       series: [
         {
           data: [120, 200, 150, 80, 70, 110, 130],
-          type: "bar",
+          type: 'bar',
           showBackground: true,
           backgroundStyle: {
-            color: "rgba(220, 220, 220, 0.8)",
+            color: 'rgba(220, 220, 220, 0.8)',
           },
         },
       ],
@@ -35,10 +35,9 @@ export default class Webview extends Component {
 
   render() {
     return (
-      <View className='bar-chart'>
-        <EChart ref={this.refBarChart} canvasId='bar-canvas' />
+      <View className="bar-chart">
+        <EChart ref={this.refBarChart} canvasId="bar-canvas" />
       </View>
     );
   }
 }
-

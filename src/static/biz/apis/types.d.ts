@@ -1,6 +1,6 @@
 type TypedModelParams = {
-  [x: string]: any
-}
+  [x: string]: any;
+};
 
 /**
  * 接口描述

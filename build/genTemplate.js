@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const glob = require('glob');
 const chalk = require('chalk');
@@ -6,15 +5,10 @@ const inquirer = require('inquirer');
 const path = require('path');
 const dayjs = require('dayjs');
 const execSync = require('child_process').execSync;
-const { 
-  pascalCase,
-  camelCase,
-  mkdirsSync,
-} = require('./util');
+const { pascalCase, camelCase, mkdirsSync } = require('./util');
 
 async function run() {
-  const answers = await inquirer
-  .prompt([
+  const answers = await inquirer.prompt([
     {
       type: 'list',
       name: 'type',
@@ -40,7 +34,7 @@ async function run() {
       message: '请输入页面或组件模板名',
     },
   ]);
-  
+
   const { type } = answers;
 
   // 例如: page:component 生成页面的components目录
@@ -53,7 +47,7 @@ async function run() {
 
   const names = name.split('/').map((n) => {
     const pascal = pascalCase(n);
-    const kebab = n
+    const kebab = n;
     const camel = camelCase(n);
 
     return {
@@ -64,13 +58,17 @@ async function run() {
   });
 
   // 取最后一个作为页面模块名
-  const { [names.length - 1]: {
-    pascal: pascalName,
-    kebab: kebabName,
-    camel: camelName,
-   } } = names;
+  const {
+    [names.length - 1]: {
+      pascal: pascalName,
+      kebab: kebabName,
+      camel: camelName,
+    },
+  } = names;
 
-  const templateFiles = glob.sync(`./build/templates/${(srcType || distType)}/**/*.{ts,tsx,css,less,sass,scss}`);
+  const templateFiles = glob.sync(
+    `./build/templates/${srcType || distType}/**/*.{ts,tsx,css,less,sass,scss}`
+  );
 
   let gitName = '';
   let gitEmail = '';
@@ -88,24 +86,20 @@ async function run() {
   }
 
   templateFiles.forEach((file) => {
-    const fileRelativePath = file
-      .replace(
-        `./build/templates/${(srcType || distType)}`,
-        `../src/${distType}s/${names.map((p) => p.kebab).join('/')}`,
-      );
-      console.log('file', file)
+    const fileRelativePath = file.replace(
+      `./build/templates/${srcType || distType}`,
+      `../src/${distType}s/${names.map((p) => p.kebab).join('/')}`
+    );
+    console.log('file', file);
     let fileString = fs.readFileSync(file).toString();
     // 做替换
     fileString = fileString
       .replace(/@pascalName/g, pascalName)
       .replace(/@camelName/g, camelName)
-      .replace(/@kebabName/g, kebabName)
+      .replace(/@kebabName/g, kebabName);
 
     // 路径为 kebabCase 命名格式
-    const distPath = path.resolve(
-      __dirname,
-      fileRelativePath,
-    );
+    const distPath = path.resolve(__dirname, fileRelativePath);
 
     mkdirsSync(path.dirname(distPath));
 
@@ -118,14 +112,13 @@ async function run() {
     fs.writeFileSync(distPath, fileString);
   });
 
-  if(type != 'page') return
+  if (type != 'page') return;
   const appConfigDir = './src/app.config.ts';
   let fileString = fs.readFileSync(appConfigDir).toString();
   let arr = fileString.split(']');
-  arr[0] += `    'pages/${kebabName}/index',\n`
+  arr[0] += `    'pages/${kebabName}/index',\n`;
   const result = arr.join(']');
   fs.writeFileSync(appConfigDir, result);
 }
 
 run();
-

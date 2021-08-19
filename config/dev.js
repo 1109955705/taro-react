@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    NODE_ENV: '"development"'
+    NODE_ENV: '"development"',
   },
   defineConstants: {
     // 必须加JSON.stringify包裹 https://webpack.js.org/plugins/define-plugin/
@@ -8,5 +8,5 @@ module.exports = {
     H5_URL: JSON.stringify('http://xcx-h5-preview.glb.qnniu.com'),
   },
   mini: {},
-  h5: {}
-}
+  h5: {},
+};

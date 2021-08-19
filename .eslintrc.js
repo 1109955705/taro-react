@@ -1,16 +1,15 @@
 module.exports = {
-  'extends': ['taro/react'],
-  'env': {
-    'browser': true,
-    'commonjs': true,
-    'es6': true
+  extends: [
+    'taro/react',
+    'airbnb-typescript',
+    'plugin:prettier/recommended', // 禁用与格式化相关的 ESLint 规则, 使用prettier的
+  ],
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
   },
-  "rules": {
-    "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+  rules: {
+    'no-unused-vars': ['error', { varsIgnorePattern: 'Taro' }],
   },
-}
+};

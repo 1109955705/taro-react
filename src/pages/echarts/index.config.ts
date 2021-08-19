@@ -6,4 +6,4 @@ export default {
   //   // 2. value 值指定第三方组件 js 文件的相对路径
   //   'ec-canvas': '../../components/echarts-taro3-react/ec-canvas/index'
   // }
-}
+};

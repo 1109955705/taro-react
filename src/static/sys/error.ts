@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 /**
  *
  * @param {string} name 错误名字
@@ -6,14 +6,17 @@ import dayjs from 'dayjs'
  * @param {string} info 错误信息，通常是 fail 返回的
  */
 // eslint-disable-next-line
-export const logError = (name: string, action: string, info?: string | object ) => {
+export const logError = (
+  name: string,
+  action: string,
+  info?: string | object
+) => {
   if (!info) {
-    info = 'empty'
+    info = 'empty';
   }
-  let time = dayjs().format('YYYY/MM/DD HH:mm:ss')
-  console.warn(time, name, action, info)
+  let time = dayjs().format('YYYY/MM/DD HH:mm:ss');
+  console.warn(time, name, action, info);
   if (typeof info === 'object') {
-    info = JSON.stringify(info)
+    info = JSON.stringify(info);
   }
-}
-
+};

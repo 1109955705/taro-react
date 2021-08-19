@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Shop1'
-}
+  navigationBarTitleText: 'Shop1',
+};

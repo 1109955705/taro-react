@@ -1,9 +1,9 @@
-import Taro from "@tarojs/taro";
-import React, { Component } from "react";
-import { Canvas } from "@tarojs/components";
-import WxCanvas from "./wx-canvas";
-import * as echarts from "./echarts";
-import "./index.scss";
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
+import { Canvas } from '@tarojs/components';
+import WxCanvas from './wx-canvas';
+import * as echarts from './echarts';
+import './index.scss';
 
 function wrapTouch(event) {
   for (let i = 0; i < event.touches.length; ++i) {
@@ -39,7 +39,7 @@ class EcCanvasTaro extends Component<EcCanvasProps, EcCanvasState> {
           option.series.forEach((series) => {
             series.progressive = 0;
           });
-        } else if (typeof option.series === "object") {
+        } else if (typeof option.series === 'object') {
           option.series.progressive = 0;
         }
       }
@@ -79,14 +79,14 @@ class EcCanvasTaro extends Component<EcCanvasProps, EcCanvasState> {
         const canvasDpr = Taro.getSystemInfoSync().pixelRatio;
         const canvasWidth = res[0].width;
         const canvasHeight = res[0].height;
-        const ctx = canvasNode.getContext("2d");
+        const ctx = canvasNode.getContext('2d');
         const canvas = new WxCanvas(ctx, canvasId, true, canvasNode);
         echarts.setCanvasCreator(() => {
           return canvas;
         });
-        if (typeof callback === "function") {
+        if (typeof callback === 'function') {
           this.chart = callback(canvas, canvasWidth, canvasHeight, canvasDpr);
-        } else if (typeof ec.onInit === "function") {
+        } else if (typeof ec.onInit === 'function') {
           this.chart = ec.onInit(canvas, canvasWidth, canvasHeight, canvasDpr);
         }
       });
@@ -94,7 +94,7 @@ class EcCanvasTaro extends Component<EcCanvasProps, EcCanvasState> {
   canvasToTempFilePath(opt) {
     const query = Taro.createSelectorQuery().in(this);
     query
-      .select(".ec-canvas")
+      .select('.ec-canvas')
       .fields({ node: true, size: true })
       .exec((res) => {
         const canvasNode = res[0].node;
@@ -106,41 +106,41 @@ class EcCanvasTaro extends Component<EcCanvasProps, EcCanvasState> {
     if (this.chart && e.touches.length > 0) {
       var touch = e.touches[0];
       var handler = this.chart.getZr().handler;
-      handler.dispatch("mousedown", {
+      handler.dispatch('mousedown', {
         zrX: touch.x,
         zrY: touch.y,
       });
-      handler.dispatch("mousemove", {
+      handler.dispatch('mousemove', {
         zrX: touch.x,
         zrY: touch.y,
       });
-      handler.processGesture(wrapTouch(e), "start");
+      handler.processGesture(wrapTouch(e), 'start');
     }
   };
   touchMove = (e) => {
     if (this.chart && e.touches.length > 0) {
       var touch = e.touches[0];
       var handler = this.chart.getZr().handler;
-      handler.dispatch("mousemove", {
+      handler.dispatch('mousemove', {
         zrX: touch.x,
         zrY: touch.y,
       });
-      handler.processGesture(wrapTouch(e), "change");
+      handler.processGesture(wrapTouch(e), 'change');
     }
   };
   touchEnd = (e) => {
     if (this.chart) {
       const touch = e.changedTouches ? e.changedTouches[0] : {};
       var handler = this.chart.getZr().handler;
-      handler.dispatch("mouseup", {
+      handler.dispatch('mouseup', {
         zrX: touch.x,
         zrY: touch.y,
       });
-      handler.dispatch("click", {
+      handler.dispatch('click', {
         zrX: touch.x,
         zrY: touch.y,
       });
-      handler.processGesture(wrapTouch(e), "end");
+      handler.processGesture(wrapTouch(e), 'end');
     }
   };
   render() {

@@ -2,12 +2,11 @@ import { useRef, useEffect } from 'react';
 
 // 判断是否是首次加载, 比如useEffect首次不加载
 export default () => {
-
-  const isMountRef = useRef(false)
+  const isMountRef = useRef(false);
 
   useEffect(() => {
-    isMountRef.current = true
-  }, [])
+    isMountRef.current = true;
+  }, []);
 
-  return isMountRef.current
+  return isMountRef.current;
 };

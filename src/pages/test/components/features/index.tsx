@@ -1,27 +1,23 @@
-import React, { FC } from 'react'
-import { View } from '@tarojs/components'
-import style from './index.module.scss'
+import React, { FC } from 'react';
+import { View } from '@tarojs/components';
+import style from './index.module.scss';
 
 interface FeaturesTypes {
-  showDeepReport: boolean,
+  showDeepReport: boolean;
 }
-const Features: FC<FeaturesTypes> = ({showDeepReport}) => {
-  console.log('Features刷新了')
+const Features: FC<FeaturesTypes> = ({ showDeepReport }) => {
+  console.log('Features刷新了');
   return (
     <View className={style.main}>
-      {
-        showDeepReport 
-          ? <View >深度报告</View> 
-          : ''
-      }
+      {showDeepReport ? <View>深度报告</View> : ''}
       <View>数据对比</View>
       <View>分享数据</View>
     </View>
-  )
-}
+  );
+};
 
 Features.defaultProps = {
-  showDeepReport: false
-}
+  showDeepReport: false,
+};
 
-export default Features
+export default Features;
