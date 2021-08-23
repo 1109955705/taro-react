@@ -1,29 +1,43 @@
 module.exports = {
-  extends: [
-    'taro/react',
-    'airbnb-typescript',
-    'plugin:prettier/recommended', // 禁用与格式化相关的 ESLint 规则, 使用prettier的
-  ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
   env: {
     browser: true,
-    commonjs: true,
     es6: true,
+    jest: true,
   },
-  plugins: ['import'],
-
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'airbnb',
+    'airbnb/hooks',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
   rules: {
+    'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
+    'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/indent': ['error', 2],
     'import/extensions': [
-      'error',
+      2,
       'ignorePackages',
       {
         ts: 'never',
         tsx: 'never',
+        json: 'never',
+        js: 'never',
       },
     ],
-    'no-unused-vars': ['error', { varsIgnorePattern: 'Taro' }],
-    semi: 1,
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
 };

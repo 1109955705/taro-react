@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { View, Checkbox, CheckboxGroup } from '@tarojs/components';
 import { useChecked } from './use-checked';
+import { View, Checkbox, CheckboxGroup } from '@tarojs/components';
+
 import './index.scss';
 
 const list = [
