@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useEffect } from 'react';
 import { View } from '@tarojs/components';
-import boot from '@/static/biz/hoc/boot';
 import { useDidShow, useDidHide } from '@tarojs/taro';
+import boot from '@/static/biz/hoc/boot';
 import useMain from './useMain';
 import BodyIndex from './components/body-index';
 import Features from './components/features';
@@ -31,12 +31,12 @@ const Test: FC = () => {
 
   return (
     <View className={style.main}>
-      <Userinfo lastMeasure={lastMeasure}></Userinfo>
+      <Userinfo lastMeasure={lastMeasure} />
       {isLogin ? (
         <Fragment>
-          <Features showDeepReport={lastMeasure?.depth_report_flag}></Features>
-          <BodyIndex lastMeasure={lastMeasure}></BodyIndex>
-          <HealthTool></HealthTool>
+          <Features showDeepReport={lastMeasure?.depth_report_flag} />
+          <BodyIndex lastMeasure={lastMeasure} />
+          <HealthTool />
         </Fragment>
       ) : (
         <View>未登录</View>

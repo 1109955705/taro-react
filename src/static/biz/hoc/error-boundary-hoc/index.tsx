@@ -12,7 +12,7 @@ export default (EBWrapComponent) => {
     static getDerivedStateFromError(error: Error) {
       console.log('getDerivedStateFromError:hoc');
       // 更新 state，下次渲染可以展示错误相关的 UI
-      return { error: error };
+      return { error };
     }
 
     componentDidMount() {}

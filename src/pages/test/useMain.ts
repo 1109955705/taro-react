@@ -6,9 +6,7 @@ import { ApiGetLastMeasurement } from '@/static/biz/apis/measure';
 
 const useMain = () => {
   const [lastMeasure, setLastMeasure] = useState<any>({});
-  const isLogin = useSelector((state: ReduxRootState) => {
-    return state.sessionKey ? true : false;
-  });
+  const isLogin = useSelector((state: ReduxRootState) => !!state.sessionKey);
   const themeColor = useSelector((state: ReduxRootState) => state.themeColor);
 
   useEffect(() => {
