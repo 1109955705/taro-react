@@ -36,11 +36,7 @@ const CanvasTest: FC = (props) => {
 
   return (
     <View className="template_container">
-      <Canvas
-        style="width: 300px; height: 200px;"
-        canvasId="myCanvas"
-        id="myCanvas"
-      />
+      <Canvas style="width: 300px; height: 200px;" canvasId="myCanvas" id="myCanvas" />
     </View>
   );
 };

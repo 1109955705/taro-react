@@ -1,6 +1,6 @@
 export default {
   pages: [
-    'pages/measure/index',
+    'pages/home/index',
     'pages/mine/index',
     'pages/chart/index',
     'pages/canvas/index',

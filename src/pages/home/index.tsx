@@ -25,9 +25,7 @@ const Measure: FC = () => {
   const [test, setTest] = useState<any>('test');
   const [isOpened, showToast] = useState<boolean>(false);
   const allState = useSelector((state) => state);
-  const { account_name } = useSelector(
-    (state: ReduxRootState) => state.userinfo
-  );
+  const { account_name } = useSelector((state: ReduxRootState) => state.userinfo);
   const index = useSelector((state: ReduxRootState) => state.tabbar);
   const themeColor = useSelector((state: ReduxRootState) => state.themeColor);
   const { t } = useTranslation();
@@ -61,12 +59,7 @@ const Measure: FC = () => {
     // const res = await login(params)
     const res = await sendHttpRequest(ApiLogin, params, {});
     console.log('xxxxxxx', res);
-    const {
-      terminal_user_session,
-      user_info,
-      code: resCode,
-      random_code,
-    } = res.data;
+    const { terminal_user_session, user_info, code: resCode, random_code } = res.data;
 
     if (resCode === '20005') {
       setRandomCode(random_code);
@@ -108,12 +101,7 @@ const Measure: FC = () => {
       <Button className="btn" plain onClick={() => handClickLogin()}>
         login
       </Button>
-      <Button
-        className="btn"
-        plain
-        openType="getPhoneNumber"
-        onGetPhoneNumber={handGetPhone}
-      >
+      <Button className="btn" plain openType="getPhoneNumber" onGetPhoneNumber={handGetPhone}>
         phone
       </Button>
       <Button className="btn" plain onClick={() => handleStore()}>
@@ -126,38 +114,16 @@ const Measure: FC = () => {
       >
         echarts
       </Button>
-      <Button
-        className="btn"
-        plain
-        onClick={() => Taro.navigateTo({ url: '/pages/canvas/index' })}
-      >
+      <Button className="btn" plain onClick={() => Taro.navigateTo({ url: '/pages/canvas/index' })}>
         canvas
       </Button>
-      <Button
-        className="btn"
-        plain
-        onClick={() => Taro.navigateTo({ url: '/pages/ble/index' })}
-      >
+      <Button className="btn" plain onClick={() => Taro.navigateTo({ url: '/pages/ble/index' })}>
         ble
-      </Button>
-      <Button
-        className="btn"
-        plain
-        onClick={() => Taro.navigateTo({ url: '/pages/shop/index' })}
-      >
-        shop
-      </Button>
-      <Button
-        className="btn"
-        plain
-        onClick={() => Taro.navigateTo({ url: '/pages/shop1/index' })}
-      >
-        shop1
       </Button>
       <AtButton className="normol-btn" onClick={() => showToast(!isOpened)}>
         toast
       </AtButton>
-      <AtToast isOpened={isOpened} text="xxxx"></AtToast>
+      <AtToast isOpened={isOpened} text="xxxx" />
       <View className="btn">eventbus:{test}</View>
       <Button className="btn" plain onClick={() => changeName()}>
         changeName
@@ -167,11 +133,7 @@ const Measure: FC = () => {
         changeIndex{index}
       </Button>
       {/* {myView()} */}
-      <Button
-        className="btn"
-        plain
-        onClick={() => Taro.navigateTo({ url: '/pages/test/index' })}
-      >
+      <Button className="btn" plain onClick={() => Taro.navigateTo({ url: '/pages/test/index' })}>
         {t('home')}
       </Button>
       <View className="tabbarHeight"></View>
