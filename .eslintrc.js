@@ -21,9 +21,11 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react-hooks/exhaustive-deps': 'warn',
+    'react/prop-types': 'off',
     '@typescript-eslint/indent': ['error', 2],
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/extensions': [
       2,
       'ignorePackages',

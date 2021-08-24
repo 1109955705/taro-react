@@ -1,26 +1,19 @@
-import React, {
-  FC, useState, useEffect, Fragment,
-} from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { View, WebView } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
-import { set_tabbar_index } from '@/store/actions/tabbar';
+import { setTabbarIndex } from '@/store/actions/tabbar';
 
-import eventBus from '@/static/biz/eventBus';
 import './index.scss';
 
 const Chart: FC = () => {
   const [src, setSrc] = useState<string>('');
   const dispatch = useDispatch();
-  // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
-  // const userinfo = useSelector((state: ReduxRootState) => state.userinfo)
-  const { userinfo, sessionKey } = useSelector(
-    (state: ReduxRootState) => state,
-  );
+
+  const { userinfo, sessionKey } = useSelector((state: ReduxRootState) => state);
   const themeColor = useSelector((state: ReduxRootState) => state.themeColor);
-  const [test, setTest] = useState<any>('test');
+
   useEffect(() => {
-    console.log('userinfo', userinfo);
     const params = {
       user_id: userinfo.id,
       key: sessionKey,
@@ -37,19 +30,11 @@ const Chart: FC = () => {
     params.hostName = hostName;
     const webViewSrc = `${H5_URL}/xcxChartViewThird.html?${objToStr(
       params,
-      true,
+      true
     )}&enviornment=test`;
     console.log('webViewSrc', webViewSrc);
     setSrc(webViewSrc);
   }, [sessionKey, themeColor, userinfo]);
-
-  useEffect(() => {
-    // console.log("userId",userId)
-    eventBus.on('test', (res) => {
-      setTest(res);
-      console.log('chart页面测试回调');
-    });
-  }, []);
 
   useEffect(() => {
     Taro.setNavigationBarColor({
@@ -73,15 +58,10 @@ const Chart: FC = () => {
   };
 
   useDidShow(() => {
-    dispatch(set_tabbar_index(1));
+    dispatch(setTabbarIndex(1));
   });
 
-  return (
-    <>
-      <WebView src={src} />
-      <View>{test}</View>
-    </>
-  );
+  return <>{src ? <WebView src={src} /> : <View>未登录</View>}</>;
 };
 
 export default Chart;

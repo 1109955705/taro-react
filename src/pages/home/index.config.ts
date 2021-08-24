@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'measure',
+  navigationBarTitleText: '首页',
 };

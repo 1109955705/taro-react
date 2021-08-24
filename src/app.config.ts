@@ -1,13 +1,10 @@
 export default {
   pages: [
     'pages/home/index',
+    'pages/aaa/index',
     'pages/mine/index',
     'pages/chart/index',
-    'pages/canvas/index',
     'pages/ble/index',
-    'pages/shop/index',
-    'pages/shop1/index',
-    'pages/test/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -21,7 +18,7 @@ export default {
     selectedColor: '#01ca9e',
     list: [
       {
-        pagePath: 'pages/measure/index',
+        pagePath: 'pages/home/index',
         text: '测量xxs',
         iconPath: 'assets/images/tabbar/home_default.png',
         selectedIconPath: 'assets/images/tabbar/home_click.png',
@@ -42,7 +39,7 @@ export default {
   },
   subPackages: [
     {
-      root: 'pages/echarts/',
+      root: 'pages/canvas/',
       pages: ['index'],
     },
   ],

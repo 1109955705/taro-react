@@ -1,7 +1,8 @@
+/* eslint-disable global-require */
 import { createStore, applyMiddleware, compose } from 'redux';
-import storage from '@/static/sys/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
+import storage from '@/static/sys/storage';
 import rootReducer from './reducers';
 import { SET_SESSION_KEY, RE_SET_PERSIST } from './constants/userinfo';
 
@@ -12,13 +13,13 @@ const saveAuthToken = () => (next) => (action) => {
   // 登陆时设置session_key
   console.log('RE_SET_PERSIST', action);
   if (action.type === SET_SESSION_KEY) {
-    let setToken = require('../static/sys/http').setToken;
+    const setToken = require('../static/sys/http').setToken;
     setToken(action.session_key);
   }
   // 刷新时设置session_key
   if (action.type === RE_SET_PERSIST) {
     if (action.payload?.sessionKey) {
-      let setToken = require('../static/sys/http').setToken;
+      const setToken = require('../static/sys/http').setToken;
       setToken(action.payload.sessionKey);
     }
   }
@@ -28,10 +29,7 @@ const saveAuthToken = () => (next) => (action) => {
 };
 const middlewares = [thunkMiddleware, saveAuthToken];
 
-if (
-  process.env.NODE_ENV === 'development' &&
-  process.env.TARO_ENV !== 'quickapp'
-) {
+if (process.env.NODE_ENV === 'development' && process.env.TARO_ENV !== 'quickapp') {
   middlewares.push(require('redux-logger').createLogger());
 }
 

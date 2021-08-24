@@ -6,7 +6,7 @@ import style from './index.module.scss';
 interface BodyIndexTypes {
   lastMeasure: any;
 }
-const BodyIndex: FC<BodyIndexTypes> = ({ lastMeasure }) => {
+const BodyIndex = ({ lastMeasure }: BodyIndexTypes) => {
   const { list } = useMain(lastMeasure);
 
   console.log('BodyIndex刷新了');
@@ -26,10 +26,6 @@ const BodyIndex: FC<BodyIndexTypes> = ({ lastMeasure }) => {
       </View>
     </View>
   );
-};
-
-BodyIndex.defaultProps = {
-  lastMeasure: {},
 };
 
 export default BodyIndex;

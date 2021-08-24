@@ -6,7 +6,7 @@ import { ApiGetHealthTool } from '@/static/biz/apis/healthTool';
 
 import style from './index.module.scss';
 
-const HealthTool: FC = () => {
+const HealthTool = () => {
   const { data, error, loading } = useRequest(sendHttpRequest, {
     manual: false,
     defaultParams: ApiGetHealthTool,
@@ -28,11 +28,7 @@ const HealthTool: FC = () => {
         {data &&
           data.data.health_tools.map((item: any) => {
             return (
-              <Image
-                className={style.imgBanner}
-                src={item.tool_banner}
-                key={item.tool_banner}
-              />
+              <Image className={style.imgBanner} src={item.tool_banner} key={item.tool_banner} />
             );
           })}
       </View>

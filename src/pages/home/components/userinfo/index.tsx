@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, VFC } from 'react';
 import { View } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import { AtAvatar } from 'taro-ui';
@@ -9,26 +9,29 @@ import style from './index.module.scss';
 interface UserinfoTypes {
   lastMeasure: any;
 }
-const Usernfo: FC<UserinfoTypes> = ({ lastMeasure }) => {
+
+const Usernfo = ({ lastMeasure }: UserinfoTypes) => {
   const { t } = useTranslation();
 
   const isLogin = useSelector((state: ReduxRootState) => !!state.sessionKey);
 
   const { userinfo } = useSelector((state: ReduxRootState) => state);
   console.log('Usernfo刷新了');
-  // throw new Error("userinfo:调试用途");
+
   return (
     <View className={style.main}>
-      <AtAvatar className={style.avatar} circle image={userinfo.avatar}></AtAvatar>
+      <AtAvatar className={style.avatar} circle image={userinfo.avatar} />
       <View className={style.center}>
         <View className={style.weight}>{lastMeasure.weight}kg</View>
-        {isLogin && (
+        {isLogin ? (
           <View
             className={`${style.measureBtn} g-theme-color g-font-T4`}
             onClick={() => navigateTo({ url: '/pages/ble/index' })}
           >
             {t('click_measure')}
           </View>
+        ) : (
+          <View>2222</View>
         )}
       </View>
       <View className={style.indexWrap}>
@@ -38,10 +41,6 @@ const Usernfo: FC<UserinfoTypes> = ({ lastMeasure }) => {
       </View>
     </View>
   );
-};
-
-Usernfo.defaultProps = {
-  lastMeasure: {},
 };
 
 export default Usernfo;

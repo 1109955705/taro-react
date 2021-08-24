@@ -65,7 +65,6 @@ const httpInstance: any = (option) => {
         console.log('error', err);
         reject(err);
       },
-      complete: () => {},
     });
   });
 };
@@ -89,7 +88,7 @@ const requestInterceptor = (
     timestamps,
     appid,
   };
-  let { url, requestRules } = api;
+  const { url, requestRules } = api;
 
   if (sessionKey) {
     Object.assign(commonBodyData, {
@@ -109,7 +108,7 @@ const requestInterceptor = (
 
   api.url = baseUrl + transformUrl(url, data).replace(/\/+/g, '/');
 
-  let requestData = { ...commonBodyData, ...data };
+  const requestData = { ...commonBodyData, ...data };
 
   const headers: Record<string, string> = {
     'Content-Type': api.contentType || 'application/json',
@@ -150,9 +149,7 @@ const responseInterceptor = ({
     code: {
       validator(value: any) {
         if (!['200', '2000', '20000'].includes(`${value}`)) {
-          return new Error(
-            responseData?.msg || `request failed. code: ${value}`
-          );
+          return new Error(responseData?.msg || `request failed. code: ${value}`);
         }
         return true;
       },
@@ -194,7 +191,7 @@ const responseInterceptor = ({
 
 export const sendHttpRequest = (
   api: TypedApiScheme,
-  data: object = {},
+  data = {},
   config: TypedHttpConfig = {}
 ): Promise<{
   data: any;
