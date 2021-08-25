@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Button } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTabbarIndex, setSessionKey, setUserinfo } from '@/store/actions';
+import { setTabbarIndex, clearSessionKey, setUserinfo } from '@/store/actions';
 import './index.scss';
 
 const Mine = () => {
@@ -23,7 +23,7 @@ const Mine = () => {
   }, [themeColor]);
 
   const logout = () => {
-    dispatch(setSessionKey(''));
+    dispatch(clearSessionKey());
     dispatch(setUserinfo({}));
   };
 

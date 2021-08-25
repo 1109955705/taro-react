@@ -7,7 +7,31 @@
   font-family: Oswald-Medium, Oswald;
   font-weight: 500;
   color: #333333;
+
 }
+
+.unLoginHead {
+  display: flex;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #EEEEEE;
+  .unLoginHeadText {
+    margin-left: 20px;
+    font-size: 28px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 40px;
+  }
+  .btnLogin {
+    padding: 12px 30px;
+    color: #ffffff;
+    font-size: 26px;
+    border-radius: 34px;
+    margin-left: auto;
+  }
+}
+
+
 
 .avatar {
   width: 64px;
@@ -18,17 +42,21 @@
   display: flex;
   justify-content: space-between;
   .weight {
-    margin-top: 20px;
-    font-size: 72px;
+    margin-top: 40px;
     font-weight: 500;
     color: #333333;
   }
+  .value {
+    font-size: 72px;
+  }
+  .unit {
+    margin-left: 4px;
+    font-size: 34px;
+
+  }
   .measureBtn {
-    width: 180px;
-    height: 68px;
-    line-height: 68px;
-    text-align: center;
-    // background: var(--tc);
+    padding: 14px 34px;
+    background: var(--tc);
     border-radius: 34px;
     color: #ffffff;
   }
@@ -37,5 +65,17 @@
 .indexWrap {
   margin-top: 50px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 30px;
+  .indexItem {
+    .indexItemValue {
+      font-size: 32px;
+      color: #333333;
+    }
+    .indexItemName {
+      margin-top: 8rpx;
+      font-size: 24px;
+      color: #909399;
+    }
+  }
 }

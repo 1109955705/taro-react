@@ -11,7 +11,7 @@ import HealthTool from './components/health-tool';
 import Userinfo from './components/userinfo';
 import style from './index.module.scss';
 
-const Test = () => {
+const Home = () => {
   const { isLogin, lastMeasure } = useMain();
 
   const themeColor = useSelector((state: ReduxRootState) => state.themeColor);
@@ -44,4 +44,4 @@ const Test = () => {
   );
 };
 
-export default boot(Test);
+export default boot(Home);

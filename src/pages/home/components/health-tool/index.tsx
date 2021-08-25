@@ -25,12 +25,11 @@ const HealthTool = () => {
     <View className={style.main}>
       <View>健康工具</View>
       <View className={style.bannersList}>
-        {data &&
-          data.data.health_tools.map((item: any) => {
-            return (
-              <Image className={style.imgBanner} src={item.tool_banner} key={item.tool_banner} />
-            );
-          })}
+        {data?.data?.health_tools.map((item: any) => {
+          return (
+            <Image className={style.imgBanner} src={item.tool_banner} key={item.tool_banner} />
+          );
+        })}
       </View>
     </View>
   );
