@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { $ } from '@tarojs/extend';
 
 export default (ThemeColorComponent) => {
+  // eslint-disable-next-line react/display-name
   return () => {
     const themeColor = useSelector((state: ReduxRootState) => state.themeColor);
 
     useEffect(() => {
-      let elem = $(`.mainColor`);
-      elem.css('background-color', themeColor);
+      const elem = $(`.mainColor`);
       elem.css('--tc', themeColor);
     }, [themeColor]);
 

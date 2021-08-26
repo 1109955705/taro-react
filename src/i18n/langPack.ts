@@ -4,7 +4,7 @@ export default {
       login: '点击登录',
       home: '首页',
       click_measure: '点击测量',
-      click_login: '点击登录',
+      click_login: '去登录',
     },
   },
   en: {

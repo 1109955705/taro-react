@@ -3,6 +3,7 @@ import React, { FC, Fragment, useEffect } from 'react';
 import { View } from '@tarojs/components';
 import { useDispatch, useSelector } from 'react-redux';
 import boot from '@/static/biz/hoc/boot';
+import tipPng from '@/assets/images/.png';
 import { setTabbarIndex } from '../../store/actions';
 import useMain from './useMain';
 import BodyIndex from './components/body-index';
@@ -31,15 +32,9 @@ const Home = () => {
   return (
     <View className={style.main}>
       <Userinfo lastMeasure={lastMeasure} />
-      {isLogin ? (
-        <>
-          <Features showDeepReport={lastMeasure?.depth_report_flag} />
-          <BodyIndex lastMeasure={lastMeasure} />
-          <HealthTool />
-        </>
-      ) : (
-        <View>未登录</View>
-      )}
+      {isLogin && <Features showDeepReport={lastMeasure?.depth_report_flag} />}
+      {isLogin && <BodyIndex lastMeasure={lastMeasure} />}
+      {isLogin && <HealthTool />}
     </View>
   );
 };

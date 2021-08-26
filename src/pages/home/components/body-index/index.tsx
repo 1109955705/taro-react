@@ -13,7 +13,7 @@ const BodyIndex = ({ lastMeasure }: BodyIndexTypes) => {
 
   return (
     <View className={style.main}>
-      <View className={style.title}>健康工具</View>
+      <View className={style.title}>身体指标</View>
       <View className={style.itemWrap}>
         {list.map((item: any) => {
           return (

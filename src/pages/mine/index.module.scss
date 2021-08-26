@@ -1,0 +1,45 @@
+.main {
+  min-height: 100vh;
+}
+
+.userinfo {
+  background-color: var(--tc);
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .avatar {
+    width: 136px;
+    height: 136px;
+    border-radius: 50%;
+    border: 1px solid red;
+  }
+  .username {
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: 400;
+    color: #FFFFFF;
+  }
+}
+
+.agent {
+  background-color: rgba(51, 211, 175, 1);
+  padding: 12px 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 400;
+  color: #FFFFFF;
+}
+
+.cell {
+  padding: 38px 42px;
+  display: flex;
+  justify-content: space-between;
+  .cellLeft {
+
+  }
+  .cellRight {
+    
+  }
+}
