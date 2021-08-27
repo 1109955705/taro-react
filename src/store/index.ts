@@ -14,7 +14,7 @@ const saveAuthToken = () => (next) => (action) => {
   console.log('RE_SET_PERSIST', action);
   if (action.type === SET_SESSION_KEY) {
     const setToken = require('../static/sys/http').setToken;
-    setToken(action.session_key);
+    setToken(action.sessionKey);
   }
   // 刷新时设置session_key
   if (action.type === RE_SET_PERSIST) {
@@ -47,6 +47,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export type RootState = ReturnType<typeof persistedReducer>;
 export default function configStore() {
   const store = createStore(persistedReducer, enhancer);
-  let persistor = persistStore(store);
+  const persistor = persistStore(store);
   return { store, persistor };
 }

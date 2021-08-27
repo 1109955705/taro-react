@@ -26,6 +26,7 @@ const config = {
   },
   framework: 'react',
   alias: {
+    '@/': path.resolve(__dirname, '..', 'src/'),
     '@/pages': path.resolve(__dirname, '..', 'src/pages'),
     '@/components': path.resolve(__dirname, '..', 'src/components'),
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
@@ -34,6 +35,7 @@ const config = {
     '@/static': path.resolve(__dirname, '..', 'src/static'),
     '@/libs': path.resolve(__dirname, '..', 'src/libs'),
     '@/i18n': path.resolve(__dirname, '..', 'src/i18n'),
+    '@/hooks': path.resolve(__dirname, '..', 'src/hooks'),
   },
   mini: {
     esnextModules: ['taro-ui'],

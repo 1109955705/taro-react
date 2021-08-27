@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 
+interface listType {
+  name: string;
+  value: number | string;
+}
+
 const useMain = (lastMeasure) => {
-  const [list, setList] = useState<any>([]);
+  const [list, setList] = useState<listType[]>([]);
 
   const handleDate = (measure) => {
     const {
@@ -12,12 +17,12 @@ const useMain = (lastMeasure) => {
       muscle,
       sinew,
       bone,
-      fat_free_weight,
+      fatFreeWeight,
       protein,
       subfat,
       visfat,
       bodyage,
-      body_shape,
+      bodyShape,
       bmr,
     } = measure;
 
@@ -52,7 +57,7 @@ const useMain = (lastMeasure) => {
       },
       {
         name: '去脂体重',
-        value: fat_free_weight,
+        value: fatFreeWeight,
       },
       {
         name: '蛋白质',
@@ -72,7 +77,7 @@ const useMain = (lastMeasure) => {
       },
       {
         name: '体型',
-        value: body_shape,
+        value: bodyShape,
       },
       {
         name: '基础代谢',
@@ -83,11 +88,10 @@ const useMain = (lastMeasure) => {
     setList(indexList);
   };
 
-  // useEffect(() => {
-  //   console.log('xxxxxx', lastMeasure);
-  //   if (lastMeasure?.weight) return;
-  //   handleDate(lastMeasure);
-  // }, [lastMeasure]);
+  useEffect(() => {
+    if (!lastMeasure?.weight) return;
+    handleDate(lastMeasure);
+  }, [lastMeasure]);
 
   return {
     list,

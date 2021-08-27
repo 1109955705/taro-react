@@ -9,6 +9,7 @@ import BodyIndex from './components/body-index';
 import Features from './components/features';
 import HealthTool from './components/health-tool';
 import Userinfo from './components/userinfo';
+import EmptyTabbarBlock from '@/components/ui/emptyTabbarBlock';
 import style from './index.module.scss';
 
 const Home = () => {
@@ -31,9 +32,10 @@ const Home = () => {
   return (
     <View className={style.main}>
       <Userinfo lastMeasure={lastMeasure} />
-      {isLogin && <Features showDeepReport={lastMeasure?.depth_report_flag} />}
+      {isLogin && <Features showDeepReport={lastMeasure?.depthReportFlag} />}
       {isLogin && <BodyIndex lastMeasure={lastMeasure} />}
       {isLogin && <HealthTool />}
+      <EmptyTabbarBlock />
     </View>
   );
 };

@@ -1,11 +1,10 @@
 import React from 'react';
-import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AtAvatar } from 'taro-ui';
 import { useTranslation } from 'react-i18next';
-import wxPromise from '@/static/biz/wxPromise';
 import { navigateTo } from '@/static/biz/common';
+import { useLogin } from '@/hooks';
 import style from './index.module.scss';
 
 interface UserinfoTypes {
@@ -14,34 +13,10 @@ interface UserinfoTypes {
 
 const Usernfo = ({ lastMeasure }: UserinfoTypes) => {
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   const isLogin = useSelector((state: ReduxRootState) => !!state.sessionKey);
-
-  const sessionKey = useSelector((state: ReduxRootState) => state.sessionKey);
   const { userinfo } = useSelector((state: ReduxRootState) => state);
-  console.log('Usernfo刷新了', sessionKey, !!sessionKey);
-
-  const handClickLogin = async () => {
-    console.log('点击登录');
-    // Taro.getUserProfile({
-    //   desc: 'xxxx',
-    // })
-    //   .then((res) => {
-    //     console.log('xxxxx', res);
-    //   })
-    //   .catch((err) => {
-    //     console.log('xxxxx', err);
-    //   });
-
-    // const { iv, encryptedData, errMsg } = await wxPromise(Taro.getUserProfile)({
-    //   desc: 'xxxx',
-    // });
-    // console.log('点击登录errMsg', errMsg);
-    // if (errMsg.includes('fail')) return;
-    const { code } = await wxPromise(Taro.login)();
-    // const params = { iv, encryptedData, code };
-    console.log('点击登录params', code);
-  };
+  const { login } = useLogin();
 
   return (
     <View className={style.main}>
@@ -52,29 +27,24 @@ const Usernfo = ({ lastMeasure }: UserinfoTypes) => {
           image={userinfo?.avatar || 'https://qnplus-avatar.yolanda.hk/default_avatar'}
         />
         {isLogin ? (
-          <View>铃铛</View>
+          <View className={`${style.bell} icon-lingdang`} />
         ) : (
           <>
             <View className={style.unLoginHeadText}>登录后体验更佳</View>
-            <View
-              className={`${style.btnLogin} g-theme-color g-font-T4`}
-              onClick={() => handClickLogin()}
-            >
+            <View className={`${style.btnLogin} g-theme-color`} onClick={() => login()}>
               {t('click_login')}
-            </View>{' '}
+            </View>
           </>
         )}
       </View>
-
       <View className={style.center}>
         <View className={style.weight}>
           <Text className={style.value}>{lastMeasure?.weight || 0}</Text>
           <Text className={style.unit}>kg</Text>
         </View>
-
         {isLogin && (
           <View
-            className={`${style.measureBtn} g-theme-color g-font-T4`}
+            className={style.measureBtn}
             onClick={() => navigateTo({ url: '/pages/ble/index' })}
           >
             {t('click_measure')}

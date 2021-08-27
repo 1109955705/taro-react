@@ -7,6 +7,7 @@ import { systemInfo } from '@/static/sys/system';
 import theme from '@/static/biz/themeMock';
 import { TypedApiScheme } from '@/static/biz/apis/types.d';
 import logger from '@/static/sys/realTimeLogger';
+import { jsonToHump } from '@/static/biz/util';
 
 let sessionKey = '';
 export const setToken = (token) => {
@@ -143,7 +144,7 @@ const responseInterceptor = ({
   } else {
     responseBizData = responseData;
   }
-
+  responseBizData = jsonToHump(responseBizData);
   const defaultResponseStruct = {};
   Object.assign(defaultResponseStruct, {
     code: {

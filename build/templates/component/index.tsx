@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { View } from '@tarojs/components'
 import style from './index.module.scss'
 
-const @pascalName: FC = () => {
+const @pascalName = () => {
   return (
     <View className={style.main}></View>
   )

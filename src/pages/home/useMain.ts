@@ -17,6 +17,8 @@ const useMain = () => {
         setLastMeasure(res.data);
       };
       request();
+    } else {
+      setLastMeasure({});
     }
   }, [isLogin]);
 

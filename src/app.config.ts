@@ -30,7 +30,7 @@ export default {
         selectedIconPath: 'assets/images/tabbar/chart_click.png',
       },
       {
-        pagePath: 'pages/aaa/index',
+        pagePath: 'pages/mine/index',
         text: '我的',
         iconPath: 'assets/images/tabbar/mine_default.png',
         selectedIconPath: 'assets/images/tabbar/mine_click.png',

@@ -29,6 +29,11 @@
     border-radius: 34px;
     margin-left: auto;
   }
+  .bell {
+    margin-left: auto;
+    font-size: 48px;
+    color: var(--tc);
+  }
 }
 
 
@@ -39,25 +44,26 @@
 }
 
 .center {
+  margin-top: 40px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   .weight {
-    margin-top: 40px;
     font-weight: 500;
     color: #333333;
-  }
-  .value {
-    font-size: 72px;
-  }
-  .unit {
-    margin-left: 4px;
-    font-size: 34px;
-
+    .value {
+      font-size: 72px;
+    }
+    .unit {
+      margin-left: 4px;
+      font-size: 34px;
+    }
   }
   .measureBtn {
     padding: 14px 34px;
     background: var(--tc);
     border-radius: 34px;
+    font-size: 28px;
     color: #ffffff;
   }
 }

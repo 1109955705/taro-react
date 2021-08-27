@@ -25,10 +25,8 @@ const HealthTool = () => {
     <View className={style.main}>
       <View>健康工具</View>
       <View className={style.bannersList}>
-        {data?.data?.health_tools.map((item: any) => {
-          return (
-            <Image className={style.imgBanner} src={item.tool_banner} key={item.tool_banner} />
-          );
+        {data?.data?.healthTools.map((item: any) => {
+          return <Image className={style.imgBanner} src={item.toolBanner} key={item.toolBanner} />;
         })}
       </View>
     </View>

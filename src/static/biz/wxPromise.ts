@@ -20,6 +20,7 @@ export default (fn) => {
         logError('wxPromise:fail', '未知', err);
         resolve(err);
       };
+      fn(obj);
     });
   };
 };

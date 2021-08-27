@@ -9,20 +9,24 @@ interface BodyIndexTypes {
 const BodyIndex = ({ lastMeasure }: BodyIndexTypes) => {
   const { list } = useMain(lastMeasure);
 
-  console.log('BodyIndex刷新了');
+  console.log('BodyIndex刷新了', list);
 
   return (
     <View className={style.main}>
       <View className={style.title}>身体指标</View>
       <View className={style.itemWrap}>
-        {list.map((item: any) => {
-          return (
-            <View className={style.item} key={item.name}>
-              <View>{item.name}</View>
-              <View>{item.value}</View>
-            </View>
-          );
-        })}
+        {list.length ? (
+          list.map((item: any) => {
+            return (
+              <View className={style.item} key={item.name}>
+                <View>{item.name}</View>
+                <View>{item.value}</View>
+              </View>
+            );
+          })
+        ) : (
+          <View>还没有测量数据</View>
+        )}
       </View>
     </View>
   );
