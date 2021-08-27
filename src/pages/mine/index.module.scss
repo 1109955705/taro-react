@@ -1,5 +1,6 @@
 .main {
   min-height: 100vh;
+  background: #F6F6F6;
 }
 
 .userinfo {
@@ -21,6 +22,11 @@
     font-weight: 400;
     color: #FFFFFF;
   }
+  .unLoginTips {
+    font-size: 32px;
+    font-weight: 400;
+    color: #FFFFFF;
+  }
 }
 
 .agent {
@@ -32,14 +38,62 @@
   color: #FFFFFF;
 }
 
-.cell {
-  padding: 38px 42px;
-  display: flex;
-  justify-content: space-between;
-  .cellLeft {
-
-  }
-  .cellRight {
-    
+.cellWraper {
+  background: #F6F6F6;
+  .cellLists {
+    padding: 0 42px;
+    background: #FFFFFF;
+    .cell {
+      padding: 38px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #EEEEEE;
+      .cellLeft {
+        display: flex;
+        align-items: center;
+        .cellIcon {
+          font-size: 40px;
+          color: var(--tc);
+        }
+        .cellName {
+          margin-left: 35px;
+          font-size: 32px;
+          font-weight: 400;
+          color: #333333;
+        }
+      }
+      .cellRight {
+        display: flex;
+        align-items: center;
+        .cellTips {
+          font-size: 28px;
+          font-weight: 400;
+          color: #999999;
+          margin-right: 20px;
+        }
+        .cellArrow {
+          font-size: 34px;
+          color: #CACACA;
+        }
+      }
+    }
   }
 }
+
+.logout {
+  margin-top: 32px;
+  width: 100%;
+  height: 100px;
+  line-height: 100px;
+  background: #FFFFFF;
+  font-size: 32px;
+  color: red;
+  text-align: center;
+}
+
+.btnHover {
+  background-color: #dedede;
+  color: red;
+}
+

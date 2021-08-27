@@ -1,9 +1,8 @@
 import Taro, { useDidShow } from '@tarojs/taro';
-import React, { FC, Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View } from '@tarojs/components';
 import { useDispatch, useSelector } from 'react-redux';
 import boot from '@/static/biz/hoc/boot';
-import tipPng from '@/assets/images/.png';
 import { setTabbarIndex } from '../../store/actions';
 import useMain from './useMain';
 import BodyIndex from './components/body-index';

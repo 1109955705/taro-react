@@ -3,7 +3,7 @@ import { useDidShow } from '@tarojs/taro';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { init } from '@/static/biz/init';
-import '@/assets/iconfont/index.css';
+
 import '@/i18n/index';
 import configStore from './store';
 import './app.scss';

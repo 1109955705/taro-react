@@ -19,7 +19,7 @@ const data = {
       iconPath: 'chart',
     },
     {
-      pagePath: '/pages/mine/index',
+      pagePath: '/pages/aaa/index',
       text: '我的',
       iconPath: 'mine',
     },

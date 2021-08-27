@@ -1,8 +1,10 @@
 import React from 'react';
+import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import { AtAvatar } from 'taro-ui';
 import { useTranslation } from 'react-i18next';
+import wxPromise from '@/static/biz/wxPromise';
 import { navigateTo } from '@/static/biz/common';
 import style from './index.module.scss';
 
@@ -19,6 +21,28 @@ const Usernfo = ({ lastMeasure }: UserinfoTypes) => {
   const { userinfo } = useSelector((state: ReduxRootState) => state);
   console.log('Usernfo刷新了', sessionKey, !!sessionKey);
 
+  const handClickLogin = async () => {
+    console.log('点击登录');
+    // Taro.getUserProfile({
+    //   desc: 'xxxx',
+    // })
+    //   .then((res) => {
+    //     console.log('xxxxx', res);
+    //   })
+    //   .catch((err) => {
+    //     console.log('xxxxx', err);
+    //   });
+
+    // const { iv, encryptedData, errMsg } = await wxPromise(Taro.getUserProfile)({
+    //   desc: 'xxxx',
+    // });
+    // console.log('点击登录errMsg', errMsg);
+    // if (errMsg.includes('fail')) return;
+    const { code } = await wxPromise(Taro.login)();
+    // const params = { iv, encryptedData, code };
+    console.log('点击登录params', code);
+  };
+
   return (
     <View className={style.main}>
       <View className={style.unLoginHead}>
@@ -34,7 +58,7 @@ const Usernfo = ({ lastMeasure }: UserinfoTypes) => {
             <View className={style.unLoginHeadText}>登录后体验更佳</View>
             <View
               className={`${style.btnLogin} g-theme-color g-font-T4`}
-              onClick={() => navigateTo({ url: '/pages/ble/index' })}
+              onClick={() => handClickLogin()}
             >
               {t('click_login')}
             </View>{' '}

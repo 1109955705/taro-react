@@ -25,25 +25,56 @@ const Mine = () => {
   }, [themeColor]);
 
   const logout = () => {
-    dispatch(clearSessionKey());
-    dispatch(setUserinfo({}));
+    console.log('xxxxxxxxxxx');
+    // dispatch(clearSessionKey());
+    // dispatch(setUserinfo({}));
   };
 
   return (
     <View className={style.main}>
       <View className={style.userinfo}>
-        <View className={style.avatar}>1111</View>
-        <View className={style.username}>2222</View>
+        {isLogin ? (
+          <>
+            <View className={style.avatar}>1111</View>
+            <View className={style.username}>2222</View>
+          </>
+        ) : (
+          <>
+            <View className={style.unLoginTips}>登录/注册</View>
+            <View className={style.unLoginTips}>登录后可查看测量数据</View>
+          </>
+        )}
       </View>
-      <View className={style.agent}>减脂顾问：吴简宁 · 13812345678</View>
-      <View>
-        <View className={style.cell}>
-          <View className={style.cellLeft}>1111</View>
-          <View className={style.cellRight}>{'>'}</View>
-          <View className="icon-kefu">1</View>
+      {isLogin && <View className={style.agent}>减脂顾问：吴简宁 · 13812345678</View>}
+      <View className={style.cellWraper}>
+        <View className={style.cellLists}>
+          <View className={style.cell}>
+            <View className={style.cellLeft}>
+              <View className={`${style.cellIcon} icon-bianji`} />
+              <View className={style.cellName}>编辑资料</View>
+            </View>
+            <View className={style.cellRight}>
+              <View className={style.cellTips}>222</View>
+              <View className={`${style.cellArrow} icon-arr-right`} />
+            </View>
+          </View>
+          <View className={style.cell}>
+            <View className={style.cellLeft}>
+              <View className={`${style.cellIcon} icon-shouji`} />
+              <View className={style.cellName}>手机号</View>
+            </View>
+            <View className={style.cellRight}>
+              <View className={style.cellTips}>18340018262</View>
+              <View className={`${style.cellArrow} icon-arr-right`} />
+            </View>
+          </View>
         </View>
       </View>
-      {isLogin && <Button onClick={() => logout()}>退出登录</Button>}
+      {isLogin && (
+        <Button hoverClass={style.btnHover} className={style.logout} onClick={() => logout()}>
+          退出登录
+        </Button>
+      )}
     </View>
   );
 };
