@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro';
 
 const getSystemInfo = () => {
-  //接口监控统计参数
-  let systemInfo = Taro.getSystemInfoSync();
+  // 接口监控统计参数
+  const systemInfo = Taro.getSystemInfoSync();
   const { model, system, version } = systemInfo;
   return {
     platform: 'xcx_third',
@@ -13,3 +13,5 @@ const getSystemInfo = () => {
   };
 };
 export const systemInfo = getSystemInfo();
+
+export default {};

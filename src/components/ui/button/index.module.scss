@@ -1,0 +1,35 @@
+
+.main {
+  background:  var(--tc);
+  font-size: 32px;
+  color: #FFFFFF;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.main::after{
+  content: none;
+  border: none;
+}
+
+.btnHover {
+  background-color: #dedede;
+}
+
+.large {
+  width: 620px;
+  height: 84px;
+  border-radius: 42px;
+}
+
+.normal {
+
+}
+
+.samll {
+  
+}

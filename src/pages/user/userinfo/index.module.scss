@@ -1,0 +1,40 @@
+.main {
+  background: #f7f7f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .avatar {
+      width: 160px;
+      height: 160px;
+  }
+  .changeHeadTip {
+    margin-top: 20px;
+  }
+}
+.cellWrap {
+  margin-top: 100px;
+  padding: 0 40px;
+  background: #FFFFFF;
+}
+
+.inputUserName {
+  text-align: right;
+  font-size: 26px;
+  font-weight: 400;
+  color: #999999;
+}
+
+.btnWrap {
+  margin-top: auto;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

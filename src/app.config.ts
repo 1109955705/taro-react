@@ -1,11 +1,5 @@
 export default {
-  pages: [
-    'pages/home/index',
-    'pages/aaa/index',
-    'pages/mine/index',
-    'pages/chart/index',
-    'pages/ble/index',
-  ],
+  pages: ['pages/home/index', 'pages/mine/index', 'pages/chart/index', 'pages/ble/index'],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
@@ -39,8 +33,8 @@ export default {
   },
   subPackages: [
     {
-      root: 'pages/canvas/',
-      pages: ['index'],
+      root: 'pages/user/',
+      pages: ['login/index', 'phone-login/index', 'userinfo/index'],
     },
   ],
 };

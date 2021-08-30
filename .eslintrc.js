@@ -24,6 +24,16 @@ module.exports = {
     'react/prop-types': 'off',
     '@typescript-eslint/indent': ['error', 2],
     'no-use-before-define': 'off',
+    // 禁止出现无用的表达式
+    'no-unused-expressions': [
+      2,
+      {
+        allowShortCircuit: true, // 允许使用 a() || b 或 a && b()
+        allowTernary: true, // 允许在表达式中使用三元运算符
+        allowTaggedTemplates: true, // 允许标记模板字符串
+      },
+    ],
+
     '@typescript-eslint/no-use-before-define': ['error'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/extensions': [

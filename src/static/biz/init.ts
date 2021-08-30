@@ -22,3 +22,5 @@ export const init = () => {
     console.error('onError:', error);
   });
 };
+
+export default {};

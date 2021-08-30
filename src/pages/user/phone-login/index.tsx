@@ -3,9 +3,8 @@ import { View } from '@tarojs/components';
 import boot from '@/static/biz/hoc/boot';
 import style from './index.module.scss';
 
-const @pascalName = () => {
-  return <View className={style.main}>@pascalName</View>;
-}
+const PhoneLogin = () => {
+  return <View className={style.main}>xxxxxxx</View>;
+};
 
-
-export default boot(@pascalName);
+export default boot(PhoneLogin);

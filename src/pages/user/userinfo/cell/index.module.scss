@@ -1,0 +1,38 @@
+
+
+.cell {
+  padding: 28px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #EEEEEE;
+  background: #FFFFFF;
+  .cellLeft {
+    display: flex;
+    align-items: center;
+    .cellIcon {
+      margin-right: 35px;
+      font-size: 40px;
+      color: var(--tc);
+    }
+    .cellName {
+      font-size: 28px;
+      font-weight: 400;
+      color: #333333;
+    }
+  }
+  .cellRight {
+    display: flex;
+    align-items: center;
+    .cellTips {
+      font-size: 26px;
+      font-weight: 400;
+      color: #999999;
+    }
+    .cellArrow {
+      font-size: 34px;
+      color: #CACACA;
+      margin-left: 20px;
+    }
+  }
+}

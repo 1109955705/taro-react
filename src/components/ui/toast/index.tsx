@@ -3,7 +3,7 @@ import { View } from '@tarojs/components';
 import style from './index.module.scss';
 
 const Toast: FC = () => {
-  return <View className={style.main}></View>;
+  return <View className={style.main}>toast</View>;
 };
 
 export default Toast;

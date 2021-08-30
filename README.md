@@ -5,7 +5,7 @@
 自动更新 测试服
 taro build --type weapp --watch
 
-自动更新并压缩 正式服 热更新有问题而且比较慢
+自动更新并压缩 正式服 热更新有问题而且比较慢, 不要在这个模式下开发调试
 NODE_ENV=production taro build --type weapp --watch
 
 ahook

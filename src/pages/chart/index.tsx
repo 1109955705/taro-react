@@ -3,8 +3,8 @@ import { View, WebView } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTabbarIndex } from '@/store/actions/tabbar';
-
-import './index.scss';
+import { objToStr } from '@/static/biz/util';
+import style from './index.module.scss';
 
 const Chart: FC = () => {
   const [src, setSrc] = useState<string>('');
@@ -21,7 +21,7 @@ const Chart: FC = () => {
       themeColor,
       hostName: '',
     };
-    let hostName: string;
+    let hostName = '';
     if (process.env.NODE_ENV === 'development') {
       hostName = 'http://sit.third-api.yolanda.hk';
     } else {
@@ -32,7 +32,6 @@ const Chart: FC = () => {
       params,
       true
     )}&enviornment=test`;
-    console.log('webViewSrc', webViewSrc);
     setSrc(webViewSrc);
   }, [sessionKey, themeColor, userinfo]);
 
@@ -43,25 +42,11 @@ const Chart: FC = () => {
     });
   }, [themeColor]);
 
-  const objToStr = (obj, encode = false) => {
-    let str = '';
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (encode) {
-          str += `&${key}=${encodeURIComponent(obj[key])}`;
-        } else {
-          str += `&${key}=${obj[key]}`;
-        }
-      }
-    }
-    return str.slice(1);
-  };
-
   useDidShow(() => {
     dispatch(setTabbarIndex(1));
   });
 
-  return <>{src ? <WebView src={src} /> : <View>未登录</View>}</>;
+  return <>{src ? <WebView src={src} /> : <View className={style.main}>未登录</View>}</>;
 };
 
 export default Chart;

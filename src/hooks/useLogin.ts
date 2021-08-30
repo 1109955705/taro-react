@@ -5,6 +5,8 @@ import wxPromise from '@/static/biz/wxPromise';
 import { sendHttpRequest } from '@/static/sys/http';
 import { ApiLogin } from '@/static/biz/apis/users';
 import { setUserinfo, setSessionKey } from '@/store/actions';
+import { navigateTo } from '@/static/biz/common';
+import { pageLogin } from '@/static//biz/routes';
 
 export default () => {
   const dispatch = useDispatch();
@@ -17,9 +19,13 @@ export default () => {
     });
     const { terminalUserSession, userInfo, code: resCode, randomCode } = res.data;
 
+    navigateTo(pageLogin);
+    return;
+
     if (resCode === '20005') {
       console.log('未注册用户', randomCode);
       setRegisterCode(randomCode);
+      navigateTo('/pages/login/index');
     } else {
       console.log('已注册用户', terminalUserSession, userInfo);
       dispatch(setSessionKey(terminalUserSession));
