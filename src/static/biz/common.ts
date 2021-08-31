@@ -8,10 +8,11 @@ export const navigateTo = (params) =>
   });
 export const navigateBack = () => wxPromise(Taro.navigateBack)();
 export const switchTab = (params) =>
-  wxPromise(Taro.navigateBack)({
+  wxPromise(Taro.switchTab)({
     url: params,
   });
 export const reLaunch = (params) => wxPromise(Taro.reLaunch)(params);
 export const redirectTo = (params) => wxPromise(Taro.redirectTo)(params);
 export const getCurrentPages = () => wxPromise(Taro.getCurrentPages)();
 export const showToast = (params) => Taro.showToast({ title: params, icon: 'none' });
+export const chooseImage = (params?) => wxPromise(Taro.chooseImage)(params);

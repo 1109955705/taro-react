@@ -1,63 +1,114 @@
-import React from 'react';
-import { View, Input, Picker } from '@tarojs/components';
+import React, { useState } from 'react';
 import { AtAvatar } from 'taro-ui';
+import { View, Input, Picker } from '@tarojs/components';
+import { chooseImage, switchTab, showToast } from '@/static/biz/common';
+import { pageHome } from '@/static/biz/routes';
 import boot from '@/static/biz/hoc/boot';
 import MyButton from '@/components/ui/button';
 import Cell from './cell';
 import style from './index.module.scss';
-import { useState } from 'react';
 
-const genderArray = ['男', '女'];
+const genderRange = ['男', '女'];
+
+const heightRange = [''];
+for (let i = 60; i < 240; i += 1) {
+  heightRange.push(`${i}cm`);
+}
+
+const skew = 59;
 
 const Userinfo = () => {
-  const [gender, setGender] = useState('男');
-  const chageUserName = () => {
-    console.log('xxxxx');
-  };
+  const [gender, setGender] = useState<number>(0);
+  const [height, setHeight] = useState(170);
+  const [birthday, setBirthday] = useState('2008-08-08');
+  const [username, setUsername] = useState('支');
+  const [avatar, setAvatar] = useState('');
+
   const changeGender = (e) => {
     const {
       detail: { value },
     } = e;
-    setGender(genderArray[value]);
+    setGender(value);
   };
 
-  const changeBirthday = () => {};
+  const changeBirthday = (res) => {
+    const {
+      detail: { value },
+    } = res;
+    setBirthday(value);
+  };
 
-  const changeHeight = () => {};
+  const changeUserName = (res) => {
+    const {
+      detail: { value },
+    } = res;
+    setUsername(value);
+  };
+
+  const changeHeight = (res) => {
+    const {
+      detail: { value },
+    } = res;
+    setHeight(Number(value) + skew);
+  };
+
+  const changeAvatar = async () => {
+    const { errMsg, tempFilePaths } = await chooseImage();
+    if (errMsg.includes('fail')) return;
+    setAvatar(tempFilePaths[0]);
+  };
 
   const sure = () => {
-    console.log('xxxxxx');
+    // check
+    if (!birthday) {
+      showToast('请选择生日');
+      return;
+    }
+    if (!username || username.length < 1) {
+      showToast('请输入正确的名称');
+      return;
+    }
+    if (!height) {
+      showToast('请选择身高');
+      return;
+    }
+    switchTab(pageHome);
   };
 
-  const valueSlot = () => {
-    return <Input className={style.inputUserName} type="text" value="支" />;
+  const inputValueSlot = () => {
+    return (
+      <Input
+        className={style.inputUserName}
+        type="text"
+        value={username}
+        onInput={(e) => changeUserName(e)}
+      />
+    );
   };
+
   return (
     <View className={style.main}>
-      <View className={style.head}>
+      <View className={style.head} onClick={() => changeAvatar()}>
         <AtAvatar
           className={style.avatar}
           circle
-          image="https://qnplus-avatar.yolanda.hk/default_avatar"
+          image={avatar || 'https://qnplus-avatar.yolanda.hk/default_avatar'}
         />
         <View className={style.changeHeadTip}>点击图片切换头像</View>
       </View>
-      <Picker mode="selector" range={genderArray} onChange={changeGender}>
-        <View className="picker">性别</View>
-      </Picker>
       <View className={style.cellWrap}>
-        <View onClick={() => chageUserName()}>
-          <Cell name="真实姓名" value="支" valueSlot={valueSlot} />
+        <View>
+          <Cell name="真实姓名" value="支" valueSlot={inputValueSlot} />
         </View>
-        <View onClick={() => changeGender()}>
-          <Cell name="性别" value={gender} />
-        </View>
-        <View onClick={() => changeBirthday()}>
-          <Cell name="出生日期" value="" />
-        </View>
-        <View onClick={() => changeHeight()}>
-          <Cell name="身高" value="" />
-        </View>
+        <Picker mode="selector" range={genderRange} onChange={changeGender}>
+          <Cell name="性别" value={genderRange[gender]} />
+        </Picker>
+        <Picker value={birthday} mode="date" onChange={changeBirthday}>
+          <Cell name="出生日期" value={birthday} />
+        </Picker>
+        <Picker mode="selector" range={heightRange} value={height - 59} onChange={changeHeight}>
+          <Cell name="身高" value={`${height}`} />
+        </Picker>
       </View>
       <View className={style.btnWrap}>
         <MyButton text="确认" click={sure} size="large" />

@@ -13,7 +13,6 @@ interface cellTypes {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const defaultFn = () => {};
 const Cell = ({ leftIcon, name, value, onclickFn, valueSlot }: cellTypes) => {
-  console.log('xxxx', valueSlot);
   return (
     <View className={style.cell} onClick={onclickFn ? () => onclickFn() : () => defaultFn()}>
       <View className={style.cellLeft}>
