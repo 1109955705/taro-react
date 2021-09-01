@@ -1,41 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { QNMPPlugin, QNConsts } from '@/libs/qnble';
-
-// eslint-disable-next-line no-shadow
-enum BleOpStatusEnum {
-  // 初始状态，未init前
-  NOOP,
-  // 蓝牙不可用
-  BLE_DISABLED,
-  // 蓝牙可用
-  BLE_READY,
-  // 正在扫描
-  SCANNING,
-  // 扫描超时
-  SCAN_OVERTIME,
-  // 已发现设备
-  DEVICE_FOUNDED,
-  // 正在连接
-  CONNECTING,
-  // 已连接
-  CONNECTED,
-  // 连接失败
-  CONNECT_FAILED,
-  // 断开连接
-  DISCONNECTED,
-  // 连接超时
-  CONNECT_OVERTIME,
-  // 例如：正在测量
-  OPERATING,
-  // 例如：测量完成
-  OPERATE_FINISHED,
-  // 例如：测量失败。这个状态可能一般不会用
-  OPERATE_FAILED,
-  // 发生了错误
-  ERROR_OCCURED,
-  // 扫描wifi
-  SCANING_WIFI,
-}
+import { BleStateEnum } from '@/static/biz/typings';
 
 console.log('==================useBle=================');
 
@@ -63,25 +28,109 @@ qnble.onReady = ({
   }
 };
 
-export default () => {
-  const [bleOpStatus, setBleOpStatus] = useState(BleOpStatusEnum.NOOP);
-  const [unSteadyWeight, setUnSteadyWeight] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [height, setHeight] = useState(0);
+function onError(err) {
+  console.log('onError', err);
+}
+qnble.onError = onError;
 
+const SET_WEIGHT = 'SET_WEIGHT';
+
+const SET_HEIGHT = 'SET_HEIGHT';
+
+const SET_BLE_STATE = 'SET_BLE_STATE';
+
+const SET_MEASURE_RESULT = 'SET_MEASURE_RESULT';
+
+const initialState = {
+  bleState: 0,
+  data: {
+    weight: 0,
+    height: 0,
+    measureResult: undefined,
+  },
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case SET_BLE_STATE:
+      return {
+        ...state,
+        bleState: action.payload.bleState,
+        data: {
+          ...state.data,
+        },
+      };
+    case SET_WEIGHT:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          weight: action.payload.weight,
+        },
+      };
+    case SET_HEIGHT:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          height: action.payload.height,
+        },
+      };
+    case SET_MEASURE_RESULT:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          measureResult: action.payload.measureResult,
+        },
+      };
+    default:
+      throw new Error('Unexpected action');
+  }
+};
+
+export default () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  // 设备回调事件
   const deviceEventListener = {
     onGetDeviceInfo(device) {
       console.log('设备信息', device);
     },
     // 体脂秤测量完成
-    onGetScaleData(data) {
-      console.log('测量完成', data);
+    onGetScaleData({ measure }) {
+      console.log('测量完成', measure);
+      dispatch({
+        type: SET_MEASURE_RESULT,
+        payload: {
+          measureResult: measure,
+        },
+      });
+      dispatch({
+        type: SET_BLE_STATE,
+        payload: {
+          bleState: BleStateEnum.OPERATE_FINISHED,
+        },
+      });
     },
     onGetUnsteadyWeight(data) {
       console.log('不稳定数据', data);
+      const { weight } = data;
+      dispatch({
+        type: SET_WEIGHT,
+        payload: {
+          weight,
+        },
+      });
+      dispatch({
+        type: SET_BLE_STATE,
+        payload: {
+          bleState: BleStateEnum.OPERATING,
+        },
+      });
     },
   };
 
+  // 创建连接
   const createBleConnection = (bleDevice) => {
     const operation = {} as Record<string, any>;
     operation.action = QNConsts.QNBleAction.MEASURE_WEIGHT;
@@ -91,18 +140,29 @@ export default () => {
       height: 170,
       age: 22,
     };
-    setBleOpStatus(BleOpStatusEnum.CONNECTING);
+    dispatch({
+      type: SET_BLE_STATE,
+      payload: {
+        bleState: BleStateEnum.CONNECTING,
+      },
+    });
     console.log('createBleConnection', bleDevice);
     qnble.createBleConnection(bleDevice, deviceEventListener, operation);
   };
 
+  // 蓝牙回调事件
   const bleEventListener = {
     onBluetoothEnableChange({ available }) {
       console.log('onBluetoothEnableChange', available);
       if (available) {
         qnble.startBleDeviceDiscovery();
       } else {
-        setBleOpStatus(BleOpStatusEnum.NOOP);
+        dispatch({
+          type: SET_BLE_STATE,
+          payload: {
+            bleState: BleStateEnum.NOOP,
+          },
+        });
       }
     },
     onConnected() {
@@ -118,26 +178,43 @@ export default () => {
       console.log('onStartDiscoveryDevice');
     },
     onBleDeviceFound(bleDevice) {
-      if (bleOpStatus !== BleOpStatusEnum.CONNECTING) {
+      if (state.bleState !== BleStateEnum.CONNECTING) {
         createBleConnection(bleDevice);
       }
     },
   };
 
+  // 初始化
   useEffect(() => {
-    // 初始化
     qnble.init();
     qnble.setBleEventListener(bleEventListener);
     return () => {
       console.log('unmount');
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   *  操作蓝牙方法
+   */
+
+  // 开始扫描
+  const doScan = () => {
+    console.log('doScan');
+    qnble.startBleDeviceDiscovery();
+  };
+
+  // 停止扫描
+  const doStopScan = () => {
+    console.log('doStopScan');
+    qnble.stopBleDeviceDiscovery();
+  };
+
   return {
-    qnble,
-    bleOpStatus,
-    unSteadyWeight,
-    weight,
-    height,
+    state,
+    func: {
+      doScan,
+      doStopScan,
+    },
   };
 };

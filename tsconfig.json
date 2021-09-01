@@ -24,7 +24,8 @@
       "@/static/*": ["./src/static/*"],
       "@/libs/*": ["./src/libs/*"],
       "@/i18n/*": ["./src/i18n/*"],
-      "@/hooks/*": ["./src/hooks/*"]
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/typings/*": ["./src/typings/*"]
     },
     "rootDir": ".",
     "jsx": "react",

@@ -19,6 +19,8 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // console提示
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // debug提示
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',

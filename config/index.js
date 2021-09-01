@@ -36,6 +36,7 @@ const config = {
     '@/libs': path.resolve(__dirname, '..', 'src/libs'),
     '@/i18n': path.resolve(__dirname, '..', 'src/i18n'),
     '@/hooks': path.resolve(__dirname, '..', 'src/hooks'),
+    '@/typings': path.resolve(__dirname, '..', 'src/typings'),
   },
   mini: {
     esnextModules: ['taro-ui'],

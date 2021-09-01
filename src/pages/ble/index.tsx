@@ -4,20 +4,27 @@ import useBle from '@/hooks/useBle';
 import './index.scss';
 
 const Ble = () => {
-  const { qnble, bleOpStatus, unSteadyWeight, weight, height } = useBle();
-  const doScan = () => {
-    console.log('doScan');
-    qnble.startBleDeviceDiscovery();
-  };
+  const {
+    state: {
+      bleState,
+      data: { weight, height },
+    },
+    func: { doScan, doStopScan },
+  } = useBle();
 
   return (
     <View className="template_container">
       <Button className="btn" plain onClick={() => doScan()}>
         扫描
       </Button>
-
-      <View className="text">{unSteadyWeight ? `不稳定数据:${unSteadyWeight}` : '...'}</View>
-      <View className="text">{weight ? `稳定数据:${weight}` : '...'}</View>
+      <Button className="btn" plain onClick={() => doStopScan()}>
+        停止扫描
+      </Button>
+      <View>weight:{bleState}</View>
+      <View>weight:{weight}</View>
+      <View>height:{height}</View>
+      <View className="text">{weight ? `不稳定数据:${weight}` : '...'}</View>
+      <View className="text">{height ? `稳定数据:${height}` : '...'}</View>
     </View>
   );
 };
