@@ -14,5 +14,5 @@ export const switchTab = (params) =>
 export const reLaunch = (params) => wxPromise(Taro.reLaunch)(params);
 export const redirectTo = (params) => wxPromise(Taro.redirectTo)(params);
 export const getCurrentPages = () => wxPromise(Taro.getCurrentPages)();
-export const showToast = (params) => Taro.showToast({ title: params, icon: 'none' });
+export const showToast = (params) => wxPromise(Taro.showToast)({ title: params, icon: 'none' });
 export const chooseImage = (params?) => wxPromise(Taro.chooseImage)(params);

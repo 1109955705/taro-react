@@ -8,6 +8,8 @@ interface taroRequest {
   data?: Record<string, unknown>;
   desc?: string;
   url?: string;
+  title?: string;
+  icon?: string;
 }
 export default (fn) => {
   return (obj: taroRequest = {}) => {
@@ -24,7 +26,6 @@ export default (fn) => {
       fn(newObj).catch((err) => {
         // 有些api用户点击取消时会直接报错, 在这里捕捉
         logError('wxPromise:fail', '未知', err);
-        console.log('2333333', err);
       });
     });
   };

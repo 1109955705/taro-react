@@ -3,16 +3,14 @@
  */
 import QNBleProtocol from './QNBleProtocol';
 import QNBleTypings from './typings';
-export default class QNProtocolManager<
-  T extends Partial<QNBleTypings.QNDeviceEventListener>
-> {
-  records: Map<string, QNBleProtocol<T>>;
-  hasProtocol(deviceId: string): boolean;
-  getProtocol(deviceId: string): QNBleProtocol<T> | null;
-  setProtocol(protocolImp: QNBleProtocol<T>): Map<string, QNBleProtocol<T>>;
-  removeProtocol(deviceId: string): boolean;
-  clear(): void;
-  values(): IterableIterator<QNBleProtocol<T>>;
-  keys(): IterableIterator<string>;
-  enries(): IterableIterator<[string, QNBleProtocol<T>]>;
+export default class QNProtocolManager<T extends Partial<QNBleTypings.QNDeviceEventListener>> {
+    records: Map<string, QNBleProtocol<T>>;
+    hasProtocol(deviceId: string): boolean;
+    getProtocol(deviceId: string): QNBleProtocol<T> | null;
+    setProtocol(protocolImp: QNBleProtocol<T>): Map<string, QNBleProtocol<T>>;
+    removeProtocol(deviceId: string): boolean;
+    clear(): void;
+    values(): IterableIterator<QNBleProtocol<T>>;
+    keys(): IterableIterator<string>;
+    enries(): IterableIterator<[string, QNBleProtocol<T>]>;
 }

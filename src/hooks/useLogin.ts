@@ -19,8 +19,8 @@ export default () => {
     });
     const { terminalUserSession, userInfo, code: resCode, randomCode } = res.data;
 
-    navigateTo(pageLogin);
-    return;
+    // navigateTo(pageLogin);
+    // return;
 
     if (resCode === '20005') {
       console.log('未注册用户', randomCode);

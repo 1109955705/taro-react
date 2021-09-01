@@ -38,4 +38,12 @@ export const jsonToHump = (obj) => {
   return obj;
 };
 
+export const asyncFunction = (fn: any, delay = 1500) => {
+  return (args) => {
+    setTimeout(() => {
+      fn(args);
+    }, delay);
+  };
+};
+
 export default {};

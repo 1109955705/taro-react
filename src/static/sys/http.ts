@@ -25,7 +25,8 @@ interface TypedHttpConfig {
 }
 
 const { appid } = theme;
-const baseUrl = 'http://sit.third-api.yolanda.hk/open_api';
+const prefix = '/open_api';
+const baseUrl = SERVICE_URL + prefix;
 
 function showLoadingToast(loadingText = '') {
   Taro.showLoading({
@@ -123,7 +124,7 @@ const requestInterceptor = (
   });
 };
 
-type TypedHttpResponse = { data: any; [x: string]: any };
+type TypedHttpResponse = { data: any;[x: string]: any };
 
 // 回复拦截器 校验结果
 const responseInterceptor = ({

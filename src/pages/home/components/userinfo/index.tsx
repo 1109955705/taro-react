@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AtAvatar } from 'taro-ui';
 import { useTranslation } from 'react-i18next';
 import { navigateTo } from '@/static/biz/common';
+import { pageBle } from '@/static//biz/routes';
 import { useLogin } from '@/hooks';
 import style from './index.module.scss';
 
@@ -43,10 +44,7 @@ const Usernfo = ({ lastMeasure }: UserinfoTypes) => {
           <Text className={style.unit}>kg</Text>
         </View>
         {isLogin && (
-          <View
-            className={style.measureBtn}
-            onClick={() => navigateTo({ url: '/pages/ble/index' })}
-          >
+          <View className={style.measureBtn} onClick={() => navigateTo(pageBle)}>
             {t('click_measure')}
           </View>
         )}

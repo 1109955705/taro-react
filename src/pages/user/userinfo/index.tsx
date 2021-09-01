@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AtAvatar } from 'taro-ui';
 import { View, Input, Picker } from '@tarojs/components';
 import { chooseImage, switchTab, showToast } from '@/static/biz/common';
+import { asyncFunction } from '@/static/biz/util';
 import { pageHome } from '@/static/biz/routes';
 import boot from '@/static/biz/hoc/boot';
 import MyButton from '@/components/ui/button';
@@ -60,6 +61,10 @@ const Userinfo = () => {
 
   const sure = () => {
     // check
+    if (!avatar) {
+      showToast('请选择头像');
+      return;
+    }
     if (!birthday) {
       showToast('请选择生日');
       return;
@@ -72,7 +77,8 @@ const Userinfo = () => {
       showToast('请选择身高');
       return;
     }
-    switchTab(pageHome);
+    showToast('注册成功');
+    asyncFunction(switchTab, 1500)(pageHome);
   };
 
   const inputValueSlot = () => {

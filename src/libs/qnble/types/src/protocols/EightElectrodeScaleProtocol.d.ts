@@ -28,7 +28,7 @@ export default class WspDualScaleProtocol extends QNBleBaseScaleProtocol<QNBleTy
     bodyByteDataArr: number[][];
     isStoreData: boolean;
     partialScaleData: Partial<QNBleTypings.TypedMeasureData>;
-    historyRecords: Array<QNBleTypings.TypeGetScaleDataCallbackParam>;
+    historyRecords: Array<any>;
     wifiNotified: boolean;
     delayWriteDataAfterNotify(): Promise<any>;
     prepare(): Promise<any>;
@@ -47,6 +47,7 @@ export default class WspDualScaleProtocol extends QNBleBaseScaleProtocol<QNBleTy
     /**
      * 通知设备扫描附近wifi
      * 可在外部使用 qnble.callProtocolMethodAsync(deviceId, 'doScanWifi', ...args)
+     * 8电级暂时不支持秤端扫描wifi， 需要app自己实现扫描逻辑获取ssid
      */
     doScanWifi(): Promise<void>;
     /**
@@ -64,7 +65,7 @@ export default class WspDualScaleProtocol extends QNBleBaseScaleProtocol<QNBleTy
         encryptKey: string;
     }): Promise<any>;
     handleWifiCmdData(data: number[]): Promise<any>;
-    buildBodyData(): void;
+    buildBodyData(): Promise<any>;
     doNotifyWifi(): Promise<any>;
     sendWifiSsid(): Promise<any>;
     sendWifiPwd(): Promise<any>;
@@ -90,5 +91,6 @@ export default class WspDualScaleProtocol extends QNBleBaseScaleProtocol<QNBleTy
      * @param {number} type 1：表示查询wifi是否连接 2：查询wifi是否连接服务器
      */
     queryWifiConnectStatus(type?: number): Promise<void>;
+    dispatchSteadyData(scaleData: any): Promise<any>;
 }
 export {};

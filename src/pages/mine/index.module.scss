@@ -57,6 +57,8 @@
         align-items: center;
         .cellIcon {
           font-size: 40px;
+          width: 40px;
+          height: 40px;
           color: var(--tc);
         }
         .cellName {
@@ -77,6 +79,8 @@
         }
         .cellArrow {
           font-size: 34px;
+          width: 34px;
+          height: 34px;
           color: #CACACA;
         }
       }
