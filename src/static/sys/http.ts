@@ -124,7 +124,7 @@ const requestInterceptor = (
   });
 };
 
-type TypedHttpResponse = { data: any;[x: string]: any };
+type TypedHttpResponse = { data: any; [x: string]: any };
 
 // 回复拦截器 校验结果
 const responseInterceptor = ({

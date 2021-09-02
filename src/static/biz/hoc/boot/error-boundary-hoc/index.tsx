@@ -4,7 +4,6 @@ import { logError } from '@/static/sys/error';
 
 export default (EBWrapComponent) => {
   return class ErrorBoundary extends Component {
-    // eslint-disable-next-line react/sort-comp
     state = {
       error: null,
     };
@@ -15,14 +14,13 @@ export default (EBWrapComponent) => {
       return { error };
     }
 
-    componentDidMount() {}
-
     componentDidCatch(error, info) {
       logError('run', error, info.componentStack);
     }
 
     render() {
-      if (this.state.error) {
+      const { error } = this.state;
+      if (error) {
         // 渲染出错时的 UI
         return <View>Something broke</View>;
       }

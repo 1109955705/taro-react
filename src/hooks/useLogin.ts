@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import wxPromise from '@/static/biz/wxPromise';
 import { sendHttpRequest } from '@/static/sys/http';
 import { ApiLogin } from '@/static/biz/apis/users';
@@ -14,6 +14,7 @@ export default () => {
   const login = async () => {
     const { code } = await wxPromise(Taro.login)();
     const params = { code };
+
     const res = await sendHttpRequest(ApiLogin, params, {
       loadingText: '登录中',
     });

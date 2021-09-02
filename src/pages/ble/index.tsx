@@ -1,11 +1,11 @@
-import React, { FC, useState, useEffect } from 'react';
+import React from 'react';
 import { View, Button } from '@tarojs/components';
-import useBle from '@/hooks/useBle';
+import { useBle } from '@/hooks';
 import './index.scss';
 
 const Ble = () => {
   const {
-    state: {
+    data: {
       bleState,
       data: { weight, height },
     },
@@ -20,7 +20,7 @@ const Ble = () => {
       <Button className="btn" plain onClick={() => doStopScan()}>
         停止扫描
       </Button>
-      <View>weight:{bleState}</View>
+      <View>bleState:{bleState}</View>
       <View>weight:{weight}</View>
       <View>height:{height}</View>
       <View className="text">{weight ? `不稳定数据:${weight}` : '...'}</View>

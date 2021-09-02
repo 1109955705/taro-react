@@ -24,6 +24,7 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',
+    'react/state-in-constructor': [1, 'never'],
     '@typescript-eslint/indent': ['error', 2],
     'no-use-before-define': 'off',
     // 禁止出现无用的表达式

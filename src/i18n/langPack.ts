@@ -9,8 +9,8 @@ export default {
   },
   en: {
     translation: {
-      login: 'loginxxx',
-      home: 'homexxx',
+      login: 'login',
+      home: 'home',
       click_measure: 'measure',
       click_login: 'login',
     },

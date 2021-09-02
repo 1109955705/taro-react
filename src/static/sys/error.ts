@@ -7,12 +7,13 @@ import dayjs from 'dayjs';
  */
 // eslint-disable-next-line
 export const logError = (name: string, action: string, info?: string | object) => {
+  let errInfo;
   if (!info) {
-    info = 'empty';
+    errInfo = 'empty';
   }
   const time = dayjs().format('YYYY/MM/DD HH:mm:ss');
   console.warn(time, name, action, info);
   if (typeof info === 'object') {
-    info = JSON.stringify(info);
+    errInfo = JSON.stringify(info);
   }
 };

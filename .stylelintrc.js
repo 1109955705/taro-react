@@ -7,5 +7,6 @@ module.exports = {
   plugins: ['stylelint-order', 'stylelint-scss'],
   rules: {
     // ...
+    'selector-nested-pattern': '^&',
   },
 };

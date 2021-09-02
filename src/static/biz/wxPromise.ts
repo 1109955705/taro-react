@@ -1,3 +1,6 @@
+/**
+ * 微信的api支持promise
+ */
 import { logError } from '@/static/sys/error';
 
 interface taroRequest {

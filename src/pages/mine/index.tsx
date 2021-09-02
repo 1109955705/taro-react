@@ -20,6 +20,7 @@ const Mine = () => {
     dispatch(setTabbarIndex(2));
   });
 
+  // trao编译后的代码导致page-meta失效,顶部栏无法及时更改颜色
   useEffect(() => {
     Taro.setNavigationBarColor({
       frontColor: '#ffffff',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -13,13 +14,13 @@ const saveAuthToken = () => (next) => (action) => {
   // 登陆时设置session_key
   console.log('RE_SET_PERSIST', action);
   if (action.type === SET_SESSION_KEY) {
-    const setToken = require('../static/sys/http').setToken;
+    const { setToken } = require('../static/sys/http');
     setToken(action.sessionKey);
   }
   // 刷新时设置session_key
   if (action.type === RE_SET_PERSIST) {
     if (action.payload?.sessionKey) {
-      const setToken = require('../static/sys/http').setToken;
+      const { setToken } = require('../static/sys/http');
       setToken(action.payload.sessionKey);
     }
   }
