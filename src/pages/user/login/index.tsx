@@ -1,9 +1,8 @@
-import Taro from '@tarojs/taro';
 import React, { useState } from 'react';
 import { View, Image, Button, Checkbox } from '@tarojs/components';
 import boot from '@/static/biz/hoc/boot';
-import { navigateTo, switchTab, showToast } from '@/static/biz/common';
-import { pageHome, pagePhoneLogin, pageUserinfo } from '@/static//biz/routes';
+import { navigateTo, showToast } from '@/static/biz/common';
+import { pagePhoneLogin, pageUserinfo } from '@/static//biz/routes';
 import wechat from '@/assets/images/wechat.png';
 import arrrow from '@/assets/images/arrow.png';
 import ykb from '@/assets/images/ykb.png';
@@ -33,7 +32,6 @@ const Login = () => {
     if (errMsg.includes('fail')) {
       showToast('请授权手机号');
     } else {
-      // switchTab(pageHome);
       navigateTo(pageUserinfo);
     }
   };

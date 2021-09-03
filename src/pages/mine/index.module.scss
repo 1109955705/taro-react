@@ -1,87 +1,98 @@
 .main {
   min-height: 100vh;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
 .userinfo {
-  background-color: var(--tc);
-  padding: 40px 0;
   display: flex;
-   flex-direction: column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 40px 0;
+  background-color: var(--tc);
+
   .avatar {
     width: 136px;
     height: 136px;
     border-radius: 50%;
   }
+
   .username {
     margin-top: 20px;
-    font-size: 32px;
+    color: #fff;
     font-weight: 400;
-    color: #FFFFFF;
-  }
-  .unLoginTop {
-    text-align: center;
-    .unLoginTips {
-      font-size: 32px;
-      font-weight: 400;
-      color: #FFFFFF;
-    }
+    font-size: 32px;
   }
 
+  .unLoginTop {
+    text-align: center;
+
+    .unLoginTips {
+      color: #fff;
+      font-weight: 400;
+      font-size: 32px;
+    }
+  }
 }
 
 .agent {
-  background-color: rgba(51, 211, 175, 1);
   padding: 12px 0;
-  text-align: center;
-  font-size: 28px;
+  color: #fff;
   font-weight: 400;
-  color: #FFFFFF;
+  font-size: 28px;
+  text-align: center;
+  background-color: rgba(51, 211, 175, 1);
 }
 
 .cellWraper {
-  background: #F6F6F6;
+  background: #f6f6f6;
+
   .cellLists {
     padding: 0 42px;
-    background: #FFFFFF;
+    background: #fff;
+
     .cell {
-      padding: 38px 0;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #EEEEEE;
+      justify-content: space-between;
+      padding: 38px 0;
+      border-bottom: 1px solid #eee;
+
       .cellLeft {
         display: flex;
         align-items: center;
+
         .cellIcon {
-          font-size: 40px;
           width: 40px;
           height: 40px;
           color: var(--tc);
+          font-size: 40px;
         }
+
         .cellName {
           margin-left: 35px;
-          font-size: 32px;
+          color: #333;
           font-weight: 400;
-          color: #333333;
+          font-size: 32px;
         }
       }
+
       .cellRight {
         display: flex;
         align-items: center;
+
         .cellTips {
-          font-size: 28px;
-          font-weight: 400;
-          color: #999999;
           margin-right: 20px;
+          color: #999;
+          font-weight: 400;
+          font-size: 28px;
         }
+
         .cellArrow {
-          font-size: 34px;
           width: 34px;
           height: 34px;
-          color: #CACACA;
+          color: #cacaca;
+          font-size: 34px;
         }
       }
     }
@@ -89,18 +100,17 @@
 }
 
 .logout {
-  margin-top: 32px;
   width: 100%;
   height: 100px;
-  line-height: 100px;
-  background: #FFFFFF;
-  font-size: 32px;
+  margin-top: 32px;
   color: red;
+  font-size: 32px;
+  line-height: 100px;
   text-align: center;
+  background: #fff;
 }
 
 .btnHover {
-  background-color: #dedede;
   color: red;
+  background-color: #dedede;
 }
-

@@ -6,22 +6,24 @@
 
 .text {
   margin-top: 120px;
-  text-align: center;
-  font-size: 48px;
+  color: #333;
   font-weight: 400;
-  color: #333333;
+  font-size: 48px;
+  text-align: center;
 }
 
 .icons {
-  margin-top: 100px;
-  padding: 0 180px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 100px;
+  padding: 0 180px;
+
   .iconWechat {
     width: 120px;
     height: 120px;
   }
+
   .iconArrow {
     width: 56px;
     height: 32px;
@@ -31,39 +33,38 @@
 .btnWrap {
   margin-top: 140px;
   padding: 0 40px;
+
   .btnWechatLogin {
     width: 100%;
     height: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
     margin-right: 0;
-    line-height: normal;
-    color: #ffffff;
+    margin-left: 0;
     padding: 28px 175px;
-    border-radius: 12px;
-    background-color: var(--tc);
-    text-align: center;
-    font-size: 32px;
+    color: #fff;
     font-weight: 500;
-    color: #FFFFFF;
+    font-size: 32px;
+    line-height: normal;
+    text-align: center;
+    background-color: var(--tc);
+    border-radius: 12px;
   }
+
   .btnHover {
-    background-color: RGBA(0, 201, 156, 0.8);
+    background-color: rgba(0, 201, 156, 0.8);
   }
 }
 
 .phoneLogin {
   margin-top: 40px;
+  color: var(--tc);
   font-size: 32px;
   text-align: center;
-  color: var(--tc);
 }
 
 .agreementAndPrivacy {
-  margin-top: auto;
-  margin-bottom: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
+  margin-bottom: 40px;
 }

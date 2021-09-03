@@ -1,12 +1,7 @@
 module.exports = {
   extends: [
-    'stylelint-config-standard',
-    'stylelint-config-prettier',
-    'stylelint-config-css-modules',
+    'stylelint-config-standard', // 官方提供的 css 标准
+    'stylelint-config-rational-order', // 属性顺序
   ],
-  plugins: ['stylelint-order', 'stylelint-scss'],
-  rules: {
-    // ...
-    'selector-nested-pattern': '^&',
-  },
+  rules: {},
 };
