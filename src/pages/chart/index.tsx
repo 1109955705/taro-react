@@ -13,7 +13,7 @@ const Chart = () => {
   const {
     userinfo: { id },
     sessionKey,
-  } = useSelector((state: ReduxRootState) => state);
+  } = suseSelector((state: ReduxRootState) => state);
   const themeColor = useSelector((state: ReduxRootState) => state.themeColor);
 
   useEffect(() => {
