@@ -95,12 +95,12 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,vue}": [
+    "src/**/*.{ts,jsx}": [
       "prettier --write",
       "eslint --fix",
       "git add"
     ],
-    "src/**/*.{less,vue}": [
+    "src/**/*.{css,scss}": [
       "stylelint --fix",
       "git add"
     ]
