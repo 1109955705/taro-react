@@ -37,4 +37,10 @@ export default {
       pages: ['login/index', 'phone-login/index', 'userinfo/index'],
     },
   ],
+  // plugins: {
+  //   myPlugin: {
+  //     version: '4.0.7',
+  //     provider: 'wx2a4ca48ed5e96748',
+  //   },
+  // },
 };

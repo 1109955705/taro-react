@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Button } from '@tarojs/components';
 import { useBle } from '@/hooks';
-import './index.scss';
+import { BleStateEnum } from '@/static/biz/typings';
+import style from './index.module.scss';
 
 const Ble = () => {
   const {
@@ -11,6 +12,25 @@ const Ble = () => {
     },
     func: { doScan, doStopScan },
   } = useBle();
+
+  const reactiveBleState = () => {
+    switch (bleState) {
+      case BleStateEnum.NOOP:
+        return <View className={style.text}>蓝牙未初始化</View>;
+      case BleStateEnum.BLE_DISABLED:
+        return <View className={style.text}>蓝牙不可用</View>;
+      case BleStateEnum.ERROR_OCCURED:
+        return <View className={style.text}>位置错误</View>;
+      case BleStateEnum.CONNECTING:
+        return <View className={style.text}>连接中</View>;
+      case BleStateEnum.OPERATING:
+        return <View className={style.text}>测量中: {weight}</View>;
+      case BleStateEnum.OPERATE_FINISHED:
+        return <View className={style.text}>测量完成: {weight}</View>;
+      default:
+        return <View className={style.text}>未知蓝牙状态</View>;
+    }
+  };
 
   return (
     <View className="template_container">
@@ -23,8 +43,7 @@ const Ble = () => {
       <View>bleState:{bleState}</View>
       <View>weight:{weight}</View>
       <View>height:{height}</View>
-      <View className="text">{weight ? `不稳定数据:${weight}` : '...'}</View>
-      <View className="text">{height ? `稳定数据:${height}` : '...'}</View>
+      {reactiveBleState()}
     </View>
   );
 };
