@@ -1,14 +1,14 @@
 .main {
   box-sizing: border-box;
-  background:#F7F7F7;
-  padding: 0 32px 20px 32px;
   min-height: 100vh;
+  padding: 0 32px 20px 32px;
   overflow: hidden;
+  background: #f7f7f7;
 }
 
 .test {
-  border: 1px solid $color;
   font-size: $T1;
+  border: 1px solid $color;
 }
 
 .testOne {

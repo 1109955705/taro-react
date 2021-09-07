@@ -1,3 +1,4 @@
+/* global firestore */
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require */
 import { switchTab } from '@tarojs/taro';

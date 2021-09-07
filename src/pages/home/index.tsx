@@ -9,7 +9,7 @@ import BodyIndex from './components/body-index';
 import Features from './components/features';
 import HealthTool from './components/health-tool';
 import Userinfo from './components/userinfo';
-import EmptyTabbarBlock from '@/components/ui/emptyTabbarBlock';
+import { EmptyTabbarBlock } from '@/components/biz';
 import style from './index.module.scss';
 
 const Home = () => {

@@ -4,6 +4,7 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
 import { AtAvatar } from 'taro-ui';
 import boot from '@/static/biz/hoc/boot';
+import { EmptyTabbarBlock } from '@/components/biz';
 import { setTabbarIndex, clearSessionKey, setUserinfo } from '@/store/actions';
 import { useLogin } from '@/hooks';
 import style from './index.module.scss';
@@ -32,7 +33,7 @@ const Mine = () => {
     dispatch(clearSessionKey());
     dispatch(setUserinfo({}));
   };
-
+  console.log('xxxxxx', EmptyTabbarBlock);
   return (
     <View className={style.main}>
       <View className={style.userinfo}>
@@ -81,6 +82,7 @@ const Mine = () => {
           退出登录
         </Button>
       )}
+      <EmptyTabbarBlock />
     </View>
   );
 };
