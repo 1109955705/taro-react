@@ -21,7 +21,6 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // console提示
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // debug提示
-    'no-undef': 2, // 未声明变量报错提示, 会错误提示全局声明的global, 本身ts会提示，建议关闭
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',
