@@ -17,7 +17,6 @@ module.exports = {
     'airbnb',
     'airbnb-typescript',
     'airbnb/hooks',
-    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
@@ -46,10 +45,11 @@ module.exports = {
     'import/extensions': ['error', 'never'],
   },
   settings: {
-    // 'import/resolver': {
-    //   node: {
-    //     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    //   },
-    // },
+    'import/resolver': {
+      // 默认识别文件入口index，
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
 };

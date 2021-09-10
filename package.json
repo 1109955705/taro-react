@@ -40,11 +40,11 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@tarojs/components": "3.3.3",
+    "@tarojs/components": "3.3.7",
     "@tarojs/extend": "^3.2.10",
-    "@tarojs/react": "3.3.3",
-    "@tarojs/runtime": "3.3.3",
-    "@tarojs/taro": "3.3.3",
+    "@tarojs/react": "3.3.7",
+    "@tarojs/runtime": "3.3.7",
+    "@tarojs/taro": "3.3.7",
     "@types/lodash": "^4.14.172",
     "ahooks": "^2.10.4",
     "dayjs": "^1.10.4",
@@ -63,18 +63,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
-    "@tarojs/mini-runner": "3.3.3",
-    "@tarojs/webpack-runner": "3.3.3",
+    "@tarojs/mini-runner": "3.3.7",
+    "@tarojs/webpack-runner": "3.3.7",
     "@types/react": "^17.0.2",
     "@types/webpack-env": "^1.13.6",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
-    "babel-preset-taro": "3.3.3",
+    "babel-preset-taro": "3.3.7",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-airbnb-typescript": "^13.0.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-taro": "3.3.3",
+    "eslint-config-taro": "3.3.7",
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -88,7 +88,7 @@
     "stylelint": "^13.13.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^22.0.0",
-    "typescript": "^4.4.2"
+    "typescript": "^4.1.2"
   },
   "lint-staged": {
     "src/**/*.{ts,jsx}": [

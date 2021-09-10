@@ -1,25 +1,26 @@
 .main {
   margin-top: 16px;
-  background: #ffffff;
-  box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.03);
-  border-radius: 24px;
   padding: 20px 16px 16px 16px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.03);
 }
 
 .itemWrap {
-  margin-top: 16px;
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-}
-.item {
-  box-sizing: border-box;
+  justify-content: space-between;
   margin-top: 16px;
-  padding: 20px 32px;
+}
+
+.item {
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
   width: 320px;
+  margin-top: 16px;
+  padding: 20px 32px;
   background: #f7f7f7;
   border-radius: 20px;
 }
