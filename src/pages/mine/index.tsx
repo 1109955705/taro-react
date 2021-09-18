@@ -6,7 +6,7 @@ import { AtAvatar } from 'taro-ui';
 import boot from '@/static/biz/hoc/boot';
 import { EmptyTabbarBlock } from '@/components/biz';
 import { setTabbarIndex, clearSessionKey, setUserinfo } from '@/store/actions';
-import { useLogin } from '@/hooks';
+import { useLogin } from '@/hooks/';
 import style from './index.module.scss';
 
 const Mine = () => {
