@@ -1,14 +1,13 @@
-import React from 'react';
 import { Button, Text, View } from '@tarojs/components';
 import style from './index.module.scss';
 
-interface myButtonTypes {
+interface MyButtonTypes {
   text: string;
   size: string;
   click: () => void;
 }
 
-const MyButton = ({ text, click, size = 'normal' }) => {
+const MyButton = ({ text, click, size = 'normal' }: MyButtonTypes) => {
   return (
     <Button
       hoverClass={style.btnHover}

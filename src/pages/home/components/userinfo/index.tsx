@@ -3,9 +3,9 @@ import { View, Text } from '@tarojs/components';
 import { useDispatch, useSelector } from 'react-redux';
 import { AtAvatar } from 'taro-ui';
 import { useTranslation } from 'react-i18next';
+import { useLogin } from '@/hooks';
 import { navigateTo } from '@/static/biz/common';
 import { pageBle } from '@/static/biz/routes';
-import { useLogin } from '@/hooks';
 import style from './index.module.scss';
 
 interface UserinfoTypes {

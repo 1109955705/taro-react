@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "commonjs",
     "removeComments": false,
     "preserveConstEnums": true,
@@ -15,15 +15,7 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
-      "@/pages/*": ["./src/pages/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/assets/*": ["./src/assets/*"],
-      "@/store/*": ["./src/store/*"],
-      "@/static/*": ["./src/static/*"],
-      "@/libs/*": ["./src/libs/*"],
-      "@/i18n/*": ["./src/i18n/*"],
-      "@/hooks/": ["./src/hooks/"],
-      "@/typings/*": ["./src/typings/*"]
+      "@/*": ["src/*"]
     },
     "rootDir": ".",
     "jsx": "react",

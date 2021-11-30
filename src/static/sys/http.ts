@@ -5,7 +5,7 @@ import modelcheck from 'modelcheck';
 import { logError } from '@/static/sys/error';
 import { systemInfo } from '@/static/sys/system';
 import theme from '@/static/biz/themeMock';
-import { TypedApiScheme } from '@/static/biz/apis/types.d';
+import { TypedApiScheme } from '@/static/biz/apis/types';
 import logger from '@/static/sys/realTimeLogger';
 import { jsonToHump } from '@/static/biz/util';
 
@@ -182,7 +182,7 @@ const responseInterceptor = ({
     error.request = api;
     error.response = response;
     logError('api', '请求校验出错', error);
-    throw console.error();
+    throw Error('xxxxx');
   }
 
   return Promise.resolve({
